@@ -1,0 +1,659 @@
+// Process Indicators
+//================================================== //
+// Also see: /sass/controls/_timeline.scss
+
+$indicator-darkest: $ids-color-palette-azure-80;
+$indicator-darker: $ids-color-brand-primary-alt;
+$indicator-lighter: $ids-color-brand-primary-base;
+$indicator-lightest: $ids-color-palette-azure-50;
+$indicator-warning: $ids-color-status-danger;
+$indicator-blank: $ids-color-palette-slate-30;
+
+$indicator-size: 1.3em;
+$indicator-current-size: ($indicator-size * 1.6);
+
+// Container
+.process-indicator {
+  font-size: $ids-size-font-base;
+  margin-bottom: 20px;
+
+  &.has-labels {
+    margin-top: 8px;
+
+    .display {
+      align-items: unset;
+    }
+  }
+
+  .responsive-label {
+    @include antialiased();
+
+    color: $label-color;
+    display: none;
+    font-size: $ids-size-font-sm;
+    font-weight: 700;
+    margin-bottom: 5px;
+
+    span {
+      font-weight: 400;
+    }
+  }
+
+  // Override compact rule
+  .responsive-details {
+    display: none !important;
+  }
+
+  // Main blocks: .display, .header, .details
+  .display {
+    align-items: center;
+    display: flex;
+    margin-bottom: 20px;
+
+    > * {
+      white-space: nowrap;
+    }
+
+    // Addition of background-color to .separator
+    // fixes a Windows10 Chrome double line bug
+    // https://github.com/infor-design/enterprise/issues/5997
+    .separator {
+      background-color: $indicator-blank;
+      border: 1px solid $indicator-blank;
+      display: inline-block;
+      height: 0;
+      width: $indicator-size;
+
+      &.darkest {
+        background-color: $indicator-darkest;
+        border-color: $indicator-darkest;
+      }
+
+      &.darker {
+        background-color: $indicator-darker;
+        border-color: $indicator-darker;
+      }
+
+      &.lighter {
+        background-color: $indicator-lighter;
+        border-color: $indicator-lighter;
+      }
+
+      &.lightest {
+        background-color: $indicator-lightest;
+        border-color: $indicator-lightest;
+      }
+
+      // smaller size for sitting in-between 'minor' indicators
+      &.minor {
+        width: ($indicator-size / 2);
+      }
+    }
+  }
+
+  .details,
+  .responsive-details {
+    @include antialiased();
+
+    color: $font-color;
+    font-size: $ids-size-font-xs;
+
+    > * {
+      vertical-align: middle;
+    }
+
+    > .icon {
+      height: 15px;
+      margin-right: 10px;
+      width: 15px;
+    }
+  }
+
+  &.responsive {
+    .step {
+      flex: 1;
+      position: relative;
+
+      &:last-child .separator {
+        border: 0;
+      }
+    }
+
+    &.compact {
+      .label {
+        margin: 0 5px 4px 0;
+        white-space: nowrap;
+      }
+    }
+
+    .lines {
+      align-items: center;
+      display: flex;
+      height: 22px;
+      position: relative;
+
+      .indicator {
+        border-radius: 50%;
+        height: 15px;
+        min-height: 15px;
+        min-width: 15px;
+        width: 14px;
+
+        &.current {
+          background-color: $ids-color-palette-white;
+          height: 18px;
+          min-height: 18px;
+          min-width: 18px;
+          position: relative;
+          width: 18px;
+
+          .icon {
+            height: 18px;
+            top: -1px;
+            width: 18px;
+          }
+        }
+
+        &.icon {
+          border-color: transparent;
+        }
+
+        &.icon + .separator {
+          margin-left: 1px !important;
+        }
+
+        &.icon.current + .separator {
+          margin-left: 0 !important;
+        }
+
+        .icon {
+          height: 16px;
+          left: -3px;
+          position: relative;
+          top: -2px;
+          width: 16px;
+        }
+
+        .current .icon {
+          height: 18px;
+          left: -3px;
+          position: relative;
+          top: -2px;
+          width: 18px;
+        }
+      }
+
+      .separator {
+        height: 2px;
+        margin-left: 0;
+        position: relative;
+        width: 100%;
+      }
+    }
+
+    .details,
+    .responsive-details {
+      .heading {
+        display: block;
+        font-size: $ids-size-font-sm;
+        font-weight: 400;
+        margin-bottom: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+      }
+
+      > span {
+        display: block;
+        white-space: normal;
+      }
+
+      > a {
+        display: block;
+        margin-top: -2px;
+        white-space: normal;
+      }
+
+      .icon {
+        height: 14px;
+        margin-right: 2px;
+        top: -1px;
+        width: 14px;
+      }
+    }
+  }
+
+  // Makes the size of the process indicator smaller
+  &.compact {
+    .label {
+      margin: -30px 0 33px -13px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-spacing: normal;
+    }
+
+    .separator {
+      margin-left: 0 !important;
+    }
+
+    .indicator.icon {
+      background-color: transparent !important;
+      border: 0;
+
+      .icon {
+        height: 16px;
+        left: 0;
+        position: relative;
+        top: 0;
+        width: 16px;
+
+        &.icon-skipped {
+          color: $indicator-darker !important;
+        }
+      }
+    }
+
+    .heading,
+    .sub-heading,
+    .details {
+      display: inline-block;
+    }
+  }
+}
+
+// Indicator icons
+.indicator {
+  background-color: $body-color-primary-background;
+  border: 2px solid $indicator-blank;
+  border-radius: ($indicator-size / 2);
+  display: inline-block;
+  height: $indicator-size;
+  position: relative;
+  width: $indicator-size;
+
+  // Color defs
+  &.darkest {
+    background-color: $indicator-darkest;
+    border: 0;
+  }
+
+  &.darker {
+    background-color: $indicator-darker;
+    border: 0;
+  }
+
+  &.lighter {
+    background-color: $indicator-lighter;
+    border: 0;
+  }
+
+  &.lightest {
+    background-color: $indicator-lightest;
+    border: 0;
+  }
+
+  // State Defs:
+  // Processing
+  &.processing {
+    border: 2px solid $indicator-lightest;
+    border-radius: ($indicator-size / 2);
+  }
+
+  // Current is larger than the rest
+  &.current {
+    border-radius: ($indicator-current-size / 2);
+    height: $indicator-current-size;
+    width: $indicator-current-size;
+
+    // circle
+    &::before {
+      border-radius: ($indicator-current-size / 2);
+    }
+  }
+
+  // Rejected
+  &.rejected {
+    background-color: $indicator-warning;
+    border: 0;
+
+    &::before,
+    &::after {
+      background-color: $ids-color-palette-white;
+      border-radius: 0.2em;
+      content: '';
+      display: inline-block;
+      height: 0.15em;
+      left: 0.16em;
+      position: absolute;
+      top: 0.57em;
+      width: ($indicator-size * 0.78);
+    }
+
+    &::before {
+      @include css3(transform, rotate(135deg));
+    }
+
+    &::after {
+      @include css3(transform, rotate(45deg));
+    }
+
+    &.current {
+      background-color: $indicator-warning;
+
+      &::before,
+      &::after {
+        left: 0.5em;
+        top: 0.98em;
+      }
+    }
+  }
+
+  &.more-info {
+    border: 0;
+
+    &::before {
+      color: $ids-color-palette-white;
+      content: '!';
+      display: inline-block;
+      font-size: 1.4em;
+      font-weight: $ids-number-font-weight-bold;
+      height: 100%;
+      position: relative;
+      text-align: center;
+      top: 0.18em;
+      width: 100%;
+
+      @include antialiased();
+    }
+
+    &.current {
+      background-color: $indicator-warning;
+    }
+  }
+
+  &.time-out {
+    border: 0;
+
+    // Clock circle
+    &::before {
+      border: 0.15em solid $ids-color-palette-white;
+      content: '';
+      height: 50%;
+      left: 0.35em;
+      position: absolute;
+      top: 0.37em;
+      width: 50%;
+    }
+
+    // Clock hands
+    &::after {
+      border-bottom: 0.15em solid $ids-color-palette-white;
+      border-left: 0.15em solid $ids-color-palette-white;
+      content: '';
+      height: 20%;
+      left: 0.97em;
+      position: absolute;
+      top: 0.6em;
+      width: 10%;
+    }
+
+    &.current {
+      background-color: $indicator-warning;
+    }
+  }
+
+  // Really small indicator for long processes
+  &.minor {
+    border-radius: ($indicator-size / 4);
+    height: 0.6em;
+    width: 0.6em;
+  }
+
+  &.icon {
+    border: 0;
+
+    .icon {
+      height: 20px;
+      left: -1px;
+      position: relative;
+      top: -1px;
+      vertical-align: top;
+      width: 20px;
+    }
+  }
+}
+
+.process-indicator {
+  &.compact {
+    .indicator {
+      &.rejected {
+        &::before,
+        &::after {
+          left: 0.12em;
+          width: 1.1em;
+        }
+
+        &.current {
+          &::before,
+          &::after {
+            left: 0.5em;
+          }
+        }
+      }
+
+      &.more-info {
+        &::before {
+          right: 0.02em;
+        }
+      }
+    }
+  }
+}
+
+.process-indicator,
+.timeline {
+  .heading {
+    @include antialiased();
+
+    font-size: $ids-size-font-sm;
+    font-weight: $ids-number-font-weight-bold;
+    line-height: 1.5;
+  }
+
+  .sub-heading {
+    @include antialiased();
+
+    color: $font-color;
+    font-size: $ids-size-font-sm;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+}
+
+// Keyframes for the  "processing" animation
+@include keyframes(rotate-processing-indicator) {
+  0% { @include transform(rotate(0deg)); }
+  100% { @include transform(rotate(360deg)); }
+}
+
+.is-firefox {
+  .process-indicator {
+    &.compact {
+      .indicator {
+        &.more-info {
+          &::before {
+            right: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .indicator {
+    &.more-info {
+      &::before {
+        top: 0.3em;
+      }
+    }
+
+    &.rejected {
+      &.current {
+        &::before,
+        &::after {
+          top: 0.95em;
+        }
+      }
+    }
+
+    &.time-out {
+      &::before {
+        left: 0.4em;
+        top: 0.36em;
+      }
+    }
+  }
+}
+
+.is-safari {
+  .indicator {
+    &.current {
+      height: 2.02em;
+      width: 2.02em;
+
+      &.rejected {
+        &::before,
+        &::after {
+          width: ($indicator-size * 0.83);
+        }
+      }
+    }
+
+    &.more-info {
+      &::before {
+        left: 0.01em;
+      }
+    }
+
+    &.time-out {
+      &::after {
+        left: 0.9em;
+      }
+    }
+  }
+}
+
+.ios {
+  &.iphone {
+    &.is-safari {
+      .process-indicator {
+        .indicator {
+          &.more-info {
+            &::before {
+              top: 0.05em;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.ie {
+  .process-indicator {
+    &.compact {
+      .indicator {
+        &.rejected {
+          &::before,
+          &::after {
+            width: ($indicator-size * 0.78);
+          }
+
+          &.current {
+            &::before,
+            &::after {
+              left: 0.51em;
+              top: 0.95em;
+            }
+          }
+        }
+      }
+    }
+
+    .indicator {
+      &.rejected {
+        &::before,
+        &::after {
+          left: 0.15em;
+          top: 0.55em;
+        }
+
+        &.current {
+          &::before,
+          &::after {
+            left: 0.53em;
+            top: 0.93em;
+          }
+        }
+      }
+
+      &.more-info {
+        &.current {
+          &::before {
+            left: 0.03em;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include respond-to(smphabletdown) {
+  .process-indicator .step .details {
+    display: none !important;
+  }
+
+  .process-indicator .step .label {
+    display: none !important;
+  }
+
+  .process-indicator .responsive-label {
+    display: block !important;
+  }
+
+  .process-indicator {
+    text-align: center;
+  }
+
+  .process-indicator.responsive {
+    .step:last-child {
+      flex: 0;
+    }
+  }
+}
+
+html[dir='rtl'] {
+  .process-indicator {
+    .details {
+      > .icon {
+        margin-left: 15px;
+        margin-right: 0;
+      }
+    }
+
+    // Reverse the alignment for the display area (done with transforms)
+    &.compact {
+      .display {
+        @include css3(transform-origin, right center);
+      }
+    }
+  }
+
+  // Adjust for the smaller font on `ar-EG`
+  .indicator {
+    &.more-info {
+      &::before {
+        top: 0.11em;
+      }
+    }
+  }
+}

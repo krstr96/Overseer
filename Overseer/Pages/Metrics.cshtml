@@ -1,0 +1,42 @@
+﻿@page
+@model MetricsModel
+@{ Layout = "Shared/ContentLayout"; }
+
+<div class="full-height full-width">
+    <div class="row blockgrid l-center">
+        <div class="block">
+            <span class="object-count">
+                <span>Tasks Started</span>
+                <span class="xl-text">@Model.StartedTasks</span>
+            </span>
+        </div>
+        <div class="block">
+            <span class="object-count">
+                <span>Tasks Stopped</span>
+                <span class="xl-text">@Model.StoppedTasks</span>
+            </span>
+        </div>
+    </div>
+    <div class="row blockgrid l-center">
+        @foreach (var (folderName, (startedTasks, stoppedTasks)) in Model.States)
+        {
+            <div class="block">
+                <div class="card auto-height">
+                    <div class="card-header">
+                        <h2 class="widget-title">@folderName</h2>
+                    </div>
+                    <div class="card-content l-center">
+                        <div class="instance-count">
+                            <span class="count emerald07">@startedTasks</span>
+                            <span class="title">Tasks Started</span>
+                        </div>
+                        <div class="instance-count">
+                            <span class="count ruby07">@stoppedTasks</span>
+                            <span class="title">Tasks Stopped</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

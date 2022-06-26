@@ -1,0 +1,514 @@
+// Typography
+//================================================== */
+
+// Font Variables
+$font-source-sans: 'Source Sans Pro', helvetica, arial;
+
+// Special Fonts for Certain Languages
+$cultures-font-family: (
+  'ar-EG': ('DejaVu', 'Tahoma', 'helvetica', 'arial'),
+  'ar-SA': ('DejaVu', 'Tahoma', 'helvetica', 'arial'),
+  'ja-JP': ('MS PGothic', 'ＭＳ Ｐゴシック', 'helvetica', 'arial'),
+  'ko-KR': ('Malgun Gothic', 'AppleGothic', 'helvetica', 'arial'),
+  'zh-CN': ('华文细黑', '宋体', '微软雅黑', 'Microsoft YaHei New', 'helvetica', 'arial'),
+  'zh-tw': ('华文细黑', '宋体', '微软雅黑', 'Microsoft YaHei New', 'helvetica', 'arial'),
+  'zh-Hans': ('华文细黑', '宋体', '微软雅黑', 'Microsoft YaHei New', 'helvetica', 'arial'),
+  'zh-Hant': ('华文细黑', '宋体', '微软雅黑', 'Microsoft YaHei New', 'helvetica', 'arial'),
+);
+
+// Body Sizes and Color
+html {
+  font-size: 62.5%;
+
+  body {
+    background-color: $body-color-primary-background;
+    color: $font-color-default;
+    font-family: $ids-font-family-base;
+    font-size: 1rem;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  &.font-source-sans body {
+    font-family: $font-source-sans;
+  }
+
+  @each $key, $value in $cultures-font-family {
+    &[lang='#{$key}'] body {
+      font-family: $value;
+    }
+  }
+}
+
+// Text Elements
+h1,
+h2,
+h3,
+h4,
+label,
+p,
+small,
+span,
+ul,
+ol {
+  @include antialiased();
+
+  font-weight: $ids-number-font-weight-base;
+  line-height: normal;
+}
+
+h1 {
+  @include rem(line-height, 2.5rem);
+
+  color: $font-color-default;
+  font-size: $ids-size-font-lg;
+
+  + p {
+    margin: 20px 0;
+  }
+}
+
+h2 {
+  @include font-size(16);
+  @include rem(line-height, 2rem);
+
+  color: $font-color-default;
+
+  + p {
+    margin: 20px 0;
+  }
+}
+
+h3 {
+  @include font-size(16);
+  @include rem(line-height, 2rem);
+
+  color: $font-color-default;
+}
+
+h4 {
+  @include font-size(16);
+  @include rem(line-height, 2rem);
+
+  color: $font-color-default;
+}
+
+p {
+  color: $font-color-default;
+  font-size: $ids-size-font-base;
+  line-height: 140%;
+
+  + h1,
+  + h2,
+  + h3,
+  + h4 {
+    @include rem(margin-top, 2rem);
+  }
+
+  + p {
+    @include rem(margin-top, 1.5rem);
+  }
+}
+
+.text-primary,
+a.text-primary {
+  @include rem(line-height, 2.5rem);
+
+  font-size: $ids-size-font-lg;
+}
+
+.text-secondary,
+a.text-secondary {
+  @include font-size(16);
+  @include rem(line-height, 2rem);
+}
+
+.text-base,
+a.text-base {
+  @include rem(line-height, 1.5rem);
+
+  font-size: $ids-size-font-base;
+}
+
+.text-small,
+a.text-small {
+  font-size: $ids-size-font-sm;
+}
+
+// Labels
+label,
+.label {
+  color: $label-color;
+  display: block;
+  font-size: $label-size-regular-font-size;
+  margin: $label-size-regular-margin;
+  min-height: 14px; //prevents need to use &nbsp; for blank labels
+}
+
+.is-disabled.label,
+.is-disabled .label,
+label.is-disabled,
+.is-disabled label {
+  color: $label-disabled-color;
+}
+
+.data-description {
+  color: $font-color-extrahighcontrast;
+  font-size: $ids-size-font-base;
+  margin-left: 6px;
+}
+
+label.side,
+.label.side {
+  color: $label-color;
+  display: inline-block;
+  font-size: $ids-size-font-base;
+  height: 100%;
+  line-height: 1.5;
+  min-width: 120px;
+}
+
+// App Specific Typography Classes
+
+.widget-title,
+.card-title {
+  @include rem(margin-bottom, 1rem);
+  @include rem(line-height, 2.2rem);
+  @include font-size(16);
+  @include ellipsis();
+
+  color: $cardlist-header-color;
+  margin-top: 2px;
+  max-width: calc(100% - 45px);
+}
+
+.list-title {
+  @include font-size(16);
+  @include rem(margin-bottom, 1rem);
+  @include rem(line-height, 2rem);
+
+  color: $font-color-highcontrast;
+}
+
+small,
+.micro-text {
+  @include rem(margin-bottom, 1rem);
+  @include rem(line-height, 1.5rem);
+
+  color: $font-color-default;
+  font-size: $ids-size-font-sm;
+}
+
+.alert-text {
+  @include font-size(11);
+  @include rem(margin-bottom, 1rem);
+  @include rem(line-height, 2rem);
+
+  color: $error-color;
+  font-weight: $ids-number-font-weight-bold;
+  padding-left: 15px;
+
+  &::before {
+    background-color: $error-color;
+    border-radius: 50%;
+    content: '';
+    height: 8px;
+    margin-left: -14px;
+    margin-top: 4px;
+    position: absolute;
+    width: 8px;
+  }
+}
+
+.error-text {
+  @include font-size(11);
+
+  color: $error-color;
+  font-weight: $ids-number-font-weight-bold;
+}
+
+.warning-text {
+  @include font-size(11);
+
+  color: $ids-color-status-warning;
+  font-weight: $ids-number-font-weight-bold;
+}
+
+.good-text {
+  @include font-size(11);
+
+  color: $ids-color-status-success;
+  font-weight: $ids-number-font-weight-bold;
+}
+
+.info-text {
+  @include font-size(11);
+
+  color: $ids-color-brand-primary-alt;
+  font-weight: $ids-number-font-weight-bold;
+}
+
+.small-thin-text {
+  color: $font-color;
+  font-size: $ids-size-font-xs;
+  font-weight: $ids-number-font-weight-bold;
+
+  + .small-thin-text {
+    margin-top: 0;
+  }
+}
+
+.larger-heavy-text {
+  color: $font-color-highcontrast;
+  font-size: $ids-size-font-base;
+  font-weight: $ids-number-font-weight-bold;
+}
+
+.data-large {
+  @include font-size(22);
+
+  color: $font-color-highcontrast;
+  padding-bottom: 2px;
+}
+
+.xl-text {
+  @include font-size(50);
+}
+
+.align-text-left {
+  text-align: left;
+}
+
+.align-text-right {
+  text-align: right !important;
+}
+
+.align-text-enter, //typo backwards compat
+.align-text-center {
+  text-align: center;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.text-uppercase,
+.uppercase-text {
+  text-transform: uppercase;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+// Flexible Field alignment
+.field-flex {
+  align-items: center;
+  display: flex;
+
+  .data-description {
+    flex-basis: 25%;
+  }
+
+  .field-flex-group {
+    padding: 20px;
+  }
+}
+
+.form-layout-compact {
+  .field-flex [class^='btn'] {
+    margin-bottom: 0 !important;
+  }
+}
+
+// Tighter field-flex
+.field-flex-sm {
+  align-items: center;
+  display: flex;
+  overflow: auto;
+
+  .data-description {
+    flex-basis: auto;
+    line-height: 34px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  input {
+    min-width: 25%;
+  }
+}
+
+// Left aligned fields
+.field.label-left {
+  display: flex;
+  font-size: $ids-size-font-base;
+  margin: 5px 0;
+
+  .label {
+    color: $input-color;
+    font-size: $ids-size-font-base;
+    line-height: normal;
+    padding-right: 8px;
+    position: relative;
+
+    &::after {
+      content: ':';
+    }
+  }
+}
+
+// Label + Data Label
+.label + .data {
+  color: $font-color-extrahighcontrast;
+
+  &.field-height {
+    display: inline-block;
+    font-size: $input-size-regular-font-size;
+    height: $input-size-regular-height;
+    line-height: $input-size-regular-height;
+  }
+
+  &.is-placeholder {
+    color: $input-placeholder-color;
+  }
+}
+
+.form-layout-compact {
+  .label + .data.field-height {
+    font-size: $input-size-compact-font-size !important;
+    height: $input-size-compact-height !important;
+    line-height: $input-size-compact-height !important;
+  }
+}
+
+// New Pixel Based Typography Scale
+.font-size-base {
+  font-size: $ids-size-font-base;
+}
+
+.font-size-xs {
+  font-size: $ids-size-font-xs;
+}
+
+.font-size-sm {
+  font-size: $ids-size-font-sm;
+}
+
+.font-size-md {
+  font-size: $ids-size-font-md;
+}
+
+.font-size-lg {
+  font-size: $ids-size-font-lg;
+}
+
+.font-size-xl {
+  font-size: $ids-size-font-xl;
+}
+
+.font-size-px-72 {
+  font-size: $ids-size-font-px-72;
+  line-height: 1.25em;
+}
+
+.font-size-px-60 {
+  font-size: $ids-size-font-px-60;
+  line-height: 1.2em;
+}
+
+.font-size-px-48 {
+  font-size: $ids-size-font-px-48;
+  line-height: 1.25em;
+}
+
+.font-size-px-40 {
+  font-size: $ids-size-font-px-40;
+  line-height: 1.2em;
+}
+
+.font-size-px-32 {
+  font-size: $ids-size-font-px-32;
+  line-height: 1.25em;
+}
+
+.font-size-px-28 {
+  font-size: $ids-size-font-px-28;
+  line-height: 1.28em;
+}
+
+.font-size-px-24 {
+  font-size: $ids-size-font-px-24;
+  line-height: 1.3em;
+}
+
+.font-size-px-20 {
+  font-size: $ids-size-font-px-20;
+  line-height: 1.4em;
+}
+
+.font-size-px-16 {
+  font-size: $ids-size-font-px-16;
+  line-height: 1.5em;
+}
+
+.font-size-px-14 {
+  font-size: $ids-size-font-px-14;
+  line-height: 1.7em;
+}
+
+.font-size-px-12 {
+  font-size: $ids-size-font-px-12;
+  line-height: 1.5em;
+  text-transform: uppercase;
+}
+
+.font-size-px-10 {
+  font-size: $ids-size-font-px-10;
+  line-height: 1.6em;
+  text-transform: uppercase;
+}
+
+// Still Used Text Color Characteristics
+.text-default {
+  color: $font-color-default !important;
+}
+
+.text-descriptive {
+  color: $font-color-descriptive !important;
+}
+
+.text-link {
+  color: $font-color-hyperlink !important;
+  text-decoration: underline;
+}
+
+.text-muted {
+  color: $font-color-muted !important;
+}
+
+.text-emphasis {
+  font-style: italic !important;
+}
+
+.text-strong {
+  font-weight: $ids-number-font-weight-bold !important;
+}
+
+.text-alert {
+  color: $ids-color-status-danger !important;
+}
+
+// RTL Styles
+html[dir='rtl'] {
+  .alert-text {
+    padding-left: inherit;
+    padding-right: 15px;
+
+    &::before {
+      margin-left: inherit;
+      margin-right: -14px;
+    }
+  }
+}

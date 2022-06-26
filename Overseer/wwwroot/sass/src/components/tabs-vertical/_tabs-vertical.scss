@@ -1,0 +1,368 @@
+// Vertical Tabs
+//===================================================
+
+// The actual tab styles are abstracted out because there are several different configurations
+// for the Vertical Tabset that need to be written with child selectors in order not to conflict
+// if they are nested.
+@mixin vertical-tab-style {
+  > .tab {
+    width: 100%;
+
+    a {
+      @include antialiased();
+      @include css3(user-select, none);
+      @include css3(touch-callout, none);
+
+      color: $vertical-tab-text-color;
+      display: block;
+      font-size: $ids-size-font-base;
+
+      .icon {
+        color: $vertical-tab-text-color;
+      }
+    }
+
+    &:hover {
+      background-color: $vertical-tab-bg-hover-color;
+
+      a {
+        text-decoration: $vertical-tab-text-hover-decoration;
+      }
+    }
+
+    &.is-selected {
+      background-color: $vertical-tab-active-bg-color;
+
+      a {
+        color: $vertical-tab-active-text-color;
+      }
+
+      &:hover {
+        background-color: $vertical-tab-active-bg-color;
+
+        a {
+          color: $vertical-tab-active-text-color;
+        }
+      }
+    }
+
+    &.is-disabled {
+      color: $disabled-color;
+
+      > a,
+      &:hover > a,
+      &.is-selected > a,
+      .count {
+        color: $disabled-color !important;
+        cursor: default;
+      }
+
+      &:hover {
+        cursor: default;
+
+        &::before {
+          content: none !important;
+        }
+      }
+    }
+  }
+}
+
+// Rules for tabs-vertical inside of CAP
+.modal.contextual-action-panel.tabs-modal {
+  .modal-body {
+    padding: 0;
+
+    .tab-container.vertical {
+      z-index: 3;
+
+      .tab-list-container > .tab-focus-indicator.is-visible {
+        border-color: transparent;
+        box-shadow: none;
+      }
+    }
+
+    .tab-panel-container {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+
+      &::-webkit-scrollbar {
+        width: 0;
+      }
+
+      .tab-panel {
+        margin-top: 30px;
+        padding: 0 15px;
+      }
+    }
+  }
+
+  &.display-fullsize {
+    .tab-container.vertical {
+      height: 100vh;
+      overflow: hidden;
+
+      .tab-list-container {
+        height: 100vh;
+      }
+    }
+
+    .tab-panel-container {
+      height: 100vh;
+    }
+  }
+
+  &:not(.display-fullsize) {
+    .modal-body {
+      @media (min-width: $breakpoint-phone-to-tablet) {
+        min-height: 700px;
+        position: relative;
+      }
+
+      @media only screen and (max-height: 820px) {
+        min-height: 600px;
+      }
+
+      @media only screen and (max-height: 720px) {
+        min-height: 550px;
+      }
+
+      .tab-container.vertical {
+        @media (min-width: $breakpoint-phone-to-tablet) {
+          height: 100%;
+          position: absolute;
+        }
+
+        @media screen and (min-width: $breakpoint-phone-to-tablet) and (max-width: $breakpoint-tablet-reduced) {
+          height: 90vh;
+        }
+
+        .tab-list-container {
+          min-height: 600px;
+        }
+      }
+
+      .tab-panel-container {
+        @media (min-width: $breakpoint-phone-to-tablet) {
+          max-height: 700px;
+          min-width: 400px;
+          padding-left: 260px;
+          width: 100%;
+
+          @media only screen and (max-height: 820px) {
+            max-height: 600px;
+          }
+
+          @media only screen and (max-height: 720px) {
+            max-height: 550px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.header {
+  + .page-container {
+    @media (max-width: $breakpoint-phone-to-tablet - 1) {
+      height: calc(100% - 50px);
+      margin-top: 0;
+      position: relative;
+    }
+
+    &.tab-panel-container {
+      position: absolute;
+    }
+  }
+}
+
+.tab-list-info {
+  @include font-size(20);
+
+  color: $vertical-tab-text-color;
+  padding: 10px 30px;
+
+  &:first-child {
+    padding-top: 10px;
+  }
+
+  h2 {
+    @include font-size(20);
+  }
+}
+
+.tab-panel-container {
+  height: inherit;
+
+  &.no-scroll {
+    .tab-panel {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  .tab-panel {
+    @media (max-width: $breakpoint-phone-to-tablet - 1) {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    p:last-child {
+      @media (max-width: $breakpoint-phone-to-tablet - 1) {
+        padding-bottom: 10px;
+      }
+    }
+  }
+}
+
+.tab-container.vertical {
+  background-color: $vertical-tab-panel-bg-color;
+  display: inline-block;
+  margin-top: 0;
+  min-height: 200px;
+  min-width: 250px;
+  position: relative;
+
+  > .tab-list,
+  > .tab-list-container {
+    background-color: $vertical-tab-sidebar-bg-color;
+    border-right: 1px solid $vertical-tab-sidebar-border-color;
+    display: inline-block;
+    padding-top: 20px;
+    vertical-align: top;
+    width: 250px;
+  }
+
+  // Use '.tab-list-container' to wrap the tab list when you have other elements inside of the sidebar
+  // of the vertical tabset (for example, optional title, optional button, etc).
+  > .tab-list-container {
+    > .tab-list {
+      @include vertical-tab-style;
+
+      > .tab {
+        a {
+          padding: 10px 30px;
+        }
+
+        .icon-error,
+        .icon-info,
+        .icon-alert {
+          height: 14px;
+          left: 6px;
+          position: absolute;
+          top: calc(50% - 7px);
+          width: 18px;
+        }
+      }
+    }
+
+    // Adjust for scrollable tab containers
+    &.scrollable,
+    &.scrollable-x,
+    &.scrollable-y {
+      height: 100%;
+    }
+  }
+
+  > .tab-panel-container,
+  + .tab-panel-container {
+    background-color: $vertical-tab-panel-bg-color;
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
+    width: calc(100% - 250px);
+
+    &.scrollable,
+    &.scrollable-x,
+    &.scrollable-y {
+      height: 100%;
+    }
+  }
+
+  // Normal configuration of the tabset can just have '.tab-list' directly inside the vertical tabs container.
+  > .tab-list {
+    @include vertical-tab-style;
+
+    height: 100%;
+
+    > .tab {
+      a {
+        padding: 10px 30px;
+      }
+    }
+  }
+
+  // NOTE: It's possible for these tab panels not to be included within the .tab-container class.
+  // If the panels are present inside the .tab-container, these styles will be necessary.
+  .tab-panel {
+    display: none;
+    margin: 30px;
+    padding-top: 0;
+    vertical-align: top;
+
+    &.can-show {
+      display: inline-block;
+      min-width: calc(100% - 60px); // 60px = left/right margin
+    }
+
+    h3 {
+      margin-bottom: 20px;
+    }
+  }
+
+  &::after {
+    clear: both;
+    content: '';
+    display: table-cell;
+  }
+
+  .info {
+    @include font-size(16);
+
+    display: none;
+    line-height: 32px;
+    padding: 1em;
+    position: relative;
+
+    .btn-actions {
+      position: absolute;
+      right: 1.2em;
+      top: 1.2em;
+    }
+  }
+
+  > .tab-focus-indicator,
+  > .tab-list-container > .tab-focus-indicator {
+    border-radius: 0;
+
+    &.is-selected.is-visible {
+      border-color: transparent;
+      box-shadow: inset 0 0 0 1px $ids-color-palette-white;
+    }
+  }
+}
+
+// Set padding/height etc. when using Vertical Tabs directly inside a page container
+// Also works for placing a set of vertical tabs directly inside of a higher-level '.tab-panel' element
+.page-container,
+.tab-panel {
+  > .tab-container.vertical {
+    height: 100%;
+    overflow: auto;
+
+    &:only-child {
+      width: 100%;
+    }
+
+    > .tab-list-container,
+    > .tab-panel-container,
+    + .tab-panel-container {
+      min-height: 100%;
+    }
+
+    + .tab-panel-container > .tab-panel {
+      margin-top: 30px;
+      padding: 0 15px;
+    }
+  }
+}

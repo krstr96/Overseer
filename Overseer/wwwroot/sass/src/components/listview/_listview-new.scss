@@ -1,0 +1,126 @@
+// Uplift Listview
+//================================================== //
+
+.listview .alert-text {
+  font-size: 12px;
+  line-height: 25px;
+  position: relative;
+  text-transform: uppercase;
+  top: -2px;
+
+  &::before {
+    margin-top: 8px;
+  }
+}
+
+.listview-search {
+  .searchfield {
+    border-top-color: $listview-border-color;
+  }
+
+  .searchfield-wrapper {
+    .icon:not(.close):not(.icon-error) {
+      left: 18px;
+    }
+
+    .btn-icon {
+      top: 7px;
+    }
+
+    &.has-listview-filters {
+      top: 1px;
+    }
+
+    &.is-hovered {
+      .searchfield {
+        &[disabled] {
+          border-top-color: $listview-border-color;
+
+          &:hover {
+            border-top-color: $listview-border-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+.listview-filter-wrapper {
+  border-top: 1px solid $listview-border-color;
+  top: unset;
+}
+
+.listview {
+  .listview-heading {
+    font-size: 1.6rem;
+    color: $listview-color;
+    font-weight: 600;
+  }
+
+  .listview-subheading {
+    font-size: 1.6rem;
+    color: $listview-secondary-color;
+  }
+
+  .listview-micro {
+    font-size: 1.4rem;
+    color: $listview-tertiary-color;
+  }
+}
+
+html.is-safari {
+  .listview-search {
+    .searchfield-wrapper {
+      &.has-listview-filters {
+        top: 2px;
+      }
+    }
+  }
+}
+
+// Firefox/Safari icon placement adjustments
+html[dir='rtl'] {
+  &.is-firefox {
+    .listview .alert-text {
+      &::before {
+        margin: 0 -4px 0 0;
+        right: 0;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+}
+
+html[dir='rtl'] {
+  &:not(.is-firefox) {
+    .listview ul li {
+      .alert-text::before {
+        margin-right: 28px;
+      }
+    }
+  }
+
+  .listview-search {
+    .searchfield-wrapper {
+      .icon:not(.close):not(.icon-error) {
+        left: auto;
+        right: 18px;
+      }
+    }
+  }
+}
+
+html[dir='rtl'] {
+  &.is-safari {
+    .listview ul li {
+      .alert-text {
+        &::before {
+          margin-right: 0;
+          position: absolute;
+          right: 0;
+        }
+      }
+    }
+  }
+}

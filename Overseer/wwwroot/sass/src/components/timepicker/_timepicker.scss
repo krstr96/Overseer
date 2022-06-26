@@ -1,0 +1,318 @@
+// TimePicker
+// ==================================================
+
+.timepicker {
+  width: 150px;
+
+  + .trigger,
+  + .tooltip-description + .trigger {
+    @include css3(user-select, none);
+
+    color: $trigger-icon-fill-color;
+    cursor: pointer;
+    height: 24px;
+    margin-left: -32px;
+    margin-top: 6px;
+    min-height: 24px;
+    min-width: 24px;
+    position: absolute;
+    width: 24px;
+
+    .icon {
+      color: inherit;
+      height: 18px;
+      width: 18px;
+    }
+
+    &:hover {
+      color: $trigger-hover-color;
+    }
+
+    &:active {
+      color: $trigger-active-color;
+    }
+  }
+
+  ~ .icon-error {
+    margin-left: -51px;
+    right: auto !important;
+  }
+
+  &.error {
+    ~ .trigger {
+      color: $error-color;
+    }
+  }
+
+  &.is-open {
+    border-color: $input-color-focus-border;
+
+    + .trigger {
+      color: $trigger-active-color;
+    }
+  }
+
+  + .trigger + .icon-error {
+    right: 50px;
+  }
+
+  + .audible + .trigger + .icon-error {
+    right: 55px;
+  }
+
+  &:disabled {
+    + .trigger {
+      color: $timepicker-disabled-icon-color;
+      cursor: default;
+    }
+  }
+
+  &[readonly] {
+    + .trigger {
+      color: $timepicker-readonly-icon-color;
+      cursor: default;
+    }
+  }
+}
+
+#timepicker-period + .dropdown-wrapper {
+  .dropdown {
+    width: 68px;
+  }
+}
+
+#timepicker-popup {
+  max-width: none;
+
+  > .tooltip-content {
+    padding: 0;
+  }
+
+  .time-parts {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+
+    .colons {
+      @include rem(font-size, 1.4rem);
+
+      font-weight: $ids-number-font-weight-bold;
+      min-width: 15px;
+
+      &:empty {
+        min-width: 10px;
+
+        @media only screen
+          and (minwidth: $breakpoint-phone)
+          and (max-device-width: $breakpoint-big-phone + 88)
+          and (-webkit-min-device-pixel-ratio: 2)
+          and (orientation: portrait) {
+          min-width: 5px;
+        }
+      }
+    }
+  }
+
+  .time-part {
+    text-align: center;
+    white-space: nowrap;
+
+    > label {
+      width: 72px;
+
+      @media only screen
+        and (minwidth: $breakpoint-phone)
+        and (max-device-width: $breakpoint-big-phone + 88)
+        and (-webkit-min-device-pixel-ratio: 2)
+        and (orientation: portrait) {
+        width: 65px;
+      }
+    }
+  }
+
+  .dropdown-wrapper {
+    margin-bottom: 0;
+  }
+
+  .dropdown {
+    width: 70px;
+
+    @media only screen
+      and (minwidth: $breakpoint-phone)
+      and (max-device-width: $breakpoint-big-phone + 88)
+      and (-webkit-min-device-pixel-ratio: 2)
+      and (orientation: portrait) {
+      width: 60px !important;
+    }
+
+    &.period {
+      + .dropdown-wrapper .dropdown {
+        width: 70px;
+
+        @media only screen
+          and (minwidth: $breakpoint-phone)
+          and (max-device-width: $breakpoint-big-phone + 88)
+          and (-webkit-min-device-pixel-ratio: 2)
+          and (orientation: portrait) {
+          width: 65px !important;
+        }
+      }
+    }
+
+    + .trigger {
+      right: 6px;
+      top: 2px;
+    }
+  }
+
+  .label {
+    display: inline-block;
+    padding: 0 2px;
+  }
+
+  .modal-buttonset {
+    margin: 0;
+  }
+}
+
+// Short Fields
+.field-short,
+.form-layout-compact .field {
+  .timepicker {
+    padding-right: 23px;
+
+    + .trigger,
+    + .tooltip-description + .trigger {
+      height: 20px;
+      margin-left: -23px;
+      margin-top: 3px;
+      min-height: 20px;
+      min-width: 20px;
+      width: 20px;
+
+      .icon {
+        height: 14px;
+        position: relative;
+        top: -1px;
+        width: 14px;
+      }
+    }
+
+    ~ .icon-error {
+      margin-left: -40px;
+    }
+  }
+}
+
+html.is-safari {
+  .timepicker {
+    + .trigger {
+      position: relative;
+    }
+  }
+
+  .field-short {
+    .timepicker {
+      + .trigger {
+        margin-top: 2px;
+
+        .icon {
+          margin-top: unset;
+        }
+      }
+    }
+  }
+
+  .form-layout-compact {
+    .timepicker {
+      + .trigger,
+      + .tooltip-description + .trigger {
+        top: 1px;
+      }
+    }
+  }
+}
+
+// RTL Styles
+html[dir='rtl'] {
+  .timepicker {
+    + .trigger,
+    + .tooltip-description + .trigger {
+      margin-left: inherit;
+      margin-right: -31px;
+    }
+
+    + .trigger + .icon-error {
+      right: auto;
+    }
+
+    + .audible + .trigger + .icon-error {
+      margin-right: -48px;
+      right: auto;
+    }
+  }
+
+  .timepicker-popup {
+    .dropdown {
+      + .trigger {
+        left: 5px;
+        right: auto;
+      }
+    }
+  }
+
+  // Short Fields
+  .field-short,
+  .form-layout-compact .field {
+    .timepicker {
+      padding-left: 18px;
+      padding-right: 2px;
+
+      + .trigger,
+      + .tooltip-description + .trigger {
+        margin-left: inherit;
+        margin-right: -24px;
+      }
+
+      ~ .icon-error {
+        margin-left: inherit;
+        margin-right: -38px !important;
+      }
+    }
+  }
+}
+
+// Fix for Chinese locale only
+html {
+  &[lang='zh-CN'],
+  &[lang='zh-Hans'],
+  &[lang='zh-Hant'] {
+    #timepicker-popup {
+      select.period + .dropdown-wrapper {
+        .dropdown {
+          padding-top: 6px;
+        }
+      }
+    }
+  }
+}
+
+// Firefox Chinese Locale
+html.is-firefox {
+  &[lang='zh-CN'],
+  &[lang='zh-Hans'],
+  &[lang='zh-Hant'] {
+    #timepicker-popup {
+      .dropdown {
+        padding-top: 9px;
+      }
+
+      select.period + .dropdown-wrapper {
+        .dropdown {
+          padding-top: 5px;
+        }
+      }
+    }
+  }
+}

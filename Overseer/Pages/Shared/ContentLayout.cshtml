@@ -1,0 +1,11 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    @{ await Html.RenderPartialAsync("Components/PageHeader"); }
+    <body class="no-scroll">
+        @{ await Html.RenderPartialAsync("Components/PageIcons"); }
+        <div class="page-container scrollable">
+            @RenderBody()
+        </div>
+        @{ await Html.RenderPartialAsync("Components/PageSetup"); }
+    </body>
+</html>

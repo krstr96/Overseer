@@ -1,0 +1,133 @@
+@import '../button/button';
+
+.ids-actionsheet {
+  @include css3(transform, translate(0, 100%));
+  @include transition(transform 200ms $cubic-ease);
+
+  background-color: $actionsheet-bg-color;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  bottom: 0;
+  box-shadow: $actionsheet-box-shadow;
+  color: $actionsheet-color;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  margin: 0 auto;
+  max-height: 70vh;
+  max-width: 480px;
+  overflow: auto;
+  padding: 12px;
+  position: fixed;
+  right: 0;
+  -webkit-touch-callout: none;
+  z-index: 4000;
+}
+
+.ids-actionsheet-tray-container {
+  @include css3(transform, translate(0, 100%));
+  @include transition(transform 200ms $cubic-ease);
+
+  border-radius: 10px 10px 0 0;
+  bottom: 40px;
+  box-shadow: $actionsheet-tray-box-shadow;
+  display: inline-block;
+  height: 40px;
+  left: 0;
+  margin: 0 auto;
+  max-width: 480px;
+  pointer-events: visible;
+  position: fixed;
+  right: 0;
+  text-align: center;
+  visibility: visible;
+  width: 100%;
+  -webkit-touch-callout: none;
+  z-index: 4000;
+
+  &.ruby {
+    background: $ids-color-palette-ruby-70;
+  }
+
+  &.amber {
+    background: $ids-color-palette-amber-70;
+  }
+
+  &.emerald {
+    background: $ids-color-palette-emerald-70;
+  }
+
+  &.azure {
+    background: $ids-color-palette-azure-70;
+  }
+
+  &.turquoise {
+    background: $ids-color-palette-turquoise-70;
+  }
+
+  &.amethyst {
+    background: $ids-color-palette-amethyst-70;
+  }
+
+  &.slate {
+    background: $ids-color-palette-slate-70;
+  }
+
+  button.ids-actionsheet-tray-btn {
+    color: $actionsheet-tray-btn-action-color;
+    width: 100%;
+
+    svg.icon {
+      color: $actionsheet-tray-btn-action-color;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    .ids-actionsheet-tray-btn-text {
+      line-height: 40px;
+      vertical-align: middle;
+    }
+  }
+
+  + .ids-actionsheet {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    box-shadow: none;
+  }
+}
+
+.ids-actionsheet-container {
+  bottom: 0;
+  left: 0;
+  max-height: 100vh;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  top: 0;
+
+  // Container State while an Action Sheet is visible
+  // ==============================
+  &.engaged {
+    pointer-events: auto;
+
+    .ids-actionsheet {
+      transform: translate(0);
+    }
+
+    .overlay {
+      visibility: visible;
+    }
+  }
+}
+
+.ids-action {
+  display: block;
+  margin-right: 0;
+}
+
+.separator,
+.ids-action {
+  + .ids-action {
+    margin-top: 12px;
+  }
+}

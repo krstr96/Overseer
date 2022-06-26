@@ -1,0 +1,20 @@
+﻿@page
+@model ErrorModel
+@{ Layout = "Shared/ContentLayout"; }
+
+<div class="error-page-context">
+    <div class="error-page-content">
+        <div class="error-page-icon">
+            <svg class="icon-empty-state" focusable="false" aria-hidden="true" role="presentation">
+                <use href="#icon-empty-error-loading"></use>
+            </svg>
+        </div>
+        <div class="error-page-title">Error</div>
+        <div class="error-page-info" style="min-width: 300px">@Model.Message</div>
+        <div class="error-page-button">
+            <a href="/" type="button" class="btn btn-primary hide-focus">
+                <span>Take me to safety!</span>
+            </a>
+        </div>
+    </div>
+</div>

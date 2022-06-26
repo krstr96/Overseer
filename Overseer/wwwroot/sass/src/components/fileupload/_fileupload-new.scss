@@ -1,0 +1,134 @@
+// Fileupload Uplift styles
+// ===========================================
+
+.fileupload-wrapper {
+  .container {
+    &.drop-area {
+      padding: 30px 30px 20px;
+    }
+
+    .file-row,
+    .progress-row {
+      .status-icon {
+        margin-top: 12px;
+
+        &.file-error {
+          margin-top: 15px;
+          background-color: transparent;
+        }
+
+        > .icon {
+          top: -3px;
+
+          &.icon-error {
+            height: 18px !important;
+            width: 18px;
+          }
+        }
+
+        button {
+          .icon {
+            left: 0;
+            top: -3px;
+          }
+        }
+      }
+
+      .description {
+        margin-top: 2px;
+      }
+    }
+
+    .fileupload-adv-browse-lbl {
+      margin-bottom: 0;
+    }
+
+    .l-pull-right {
+      margin-top: 1px;
+
+      &.file-error .size {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+// Firefox needs some hand-holding
+.is-firefox {
+  &.is-mac {
+    .fileupload-wrapper {
+      .container {
+        .file-row,
+        .progress-row {
+          .status-icon {
+            button {
+              .icon {
+                top: -4px !important;
+              }
+            }
+
+            .icon {
+              top: -3px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .fileupload-wrapper {
+    .container {
+      .file-row,
+      .progress-row {
+        .status-icon {
+          button {
+            .icon {
+              top: -3px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// ie11
+.ie11 {
+  .fileupload-wrapper {
+    .container {
+      .file-row,
+      .progress-row {
+        .status-icon {
+          button {
+            .icon {
+              top: -7px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+html[dir='rtl'] {
+  .fileupload-wrapper {
+    .container {
+      .file-row,
+      .progress-row {
+        .status-icon {
+          > .icon {
+            top: -1px;
+          }
+
+          button {
+            .icon {
+              left: inherit;
+              right: 0;
+              top: -1px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

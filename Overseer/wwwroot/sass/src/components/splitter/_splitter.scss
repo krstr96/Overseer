@@ -1,0 +1,233 @@
+// Splitter
+//========================================================
+
+.splitter-container {
+  @include flexbox();
+  @include flex-direction(row);
+  @include flex(1 1 auto);
+
+  &.is-horizontal {
+    @include flex-direction(column);
+  }
+
+  * {
+    @include flex(0 0 auto);
+  }
+
+  .flex-grow-shrink {
+    @include flex(1 1 auto);
+
+    &.is-right-side {
+      margin-left: 20px;
+    }
+  }
+
+  .is-right-side {
+    border-right: 0;
+
+    .panel-header {
+      border-bottom: 0;
+      height: 41px;
+      padding-right: 0;
+    }
+  }
+
+  .content {
+    height: 100%;
+  }
+
+  .searchfield-wrapper {
+    @include transition(
+      left 300ms $cubic-ease,
+      right 300ms $cubic-ease,
+      box-shadow 300ms $cubic-ease);
+  }
+}
+
+.splitter {
+  @include transition(background-color 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94));
+
+  background-color: inherit;
+  cursor: ew-resize;
+  height: 100%;
+  position: absolute;
+  width: 20px;
+  z-index: 100;
+
+  &:hover,
+  &:active,
+  &:focus,
+  &.is-dragging {
+    background-color: $splitter-active-bg-color;
+    outline: none;
+
+    &::after,
+    .splitter-drag-handle {
+      color: $splitter-active-grip-bg-color;
+    }
+
+    .splitter-btn .icon {
+      color: $splitter-active-grip-bg-color;
+    }
+  }
+
+  .splitter-btn {
+    height: 30px;
+    left: 2px;
+    margin-top: -2px;
+    min-width: 16px;
+    position: absolute;
+    transform: rotate(180deg);
+    width: 16px;
+    z-index: 101;
+
+    .icon {
+      color: $splitter-grip-bg-color;
+      height: 16px;
+      width: 16px;
+    }
+
+    &.rotate {
+      transform: rotate(0deg);
+      left: 4px;
+    }
+  }
+
+  &.is-dragging {
+    box-shadow: -2px 0 3px 0 $splitter-box-shadow-color;
+  }
+
+  .panel-header {
+    height: 41px;
+  }
+
+  .splitter-drag-handle {
+    color: $splitter-grip-bg-color;
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    .icon {
+      color: currentColor;
+      width: 19px;
+    }
+  }
+
+  //Other Layouts
+  &.splitter-right {
+    border-right: 1px solid $panel-border-color;
+    left: 229px;
+    position: absolute;
+    top: 0;
+
+    &.is-dragging {
+      box-shadow: 2px 0 3px 0 $splitter-box-shadow-color;
+    }
+
+    .splitter-btn {
+      transform: none;
+      margin-left: 0.7px;
+
+      &.rotate {
+        margin-top: -6px;
+        margin-left: -2px;
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  //Other Layouts
+  &.splitter-horizontal {
+    cursor: ns-resize;
+    height: 20px;
+    position: absolute;
+    width: 100%;
+
+    .splitter-drag-handle {
+      @include transform(rotate(90deg));
+
+      color: $splitter-grip-bg-color;
+      display: block;
+      left: 50%;
+      margin-left: -10px;
+      position: absolute;
+      top: 1px;
+    }
+  }
+
+  + .tab-container.horizontal {
+    margin: 0 20px;
+  }
+}
+
+@include respond-to(phonedown) {
+  .splitter {
+    display: none;
+
+    &.splitter-horizontal {
+      display: block;
+    }
+  }
+}
+
+.ie {
+  .splitter-container {
+    .toolbar .buttonset > [class^='btn'] {
+      line-height: normal;
+    }
+  }
+}
+
+.splitter-overlay {
+  background-color: $ids-color-palette-white;
+  height: 100%;
+  opacity: 0.1;
+  position: static;
+  visibility: visible;
+}
+
+// RTL Styles
+html[dir='rtl'] {
+  .splitter-container {
+    .flex-grow-shrink {
+      &.is-right-side {
+        margin-left: initial;
+        margin-right: 20px;
+      }
+    }
+
+    .sidebar {
+      border-left: none;
+    }
+  }
+
+  .splitter {
+    border-left: none;
+    border-right: 1px solid $panel-border-color;
+
+    &.is-dragging {
+      box-shadow: 2px 0 3px 0 $splitter-box-shadow-color;
+    }
+
+    &.splitter-right {
+      border-left: 1px solid $panel-border-color;
+      border-right: none;
+
+      &.is-dragging {
+        box-shadow: -2px 0 3px 0 $splitter-box-shadow-color;
+      }
+    }
+
+    .splitter-btn {
+      left: -6px;
+
+      .icon {
+        -ms-filter: fliph;
+        filter: fliph;
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+      }
+    }
+  }
+}

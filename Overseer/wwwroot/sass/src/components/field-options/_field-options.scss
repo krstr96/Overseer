@@ -1,0 +1,1238 @@
+// FieldOptions
+//==============================================================================
+
+@mixin trigger-button {
+  @include rotate(90);
+
+  border-radius: 2px 2px 0 0;
+
+  //border-radius: top-right | bottom-right | bottom-left | top-left
+  clip-path: inset(0 0 0 0);
+  height: 22px;
+  left: -10px;
+  line-height: normal;
+  min-height: 0;
+  min-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  top: -1px;
+  width: $input-size-regular-height;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &.is-active {
+    border-color: $input-color-focus-border;
+    opacity: 1;
+  }
+
+  &:focus,
+  &:active {
+    color: transparent;
+    text-shadow: 0 0 0 $ids-color-palette-black;
+  }
+
+  &:focus:not(.hide-focus) {
+    box-shadow: $focus-box-shadow;
+
+    .icon {
+      color: $input-color-focus-border;
+    }
+  }
+}
+
+.field-options {
+  max-width: ($field-md - 40px);
+  text-overflow: ellipsis;
+  white-space: normal;
+  width: calc(100% - 40px);
+
+  &.input-xs {
+    max-width: $field-xs;
+  }
+
+  &.input-sm {
+    max-width: $field-sm;
+  }
+
+  &.input-lg {
+    max-width: $field-lg;
+  }
+
+  &.input-full {
+    max-width: calc(100% - 40px);
+  }
+
+  ~ .icon-success {
+    right: 40px;
+  }
+
+  // Trigger button ============================================================
+  ~ .btn-actions {
+    @include trigger-button();
+  }
+
+  ~ a.btn-actions {
+    display: inline;
+    padding: 0 5px;
+  }
+
+  &.visible {
+    ~ .btn-actions {
+      opacity: 1;
+    }
+  }
+
+  // Searchfield ===============================================================
+  &.searchfield {
+    width: calc(100% - 40px) !important;
+
+    ~ .icon.close {
+      opacity: 1;
+      right: 44px;
+
+      &.is-empty {
+        display: block;
+        opacity: 0;
+      }
+    }
+  }
+
+  // Clearable =================================================================
+  &[data-clearable='true'] {
+    ~ .btn-actions {
+      left: -2px;
+    }
+
+    ~ .is-empty {
+      ~ .btn-actions {
+        left: -10px;
+      }
+    }
+  }
+
+  // Autocomplete ==============================================================
+  &.autocomplete:not(:focus) {
+    box-shadow: $focus-box-shadow-transparent;
+  }
+
+  // Checkbox ==============================================================
+  &.checkbox {
+    ~ .btn-actions {
+      left: -5px;
+    }
+  }
+
+  // Dropdown ==================================================================
+  &.dropdown,
+  &.multiselect {
+    ~ .btn-actions {
+      top: 2px;
+    }
+  }
+
+  // Fileupload ================================================================
+  &.fileupload {
+    ~ .trigger-close:not(.is-visible) ~ .btn-actions {
+      left: -10px;
+    }
+
+    ~ .trigger-close.is-visible ~ .btn-actions {
+      left: 18px;
+    }
+  }
+
+  // Spinbox ===================================================================
+  &.spinbox {
+    width: 84px;
+  }
+
+  // Textarea ==================================================================
+  &.textarea {
+    max-width: 362px;
+
+    ~ .btn-actions {
+      left: auto;
+      margin-left: -7px;
+      position: absolute;
+      top: calc(50% - 6px);
+    }
+  }
+
+  // Timepicker & Datepicker ===================================================
+  &.timepicker,
+  &.datepicker {
+    width: $datepicker-default-width;
+
+    &.input-xs {
+      max-width: $field-xs;
+      width: calc(100% - 40px);
+    }
+
+    &.input-sm {
+      max-width: $field-sm;
+      width: calc(100% - 40px);
+    }
+
+    &.input-mm {
+      max-width: $field-mm;
+      width: calc(100% - 40px);
+    }
+
+    &.input-md {
+      max-width: $field-md;
+      width: calc(100% - 40px);
+    }
+
+    &.input-lg {
+      max-width: $field-lg;
+      width: calc(100% - 40px);
+    }
+
+    &.input-full {
+      max-width: calc(100% - 40px);
+      width: calc(100% - 40px);
+    }
+
+    ~ a.btn-actions {
+      display: inline;
+      padding: 0 5px;
+    }
+  }
+}
+
+// Colorpicker|Lookup|Searchfield ==============================================
+.field.is-fieldoptions {
+  .btn-actions:not(.is-checkbox) {
+    @include trigger-button();
+  }
+
+  .colorpicker-container {
+    ~ .btn-actions {
+      left: -10px;
+      top: -10px;
+      width: $input-size-regular-height;
+    }
+  }
+
+  .dropdown,
+  .multiselect {
+    ~ .btn-actions {
+      top: 1px;
+    }
+  }
+
+  &.field-checkbox {
+    margin-bottom: 7px;
+
+    .checkbox-label {
+      line-height: 16px;
+    }
+  }
+
+  .lookup-wrapper {
+    width: 100%;
+
+    .btn-actions {
+      left: -7px;
+    }
+  }
+
+  .dropdown,
+  .multiselect {
+    max-width: ($field-md - 40px);
+  }
+
+  .searchfield-wrapper.has-focus:not(.toolbar-searchfield-wrapper),
+  .searchfield-wrapper {
+    box-shadow: none;
+
+    .btn-actions {
+      left: -7px;
+      top: -1px;
+    }
+
+    .btn-icon {
+      &.close:not(.is-empty) {
+        right: 45px;
+      }
+    }
+  }
+
+  .spinbox-wrapper {
+    box-shadow: none;
+
+    .btn-actions {
+      left: -7px;
+      top: 0;
+    }
+  }
+
+  .textarea {
+    width: ($field-md - 40px);
+
+    ~ .btn-actions {
+      left: auto;
+      top: calc(50% - 6px);
+    }
+  }
+
+  .field-options ~ .close,
+  input[type='text'][readonly]:not(.fileupload) {
+    ~ .btn-actions {
+      top: 0;
+    }
+  }
+
+  .field-options ~ .close ~ .icon ~ .btn-actions {
+    top: -1px;
+  }
+
+  // Clearable Inputs that are not Searchfields
+  [data-clearable='true'] {
+    ~ .btn-icon {
+      top: 0;
+      transform: none;
+
+      &:not(.is-empty) {
+        ~ .btn-actions {
+          left: -34px;
+        }
+      }
+    }
+
+    ~ .btn-actions {
+      left: -10px;
+    }
+
+    ~ .icon.close.is-empty ~ .btn-actions {
+      left: -10px;
+    }
+  }
+
+  &.is-disabled {
+    .btn-actions:not(.is-checkbox) {
+      display: none;
+    }
+  }
+}
+
+// Compact Layout
+.field-short.is-fieldoptions,
+.form-layout-compact .field.is-fieldoptions {
+  .btn-actions:not(.is-checkbox) {
+    left: -2px;
+    top: 2px;
+    width: $input-size-compact-height;
+
+    .icon {
+      margin-left: -1px;
+    }
+  }
+
+  .dropdown ~ .btn-actions,
+  .multiselect ~ .btn-actions {
+    top: 1px;
+  }
+
+  .lookup-wrapper {
+    input[type='text'].lookup.field-options {
+      ~ .btn-actions {
+        top: 2px;
+      }
+    }
+  }
+
+  input[type='text'][data-clearable='true'] ~ .btn-icon.close {
+    ~ .btn-actions {
+      top: 1px;
+    }
+  }
+
+  input[type='text']:not(.spinbox):not(.searchfield):not(.fileupload) {
+    padding: 0 22px 0 5px;
+
+    ~ .btn-actions {
+      top: 2px;
+    }
+
+    &[data-clearable='true'] ~ .btn-icon:not(.is-empty) {
+      right: 25px;
+      top: 1px;
+
+      ~ .btn-actions {
+        left: -26px;
+      }
+    }
+  }
+
+  .colorpicker-container ~ .btn-actions {
+    left: -2px;
+    top: -5px;
+    width: $input-size-compact-height;
+  }
+
+  .spinbox-wrapper {
+    box-shadow: none;
+
+    .btn-actions {
+      top: 6px;
+    }
+  }
+
+  .field-options ~ .close ~ .icon ~ .btn-actions,
+  input[type='text'][readonly]:not(.fileupload) ~ .btn-actions {
+    top: 1px;
+  }
+
+  .fileupload {
+    ~ .trigger-close:not(.is-visible) ~ .btn-actions {
+      left: -2px !important;
+    }
+
+    ~ .trigger-close.is-visible ~ .btn-actions {
+      left: 27px !important;
+    }
+  }
+
+  [data-clearable='true'] ~ .icon.close.is-empty ~ .btn-actions {
+    left: -3px;
+  }
+
+  [data-clearable='true'] + .icon.close {
+    margin-left: -24px;
+    top: -4px;
+
+    ~ .btn-actions {
+      left: -1px;
+    }
+  }
+
+  .searchfield-wrapper.has-focus:not(.toolbar-searchfield-wrapper),
+  .searchfield-wrapper {
+    .btn-icon.close {
+      height: 26px;
+      right: 41px;
+      top: 0;
+    }
+
+    .btn-actions {
+      left: -2px;
+      top: 1px;
+    }
+
+    .searchfield {
+      padding-left: 25px;
+    }
+
+    > .icon:not(.close):not(.icon-error) {
+      left: 4px;
+      top: 14px;
+    }
+  }
+
+  .searchfield-wrapper > .icon.close {
+    right: 43px;
+    top: 6px;
+  }
+
+  .textarea ~ .btn-actions {
+    left: auto;
+    margin-left: -1px;
+    top: calc(50% - 2px);
+  }
+}
+
+.form-layout-compact {
+  .radio-group {
+    .btn-actions {
+      left: -10px;
+    }
+  }
+}
+
+.form-layout-compact {
+  .radio-group.is-fieldoptions {
+    margin-bottom: 12px;
+
+    .field-options {
+      padding: 0 !important;
+    }
+
+    .radio-label {
+      margin: 0 !important;
+    }
+  }
+
+  .field.is-fieldoptions.field-checkbox {
+    margin-bottom: -8px;
+  }
+
+  .field-options.checkbox ~ .btn-actions {
+    border-radius: 2px;
+    height: 8px !important;
+    left: 1px;
+    padding: 0;
+    top: 0;
+    width: 25px;
+  }
+
+  .compound-field .field.is-fieldoptions:first-child input[type='text'] ~ .btn-actions:not(.is-checkbox) {
+    left: -3px;
+    top: 1px;
+  }
+
+  .compound-field .field.is-fieldoptions input[type='text'] ~ .btn-actions:not(.is-checkbox) {
+    top: 1px;
+  }
+}
+
+.compound-field {
+  .field.is-fieldoptions:first-child {
+    input[type='text'] {
+      ~ .btn-actions:not(.is-checkbox) {
+        left: -11px;
+      }
+    }
+  }
+
+  .field.is-fieldoptions {
+    input[type='text'] {
+      ~ .btn-actions:not(.is-checkbox) {
+        top: 0;
+      }
+    }
+  }
+}
+
+// Fieldset (Summary Form) =====================================================
+.summary-form {
+  .data.field-options {
+    border: solid 1px transparent;
+    display: inline-block;
+    height: auto;
+    line-height: 16px;
+    margin-bottom: -4px;
+    margin-left: -5px;
+    max-width: 100%;
+    outline: 0;
+    padding: 0 5px;
+    white-space: normal;
+    width: calc(100% - 46px);
+
+    &.is-singleline {
+      margin-bottom: -5px;
+      margin-top: -9px;
+      padding-bottom: 9px;
+      padding-top: 6px;
+    }
+
+    &:focus,
+    &:active {
+      @include focus-state();
+    }
+
+    ~ .btn-actions {
+      left: -9px;
+    }
+  }
+}
+
+// Radio buttons group =========================================================
+.radio-group {
+  .field-options {
+    border: solid 1px transparent;
+    display: inline-block;
+    max-width: 100%;
+    outline: 0;
+    padding: 0 5px;
+    width: auto;
+  }
+
+  .btn-actions {
+    left: -11px;
+
+    .icon {
+      width: 16px;
+    }
+  }
+
+  // Radio active state
+  &.is-active {
+    .field-options {
+      border-color: $input-color-focus-border;
+
+      &.is-focused {
+        @include focus-state();
+      }
+    }
+  }
+
+  &.visible {
+    .btn-actions {
+      opacity: 1;
+    }
+  }
+}
+
+// Hover effect ================================================================
+.field.visible {
+  .btn-actions {
+    opacity: 1;
+  }
+
+  &.is-fieldoptions {
+    .btn-actions {
+      opacity: 1;
+    }
+  }
+}
+
+// Active effect ===============================================================
+.field.is-active {
+  div.dropdown:not(.is-open),
+  .field-options:not([disabled]):not(.colorpicker):not(.spinbox) {
+    border-color: $input-color-focus-border;
+  }
+
+  .colorpicker-container {
+    border-color: $input-color-focus-border;
+  }
+
+  .spinbox-wrapper {
+    > .spinbox,
+    > .spinbox-control {
+      border-color: $input-color-focus-border;
+    }
+
+    &.is-focused {
+      .down {
+        box-shadow: $focus-box-shadow-spinbox-down;
+      }
+
+      .spinbox {
+        box-shadow: $focus-box-shadow-spinbox !important;
+      }
+
+      .up {
+        box-shadow: $focus-box-shadow-spinbox-up;
+      }
+    }
+  }
+
+  .searchfield-wrapper.has-focus:not(.toolbar-searchfield-wrapper) {
+    .field-options.searchfield {
+      box-shadow: $focus-box-shadow;
+    }
+  }
+
+  .btn-actions {
+    border-color: $input-color-focus-border;
+    opacity: 1;
+  }
+}
+
+// Overwrites ******************************************************************
+// Firefox
+.is-firefox {
+  .field-options {
+    ~ .btn-actions {
+      color: transparent;
+      text-shadow: 0 0 0 $ids-color-palette-black;
+    }
+  }
+
+  .field.is-fieldoptions {
+    .field-options {
+      ~ .btn-actions:not(.is-checkbox) {
+        top: auto;
+      }
+    }
+
+    .colorpicker-container {
+      ~ .btn-actions {
+        top: -9px;
+      }
+    }
+
+    .dropdown,
+    .multiselect {
+      ~ .btn-actions:not(.is-checkbox) {
+        top: 1px;
+      }
+    }
+
+    input[type='text'][readonly]:not(.fileupload),
+    .field-options ~ .close {
+      ~ .btn-actions:not(.is-checkbox) {
+        top: -1px;
+      }
+    }
+
+    .textarea {
+      ~ .btn-actions:not(.is-checkbox) {
+        top: calc(50% - 6px) !important;
+      }
+    }
+  }
+
+  .field-short.is-fieldoptions,
+  .form-layout-compact .field.is-fieldoptions {
+    .field-options {
+      ~ .btn-actions:not(.is-checkbox) {
+        top: 0;
+      }
+
+      &.dropdown ~ .btn-actions,
+      &.multiselect ~ .btn-actions {
+        top: 1px !important;
+      }
+
+      ~ .btn-actions:not(.is-checkbox) .icon {
+        margin-left: -1px;
+        margin-top: -5px;
+      }
+    }
+
+    .spinbox-wrapper .btn-actions {
+      top: 5px !important;
+    }
+
+    .colorpicker-container ~ .btn-actions {
+      top: -8px;
+    }
+
+    .searchfield-wrapper .field-options.searchfield {
+      ~ .btn-icon.close ~ .btn-actions {
+        top: 0 !important;
+      }
+    }
+
+    .searchfield-wrapper .btn-actions,
+    [data-clearable='true'] + .icon.close ~ .btn-actions,
+    input[type='text'][readonly]:not(.fileupload) ~ .btn-actions {
+      top: 0 !important;
+    }
+
+    &.field-checkbox .btn-actions .icon:not(.icon-dropdown) {
+      margin-left: 1px;
+      margin-top: -2px;
+    }
+  }
+
+  .form-layout-compact {
+    .compound-field .field.is-fieldoptions input[type='text'] ~ .btn-actions:not(.is-checkbox) {
+      top: 2px !important;
+    }
+  }
+}
+
+// Firefox on Mac
+.is-mac.is-firefox {
+  .field-options {
+    ~ .btn-actions {
+      line-height: normal;
+      width: 33px;
+    }
+
+    &.dropdown,
+    &.multiselect {
+      ~ .btn-actions {
+        top: 1px;
+      }
+    }
+  }
+
+  .field.is-fieldoptions {
+    .field-options ~ .close,
+    input[type='text'][readonly]:not(.fileupload) {
+      ~ .btn-actions {
+        top: auto;
+      }
+    }
+
+    .colorpicker-container {
+      ~ .btn-actions {
+        left: -11px;
+        top: -10px;
+      }
+    }
+
+    .spinbox-wrapper {
+      .btn-actions {
+        left: -8px;
+        width: 35px;
+      }
+    }
+  }
+
+  .radio-group {
+    .btn-actions {
+      left: -10px;
+    }
+  }
+
+  .field-short.is-fieldoptions,
+  .form-layout-compact .field.is-fieldoptions {
+    .field-options ~ .btn-actions:not(.is-checkbox) {
+      top: 1px;
+    }
+
+    button.btn-icon.close svg.close.icon {
+      margin-top: 0;
+    }
+
+    .field-options ~ .close,
+    input[type='text'][readonly]:not(.fileupload) {
+      ~ .btn-actions {
+        top: 2px !important;
+      }
+    }
+
+    .lookup-wrapper .btn-actions {
+      left: -2px;
+    }
+
+    .spinbox-wrapper .btn-actions {
+      left: -1px;
+      top: 5px !important;
+      width: 25px;
+    }
+
+    .colorpicker-container {
+      ~ .btn-actions {
+        left: -2px;
+        top: -5px;
+      }
+    }
+  }
+}
+
+// Safari
+.is-safari {
+  .field-options {
+    &.timepicker,
+    &.datepicker {
+      ~ .btn-actions {
+        left: -7px;
+      }
+    }
+  }
+
+  .field.is-fieldoptions {
+    .field-options ~ .close,
+    input[type='text'][readonly]:not(.fileupload) {
+      ~ .btn-actions {
+        top: -1px;
+      }
+    }
+
+    .dropdown,
+    .multiselect {
+      ~ .btn-actions {
+        top: 0;
+      }
+    }
+  }
+
+  .radio-group {
+    .btn-actions {
+      left: -10px;
+    }
+  }
+
+  .summary-form {
+    .data.field-options {
+      ~ .btn-actions {
+        left: -10px;
+      }
+    }
+  }
+
+  .form-layout-compact {
+    .field.is-fieldoptions {
+      .colorpicker-container ~ .btn-actions {
+        top: -5px;
+      }
+
+      input[type='text'] ~ .btn-actions:not(.is-checkbox) {
+        top: 1px;
+      }
+
+      .lookup-wrapper input[type='text'].lookup.field-options {
+        ~ .btn-actions {
+          top: 1px !important;
+        }
+      }
+
+      .field-options.textarea {
+        ~ .btn-actions {
+          left: 260px;
+        }
+      }
+
+      .dropdown,
+      .multiselect {
+        ~ .btn-actions {
+          top: 1px;
+        }
+      }
+
+      .spinbox-wrapper .btn-actions {
+        top: 5px !important;
+      }
+    }
+  }
+
+  .compound-field {
+    .field.is-fieldoptions {
+      input[type='text'] {
+        ~ .btn-actions:not(.is-checkbox) {
+          top: -1px;
+        }
+      }
+    }
+  }
+}
+
+// IE
+.ie {
+  .field.is-fieldoptions {
+    .dropdown,
+    .multiselect {
+      ~ .btn-actions:not(.is-checkbox) {
+        top: 1px;
+      }
+    }
+
+    .textarea {
+      ~ .btn-actions:not(.is-checkbox) {
+        top: calc(50% - 6px);
+      }
+    }
+  }
+
+  .field-options {
+    &.multiselect {
+      ~ .btn-actions {
+        top: 1px;
+      }
+    }
+  }
+
+  .radio-group {
+    .btn-actions {
+      left: -10px;
+    }
+  }
+
+  .field-short.is-fieldoptions,
+  .form-layout-compact .field.is-fieldoptions {
+    .datepicker,
+    .timepicker,
+    .lookup,
+    .field-options ~ .close {
+      ~ .btn-actions:not(.is-checkbox) {
+        top: 1px;
+      }
+    }
+  }
+}
+
+// IE 11
+.ie11 {
+  .field.is-fieldoptions {
+    .timepicker {
+      ~ .btn-actions:not(.is-checkbox) {
+        top: auto;
+      }
+    }
+  }
+
+  .field-options {
+    &.textarea {
+      ~ .btn-actions {
+        margin-left: -9px;
+      }
+    }
+  }
+
+  .field-short.is-fieldoptions .spinbox-wrapper .btn-actions,
+  .form-layout-compact .field.is-fieldoptions .spinbox-wrapper .btn-actions {
+    top: 5px;
+  }
+}
+
+// RTL Styles ******************************************************************
+html[dir='rtl'] {
+  .field-options {
+    ~ .icon-success {
+      left: 40px;
+      right: auto;
+    }
+
+    ~ .btn-actions {
+      //border-radius: top-right | bottom-right | bottom-left | top-left
+      border-radius: 0 0 2px 2px;
+      left: auto;
+      right: -9px;
+    }
+
+    &.dropdown,
+    &.multiselect {
+      ~ .btn-actions {
+        right: -10px;
+        width: 35px;
+      }
+    }
+
+    &.textarea {
+      ~ .btn-actions {
+        left: 0;
+        margin-left: inherit;
+        margin-right: -6px;
+        right: auto;
+      }
+    }
+
+    &.spinbox {
+      ~ .btn-actions {
+        left: auto;
+        right: -7px;
+      }
+    }
+
+    &.searchfield {
+      ~ .icon.close {
+        left: 44px;
+        right: auto;
+      }
+
+      ~ .btn-actions {
+        left: auto;
+        right: -8px;
+      }
+    }
+  }
+
+  .is-fieldoptions {
+    .btn-actions {
+      left: auto;
+      right: -10px;
+    }
+
+    //heremans
+    .colorpicker-container,
+    .textarea {
+      ~ .btn-actions {
+        //border-radius: top-right | bottom-right | bottom-left | top-left
+        border-radius: 0 0 2px 2px;
+        left: auto;
+      }
+    }
+
+    .fileupload {
+      ~ .btn-actions {
+        right: -16px;
+      }
+    }
+
+    .checkbox,
+    .lookup {
+      ~ .btn-actions {
+        right: -8px;
+      }
+    }
+
+    // Clearable Inputs that are not Searchfields
+    [data-clearable='true'] {
+      ~ .btn-actions {
+        left: auto;
+        right: 24px;
+      }
+
+      ~ .icon.close.is-empty ~ .btn-actions {
+        right: -11px;
+      }
+    }
+
+    .searchfield-wrapper {
+      .btn-actions {
+        top: -1px;
+      }
+    }
+  }
+
+  .radio-group {
+    .btn-actions {
+      left: auto;
+      right: -10px;
+    }
+  }
+
+  .summary-form {
+    .data.field-options {
+      margin-left: inherit;
+      margin-right: -5px;
+
+      ~ .btn-actions {
+        left: auto;
+        right: -10px;
+      }
+    }
+  }
+
+  // RTL with Firefox on Mac
+  &.is-mac.is-firefox {
+    .field-options {
+      ~ .btn-actions {
+        left: auto;
+        right: -10px;
+      }
+
+      &.dropdown,
+      &.multiselect {
+        ~ .btn-actions {
+          left: auto;
+          right: -11px;
+        }
+      }
+
+      &.fileupload {
+        ~ .btn-actions {
+          left: auto;
+          right: -16px;
+        }
+
+        ~ .trigger-close.is-visible ~ .btn-actions {
+          left: auto;
+          right: 20px;
+        }
+      }
+
+      &.searchfield {
+        ~ .btn-actions {
+          left: auto;
+          right: -6px;
+        }
+      }
+
+      &.spinbox {
+        ~ .btn-actions {
+          left: auto;
+          right: -8px;
+        }
+      }
+
+      &.textarea {
+        ~ .btn-actions {
+          left: auto;
+          right: auto;
+        }
+      }
+    }
+
+    .field.is-fieldoptions {
+      .colorpicker-container {
+        ~ .btn-actions {
+          left: auto;
+          right: -11px;
+        }
+      }
+
+      .lookup-wrapper {
+        .btn-actions {
+          left: auto;
+          right: -6px;
+        }
+      }
+    }
+
+    .radio-group {
+      .btn-actions {
+        left: auto;
+        right: -10px;
+      }
+    }
+  }
+
+  // RTL with Safari
+  &.is-safari {
+    .field-options {
+      ~ .btn-actions {
+        left: auto;
+        right: -10px;
+      }
+
+      &.fileupload {
+        ~ .btn-actions {
+          left: auto;
+          right: -16px;
+        }
+      }
+
+      &.timepicker,
+      &.datepicker {
+        ~ .btn-actions {
+          left: auto;
+          right: -8px;
+        }
+      }
+
+      &.searchfield {
+        ~ .btn-actions {
+          left: auto;
+          right: -8px;
+        }
+      }
+
+      &.spinbox {
+        ~ .btn-actions {
+          left: auto;
+          right: -8px;
+        }
+      }
+
+      &.textarea {
+        ~ .btn-actions {
+          left: auto;
+          right: auto;
+        }
+      }
+    }
+
+    .field.is-fieldoptions {
+      .colorpicker-container {
+        ~ .btn-actions {
+          left: auto;
+          right: -11px;
+        }
+      }
+
+      .lookup-wrapper {
+        .btn-actions {
+          left: auto;
+          right: -8px;
+        }
+      }
+    }
+
+    .radio-group {
+      .btn-actions {
+        left: auto;
+        right: -10px;
+      }
+    }
+  }
+
+  // RTL with IE
+  &.ie {
+    .radio-group {
+      .btn-actions {
+        left: auto;
+        right: -9px;
+      }
+    }
+  }
+}

@@ -1,0 +1,70 @@
+// Uplift Accordion
+//================================================== //
+
+// Fix Plus/Minus Expander-button alignment
+// TODO: Remove this rule in favor of something better.
+.accordion-pane {
+  .accordion-header {
+    > a {
+      padding-bottom: 6px;
+      padding-top: 6px;
+    }
+
+    > [class^='btn'] {
+      height: 23px;
+      min-height: 23px;
+
+      + a {
+        padding-bottom: 6px;
+        padding-top: 6px;
+      }
+    }
+
+    &.list-item {
+      &::before {
+        padding: 4px 8px 8px 21px;
+      }
+    }
+  }
+
+  // Level 2 Accordion Pane
+  .accordion-pane {
+    // Level 3 Accordion Header
+    .accordion-header {
+      @include left-align-cascade-styles-header(40px, 34px, 61px, 41px);
+    }
+  }
+}
+
+// Reset positioning for Uplift expander buttons
+.accordion-header {
+  > a {
+    padding: 11px 0 13px 20px;
+  }
+
+  .btn {
+    top: -2px;
+  }
+}
+
+html {
+  &:not([dir='rtl']):not(.is-firefox):not(.ie11) {
+    .accordion-pane {
+      .accordion-header {
+        > [class^='btn'] {
+          height: 24px;
+          min-height: 24px;
+        }
+      }
+    }
+  }
+}
+
+// Adjust the acccordion panel examples
+.accordion.panel {
+  .accordion-header {
+    .btn {
+      top: -2px;
+    }
+  }
+}

@@ -1,0 +1,76 @@
+//  Summary / Report Style Fields
+//================================================== //
+
+.summary-form {
+  .field {
+    width: 100%;
+  }
+
+  .label {
+    color: $label-color;
+    display: block;
+    max-width: 300px;
+    vertical-align: top;
+  }
+
+  //Push the switch back in if nested
+  .switch {
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .data {
+    color: $input-color;
+    display: inline-block;
+    font-size: $input-size-regular-font-size;
+    font-weight: $ids-number-font-weight-bold;
+    height: $input-size-regular-font-size;
+    padding: $input-size-regular-padding;
+    padding-left: 0;
+    padding-right: 0;
+
+    &.cozy {
+      line-height: 1rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  i {
+    color: $font-color-extrahighcontrast;
+    font-style: normal;
+  }
+}
+
+// More compact version
+.form-layout-compact {
+  fieldset > legend,
+  .fieldset > legend {
+    padding-bottom: 12px;
+  }
+
+  .row fieldset:not(.radio-group):nth-child(n + 2),
+  .row .fieldset:not(.radio-group):nth-child(n + 2) {
+    margin-top: 20px;
+  }
+
+  .fieldset-title,
+  .section-title {
+    padding-bottom: 12px;
+    padding-top: 20px;
+  }
+}
+
+//Adjust the summary form layout when in columns for responsive
+@include respond-to(tabletdown) {
+  .summary-form {
+    .column,
+    .columns {
+      padding: 0;
+
+      .field:first-child {
+        margin-top: 10px;
+      }
+    }
+  }
+}

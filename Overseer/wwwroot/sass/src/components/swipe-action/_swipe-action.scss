@@ -1,0 +1,165 @@
+.swipe-container {
+  border-radius: 5px;
+  display: flex;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+  width: 100%;
+
+  &.continuous {
+    scroll-snap-type: x proximity;
+
+    .swipe-action-left,
+    .swipe-action-right {
+      scroll-snap-align: initial;
+    }
+  }
+
+  // Button should remain sticky TODO
+  button {
+    // display: contents;
+    position: sticky;
+  }
+
+  .swipe-action-right,
+  .btn-swipe-action-left {
+    .btn-swipe-action-right,
+    .btn-swipe-action-left {
+      span {
+        padding-left: 0 !important;
+
+        &:nth-child(3) {
+          display: inline-block;
+          overflow: hidden;
+          padding-left: 5px !important;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          width: 87px;
+        }
+      }
+    }
+  }
+}
+
+.swipe-action-text-container {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 87px;
+}
+
+// Hide scroll bar
+.swipe-container::-webkit-scrollbar {
+  display: none;
+}
+
+// Hide scroll bar in Firefox
+.swipe-container {
+  scrollbar-width: none;
+}
+
+// Snaps into view
+.swipe-element {
+  align-items: center;
+  display: flex;
+  min-width: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+// Actions and element should be 100% wide
+.swipe-action {
+  align-items: center;
+  border-radius: 6px;
+  display: flex;
+  min-width: 100%;
+}
+
+// Style the action buttons
+.swipe-action-left {
+  background-color: $swipeaction-left-bg-color;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.swipe-action-right {
+  background-color: $swipeaction-right-bg-color;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  justify-content: flex-end;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+// Firefox only
+@-moz-document url-prefix() {
+  .ids-swipe-container {
+    overflow-x: hidden;
+  }
+
+  .ids-swipe-action-left {
+    display: none;
+  }
+}
+
+.btn-swipe-action-left {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+// Style the buttons
+.btn-swipe-action-left,
+.btn-swipe-action-right {
+  background-color: $swipeaction-left-bg-color;
+  display: block;
+  height: 100%;
+  line-height: 0;
+  margin: 0;
+  padding: 0 16px;
+  text-align: center;
+  white-space: inherit;
+  width: 100px;
+
+  .icon {
+    color: inherit;
+    display: block;
+    height: 16px;
+    margin: 0 auto 5px;
+    width: 16px;
+  }
+
+  &:focus {
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  &:active {
+    background-color: $swipeaction-left-active-bg-color;
+  }
+
+  &:hover {
+    background-color: $swipeaction-left-hover-bg-color;
+    border-color: transparent;
+    box-shadow: none;
+  }
+}
+
+.btn-swipe-action-right {
+  background-color: $swipeaction-right-bg-color;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  color: $swipeaction-right-color;
+
+  &:hover {
+    background-color: $swipeaction-right-hover-bg-color;
+    color: $swipeaction-right-hover-color;
+  }
+
+  &:active {
+    background-color: $swipeaction-right-active-bg-color;
+  }
+}

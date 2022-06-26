@@ -1,0 +1,841 @@
+// Module Tabs
+//================================================== //
+
+.tab-container.module-tabs {
+  @include transition(background-color 500ms cubic-bezier(0.17, 0.04, 0.03, 0.94));
+
+  background-color: $module-tabs-bg-color;
+  border-bottom: 1px solid $module-tabs-y-border-color;
+  border-top: 1px solid $module-tabs-y-border-color;
+  font-size: 0;
+  height: 36px;
+  overflow: hidden;
+
+  // Acts as a spacer that causes the toolbar items to vertically align.
+  &::before {
+    @include vertical-alignment-spacer;
+  }
+
+  > * {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  [class^='btn'] {
+    background-color: $module-tabs-bg-color;
+    border: 0;
+    color: $module-tabs-inactive-text-color;
+    font-size: $ids-size-font-sm;
+    min-width: 0;
+
+    > * {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .icon {
+      color: $module-tabs-inactive-text-color;
+    }
+
+    span {
+      color: inherit;
+    }
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  .icon {
+    &.app-header {
+      left: -5px;
+      position: relative;
+      top: -8px;
+
+      span:not(.audible) {
+        background-color: $module-tabs-inactive-text-color;
+      }
+    }
+  }
+
+  .tab-list-container {
+    position: relative;
+    width: calc(100% - 1px);
+  }
+
+  .tab-list-info {
+    display: none;
+  }
+
+  .tab-list {
+    height: 34px;
+    overflow: hidden;
+    width: calc(100% - 1px); // 1px for the vertical centerer
+
+    &.has-arrange-placeholder {
+      .tab:hover {
+        background-color: $module-tabs-bg-color;
+      }
+    }
+  }
+
+  &.has-toolbar {
+    .tab-list-container {
+      width: calc(70% - 1px); // 1px vertical centerer
+
+      + .toolbar {
+        border-left: 1px solid $module-tabs-x-border-color;
+        text-align: right;
+        width: calc(30% - 1px); // 1px border
+      }
+    }
+  }
+
+  .toolbar-searchfield-wrapper {
+    .btn-icon.close {
+      .icon.close {
+        top: 0;
+      }
+    }
+
+    &.has-focus.active.has-categories {
+      .searchfield.no-animation {
+        border-bottom-color: transparent;
+        border-top-color: transparent;
+      }
+    }
+  }
+
+  .separator {
+    display: none !important;
+  }
+
+  .tab {
+    @include transition(background-color 500ms cubic-bezier(0.17, 0.04, 0.03, 0.94), border-color 500ms cubic-bezier(0.17, 0.04, 0.03, 0.94));
+
+    color: $module-tabs-inactive-text-color;
+    font-size: $ids-size-font-sm;
+    overflow: hidden;
+    text-align: center;
+
+    .icon {
+      color: $module-tabs-inactive-text-color;
+    }
+
+    &:not(:first-child) {
+      border-left: 1px solid $module-tabs-x-border-color;
+    }
+
+    &:not(.application-menu-trigger) {
+      min-width: 135px;
+    }
+
+    &::before {
+      display: none !important;
+    }
+
+    &::after {
+      display: none !important;
+    }
+
+    a {
+      float: left;
+      font-size: $ids-size-font-sm;
+      font-weight: $ids-number-font-weight-bold;
+      margin: 0 auto;
+      overflow: hidden;
+      padding: 10px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      @media (max-width: ($breakpoint-slim - 25)) {
+        width: 95px !important;
+      }
+
+      @media (min-width: ($breakpoint-phone + 60)) {
+        padding: 10px;
+      }
+
+      > * {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      > span:not(.icon) {
+        font-weight: $ids-number-font-weight-bold;
+        margin-left: 5px;
+      }
+    }
+
+    &.arrange-dragging.is-touch {
+      background-color: $module-tabs-bg-color;
+    }
+
+    &:hover {
+      background-color: $module-tabs-hover-bg-color;
+      color: $module-tabs-hover-text-color;
+
+      &.arrange-dragging.is-touch {
+        background-color: $module-tabs-hover-bg-color;
+      }
+    }
+
+    &.is-selected {
+      background-color: $module-tabs-active-bg-color;
+      color: $module-tabs-active-text-color;
+
+      &.arrange-dragging.is-touch {
+        background-color: $module-tabs-active-bg-color;
+      }
+    }
+
+    // Individual Tab Disable
+    &.is-disabled {
+      background-color: $module-tabs-disabled-bg-color;
+      color: $module-tabs-disabled-text-color;
+
+      &:not(:first-child) {
+        border-left: 1px solid $module-tabs-disabled-x-border-color;
+      }
+
+      &.is-selected {
+        background-color: $module-tabs-disabled-bg-color;
+        color: $module-tabs-disabled-text-color;
+      }
+
+      &:hover/*,
+      &.is-focused*/ {
+        background-color: $module-tabs-disabled-bg-color;
+        color: $module-tabs-disabled-text-color;
+      }
+    }
+
+    &.dismissible {
+      padding-right: 35px;
+
+      .icon {
+        @include css3(transform, translateY(-50%));
+
+        height: 14px;
+        position: absolute;
+        right: 10px;
+        top: 50%;
+      }
+
+      a {
+        padding: 10px 35px 10px 10px;
+      }
+    }
+
+    &.application-menu-trigger {
+      a {
+        padding: 9px 10px 7px;
+      }
+    }
+  }
+
+  .add-tab-button {
+    font-size: $ids-size-font-xl;
+    font-weight: $ids-number-font-weight-base;
+    height: 34px;
+    padding-bottom: 5px;
+    padding-top: 1px;
+    width: 41px;
+
+    span {
+      font-size: $ids-size-font-xl;
+      font-weight: $ids-number-font-weight-base;
+    }
+  }
+
+  .tab-focus-indicator {
+    border-radius: 0;
+    z-index: 10;
+
+    &.is-visible {
+      border-color: $ids-color-palette-white;
+    }
+  }
+
+  .tab-more {
+    width: 70px;
+
+    @media (min-width: $breakpoint-big-phone) {
+      width: 120px;
+    }
+  }
+
+  .tab-more,
+  .add-tab-button {
+    border-left: 1px solid $module-tabs-x-border-color;
+    color: $module-tabs-inactive-text-color;
+    font-size: $ids-size-font-sm;
+    font-weight: $ids-number-font-weight-bold;
+    padding: 8px 10px;
+    text-align: center;
+
+    .icon {
+      color: $module-tabs-inactive-text-color;
+    }
+
+    .more-text {
+      font-size: $ids-size-font-sm;
+      font-weight: $ids-number-font-weight-bold;
+    }
+
+    &.is-selected {
+      background-color: $module-tabs-active-bg-color;
+      color: $module-tabs-active-text-color;
+
+      .icon {
+        color: $module-tabs-active-text-color;
+      }
+    }
+
+    &:hover,
+    &.is-open {
+      background-color: $module-tabs-hover-bg-color;
+      color: $module-tabs-hover-text-color;
+
+      .icon {
+        color: $module-tabs-hover-text-color;
+      }
+    }
+  }
+
+  .toolbar {
+    margin-bottom: 0;
+    overflow: hidden;
+
+    .buttonset {
+      height: 34px;
+      text-align: right;
+
+      > * {
+        margin: 0 5px 0 0;
+      }
+    }
+
+    .more {
+      height: 34px;
+    }
+
+    [class^='btn'],
+    .btn-menu:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-tertiary) {
+      background-color: transparent;
+      color: $module-tabs-inactive-text-color;
+      height: 32px;
+
+      &:not(.btn-menu) {
+        border-color: transparent;
+      }
+
+      .ripple-effect {
+        background-color: $module-tabs-active-text-color;
+      }
+
+      .icon {
+        color: $module-tabs-inactive-text-color;
+      }
+
+      span {
+        color: inherit;
+      }
+
+      &:focus,
+      &.is-selected:focus {
+        color: $module-tabs-active-text-color;
+
+        .icon {
+          color: $module-tabs-active-text-color;
+        }
+
+        &:not(.hide-focus) {
+          border-color: transparent;
+          box-shadow: 0 0 0 2px transparent, 0 0 0 1px $module-tabs-hover-text-color;
+        }
+      }
+
+      &.is-open {
+        span {
+          color: inherit;
+        }
+
+        .icon {
+          color: $module-tabs-active-text-color;
+        }
+      }
+    }
+
+    .btn-actions {
+      min-height: 32px;
+      min-width: 32px;
+      width: 32px;
+    }
+  }
+
+  .toolbar-searchfield-wrapper {
+    color: $module-tabs-active-text-color;
+    text-align: right;
+    width: calc(100% - 5px) !important;
+
+    @media (min-width: $breakpoint-tablet-reduced) {
+      width: 274px !important;
+    }
+
+    .icon:not(.error) {
+      color: $searchfield-icon-color;
+    }
+
+    .searchfield {
+      background-color: rgba($searchfield-moduletabs-bg-color, 0);
+      border-bottom-color: rgba($searchfield-moduletabs-border-color, 0);
+      border-top-color: rgba($searchfield-moduletabs-bg-color, 0);
+      color: $module-tabs-inactive-text-color;
+      height: 34px;
+    }
+
+    [class^='btn'] {
+      background-color: $searchfield-toolbar-bg-color;
+
+      &.active,
+      &.has-focus {
+        border-color: $module-tabs-inactive-text-color;
+      }
+    }
+
+    &.non-collapsible {
+      .searchfield {
+        background-color: $searchfield-toolbar-bg-color;
+        color: $searchfield-text-color;
+
+        @media (max-width: ($breakpoint-phone-to-tablet - 1)) {
+          padding-right: 20px;
+        }
+      }
+    }
+
+    &.active {
+      .searchfield {
+        background-color: $searchfield-toolbar-bg-color;
+        border-bottom-color: rgba($searchfield-moduletabs-border-color, 0.4);
+      }
+
+      .btn {
+        border-color: transparent;
+      }
+    }
+
+    &.has-focus {
+      .searchfield {
+        color: $searchfield-text-color;
+
+        @media (max-width: ($breakpoint-phone-to-tablet - 1)) {
+          padding-right: 34px;
+        }
+      }
+
+      .icon:not(.error) {
+        color: $searchfield-text-color;
+      }
+    }
+
+    &.has-categories {
+      width: 101px;
+    }
+
+    .btn:focus {
+      border-color: $module-tabs-active-text-color;
+    }
+  }
+
+  > .toolbar-searchfield-wrapper.active {
+    width: calc(100% - 1px);
+  }
+
+  &.has-add-button {
+    .tab-list {
+      width: calc(100% - 39px);
+    }
+
+    .add-tab-button {
+      height: 34px;
+      right: 0;
+      top: 0;
+
+      span:first-child {
+        position: relative;
+        top: -7px;
+      }
+    }
+  }
+
+  // Change state when the spillover button is necessary
+  &.has-more-button {
+    .tab-list {
+      width: calc(100% - 70px);
+
+      @media (min-width: $breakpoint-big-phone) {
+        width: calc(100% - 120px);
+      }
+    }
+
+    .tab-more {
+      right: 0;
+      top: 0;
+
+      .more-text {
+        display: none;
+
+        @media (min-width: $breakpoint-big-phone) {
+          display: inline-block;
+        }
+      }
+    }
+
+    &.has-toolbar {
+      .tab-list-container {
+        width: calc(70% - 1px);
+      }
+    }
+
+    &.has-add-button {
+      .tab-list {
+        width: calc(100% - 166px);
+      }
+
+      .tab-more {
+        right: 45px;
+        top: 0;
+      }
+    }
+  }
+
+  // Entire component is Disabled
+  &.is-disabled {
+    background-color: $module-tabs-disabled-bg-color;
+    border-bottom: 1px solid $module-tabs-disabled-y-border-color;
+    border-top: 1px solid $module-tabs-disabled-y-border-color;
+
+    [class^='btn'] {
+      background-color: $module-tabs-disabled-bg-color;
+      color: $module-tabs-disabled-text-color;
+
+      .icon {
+        color: $module-tabs-disabled-text-color;
+      }
+    }
+
+    .icon {
+      color: $module-tabs-disabled-text-color;
+
+      &.app-header {
+        span:not(.audible) {
+          background-color: $module-tabs-disabled-text-color;
+        }
+      }
+    }
+
+    &.has-toolbar {
+      .tab-list-container {
+        + .toolbar {
+          border-left: 1px solid $module-tabs-disabled-x-border-color;
+        }
+      }
+    }
+
+    .tab {
+      color: $module-tabs-disabled-text-color;
+
+      &:not(:first-child) {
+        border-left: 1px solid $module-tabs-disabled-x-border-color;
+      }
+
+      &.is-selected {
+        background-color: $module-tabs-disabled-bg-color;
+        color: $module-tabs-disabled-text-color;
+      }
+
+      &:hover,
+      &.is-focused {
+        background-color: $module-tabs-disabled-bg-color;
+        color: $module-tabs-disabled-text-color;
+      }
+    }
+
+    .tab-more {
+      border-left: 1px solid $module-tabs-disabled-x-border-color;
+      color: $module-tabs-disabled-text-color;
+
+      .icon {
+        color: $module-tabs-disabled-text-color;
+      }
+
+      &.is-selected {
+        background-color: $module-tabs-disabled-bg-color;
+        color: $module-tabs-disabled-text-color;
+
+        .icon {
+          color: $module-tabs-disabled-text-color;
+        }
+      }
+
+      &:hover,
+      &.is-focused,
+      &.is-open {
+        background-color: $module-tabs-disabled-bg-color;
+        color: $module-tabs-disabled-text-color;
+
+        .icon {
+          color: $module-tabs-disabled-text-color;
+        }
+      }
+    }
+
+    .toolbar {
+      [class^='btn'],
+      .btn-menu:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-tertiary) {
+        color: $module-tabs-disabled-text-color;
+        cursor: default !important;
+
+        &:not(.btn-menu) {
+          border-color: $module-tabs-disabled-text-color;
+        }
+
+        .ripple-effect {
+          background-color: $module-tabs-disabled-text-color;
+        }
+
+        .icon {
+          color: $module-tabs-disabled-text-color;
+        }
+
+        &:hover {
+          color: $module-tabs-disabled-text-color;
+
+          .icon {
+            color: $module-tabs-disabled-text-color;
+          }
+        }
+
+        &:focus,
+        &.is-selected:focus {
+          color: $module-tabs-disabled-text-color;
+
+          .icon {
+            color: $module-tabs-disabled-text-color;
+          }
+
+          &:not(.hide-focus) {
+            border-color: transparent;
+            box-shadow:
+              0 0 0 2px transparent,
+              0 0 0 1px $module-tabs-disabled-text-color;
+          }
+        }
+
+        &.is-open {
+          .icon {
+            color: $module-tabs-disabled-text-color;
+          }
+        }
+      }
+    }
+
+    .toolbar-searchfield-wrapper {
+      .icon:not(.error) {
+        color: $module-tabs-disabled-text-color;
+      }
+
+      .searchfield {
+        background-color: rgba($searchfield-moduletabs-disabled-bg-color, 0);
+        border-bottom-color: rgba($searchfield-moduletabs-disabled-bg-color, 0);
+        border-top-color: rgba($searchfield-moduletabs-disabled-bg-color, 0);
+        color: $module-tabs-disabled-text-color;
+      }
+
+      &.active {
+        .searchfield {
+          background-color: rgba($searchfield-moduletabs-disabled-bg-color, 1);
+          border-bottom-color: rgba($searchfield-moduletabs-disabled-border-color, 1);
+        }
+      }
+
+      &.has-focus {
+        .searchfield {
+          color: $module-tabs-disabled-text-color;
+        }
+
+        .icon:not(.error) {
+          color: $module-tabs-disabled-text-color;
+        }
+      }
+    }
+  }
+
+  // Overrides soho-personalization <style> injection
+  // https://github.com/infor-design/enterprise/issues/6207
+  &.is-personalizable {
+    .toolbar-searchfield-wrapper {
+      > svg.icon:not(.close) {
+        fill: transparent !important;
+      }
+    }
+  }
+}
+
+// Make the tab-panel-container stretch to the full height of the page-container
+.page-container {
+  .tab-container.module-tabs {
+    + .tab-panel-container {
+      height: calc(100% - 36px);
+    }
+  }
+}
+
+.masthead + .tab-container.module-tabs {
+  border-top: 1px solid transparent;
+}
+
+// RTL Styles
+html[dir='rtl'] {
+  .tab-container.module-tabs {
+    &.has-add-button {
+      .add-tab-button {
+        left: 0;
+        right: auto;
+      }
+    }
+
+    .toolbar-searchfield-wrapper {
+      text-align: left;
+
+      .searchfield {
+        padding-left: 30px;
+      }
+    }
+
+    // Change state when the spillover button is necessary
+    &.has-more-button {
+      .tab-more {
+        left: 0;
+        right: auto;
+      }
+
+      &.has-add-button {
+        .tab-more {
+          left: 45px;
+          right: auto;
+        }
+
+        .add-tab-button {
+          left: 0;
+          right: auto;
+        }
+      }
+    }
+
+    .icon.app-header {
+      left: auto;
+      right: -6px;
+    }
+
+    .tab.dismissible {
+      padding-left: 35px;
+      padding-right: 0;
+
+      a {
+        padding: 10px 10px 10px 35px;
+      }
+
+      .icon {
+        left: 10px;
+        right: auto;
+      }
+    }
+  }
+}
+
+// IE always gets cut off without this.
+.ie11 {
+  .toolbar-searchfield-wrapper {
+    padding-left: 1px;
+  }
+}
+
+// Firefox has weird padding on the Add Tabs Button and Application Menu Triggers without this bit of code
+.is-firefox {
+  .tab-container.module-tabs {
+    .add-tab-button {
+      span:first-child {
+        position: relative;
+        top: -3px;
+      }
+    }
+
+    .application-menu-trigger {
+      a {
+        padding-bottom: 8px;
+        padding-top: 8px;
+      }
+    }
+  }
+
+  .tab-container.module-tabs {
+    .toolbar-searchfield-wrapper,
+    .toolbar-searchfield-wrapper .searchfield {
+      height: 34px;
+    }
+  }
+}
+
+@include respond-to(phone) {
+  .tab-container.module-tabs {
+    .tab.application-menu-trigger {
+      min-width: 0;
+
+      a > span:not(.icon) {
+        margin-left: 0;
+        visibility: hidden;
+        width: 0;
+      }
+    }
+  }
+
+  html[dir='rtl'] {
+    .tab-container {
+      &.module-tabs {
+        .toolbar-searchfield-wrapper {
+          .searchfield {
+            padding-left: 60px;
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * targets toolbar searchfield close button inside of
+ * a tab container, with variant wrapped in button
+ */
+.tab-container > .toolbar > .buttonset {
+  > .searchfield-wrapper.toolbar-searchfield-wrapper > .btn-icon.close {
+    height: 24px; // matches min-height declaration of button.close in input.scss
+    top: 50% !important;
+    transform: translateY(-50%);
+    width: 24px;
+  }
+}
+
+html[class*='theme-new-'] .tab-container > .toolbar > .buttonset {
+  > .searchfield-wrapper.toolbar-searchfield-wrapper > .btn-icon.close {
+    height: 28px;
+    margin-top: -1px;
+    width: 28px;
+
+    .icon.close {
+      margin-top: 1px;
+    }
+  }
+}

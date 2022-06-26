@@ -1,0 +1,158 @@
+// Hyperlinks
+//================================================== //
+.hyperlink {
+  @include antialiased();
+
+  border: 1px solid transparent;
+  color: $hyperlink-color;
+  cursor: pointer;
+  font-size: $ids-size-font-sm;
+  line-height: 1.5rem;
+  position: relative;
+  text-decoration: underline;
+
+  @include css3(transition, border-color 100ms cubic-bezier(0.17, 0.04, 0.03, 0.94));
+
+  &:hover:not([disabled]) {
+    color: $hyperlink-hover-color;
+  }
+
+  &.show-visited:visited,
+  &.force-visited {
+    color: $hyperlink-visited-color;
+
+    &:focus:not(.hide-focus),
+    &:active {
+      outline: none;
+    }
+  }
+
+  &:focus:not(.hide-focus),
+  &:active {
+    outline: none;
+  }
+
+  &:focus:not(.hide-focus) {
+    border-color: $hyperlink-focus-border-color;
+    box-shadow: $focus-box-shadow;
+  }
+
+  &[disabled] {
+    color: $hyperlink-disabled-color;
+    pointer-events: none;
+
+    &:hover {
+      cursor: default;
+    }
+
+    &:focus:not(.hide-focus) {
+      outline: none;
+    }
+  }
+
+  &.back,
+  &.directional {
+    color: $hyperlink-color;
+    font-size: $ids-size-font-sm;
+
+    .icon {
+      color: $hyperlink-color;
+      display: inline;
+      height: 11px;
+      position: relative;
+      top: -1px;
+      vertical-align: middle;
+      width: 11px;
+    }
+  }
+
+  &.back {
+    .icon {
+      left: 2px;
+      margin-left: -6px;
+      margin-right: 2px;
+    }
+  }
+
+  &.directional {
+    .icon {
+      left: 1px;
+    }
+  }
+}
+
+// Compressed Padding in a compact form layout
+.field-short,
+.form-layout-compact .field {
+  .hyperlink {
+    font-size: $input-size-compact-font-size;
+  }
+}
+
+// Inline text should be 14px to match content
+p .hyperlink {
+  font-size: $ids-size-font-base;
+  white-space: nowrap;
+}
+
+// Links Stacked - as on the controls index page
+.link-list {
+  margin-bottom: 40px;
+
+  li {
+    line-height: 25px;
+
+    svg {
+      color: $ids-color-brand-primary-base;
+      height: 16px;
+      left: 6px;
+      margin-right: 2px;
+      top: 4px;
+      width: 16px;
+    }
+
+    a span {
+      border: 1px solid transparent;
+      padding-bottom: 3px;
+      padding-left: 2px;
+      position: relative;
+      text-transform: capitalize;
+      top: 0;
+    }
+  }
+
+  div {
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+
+    &:last-child {
+      border: 0;
+    }
+  }
+
+  .timestamp {
+    color: $link-color-disabled-font;
+    display: block;
+    font-size: $ids-size-font-sm;
+    margin: 0;
+    padding: 0;
+    position: static;
+  }
+}
+
+// Right To Left Styles
+html[dir='rtl'] {
+  .hyperlink {
+    margin-right: -4px;
+  }
+
+  .hyperlink.back {
+    &:focus span {
+      box-shadow: none;
+    }
+
+    .icon {
+      margin-right: 0;
+    }
+  }
+}

@@ -1,0 +1,198 @@
+// RTL Styles
+html[dir='rtl'] {
+  .hierarchy {
+    legend {
+      li {
+        margin-left: 20px;
+        margin-right: inherit;
+      }
+    }
+
+    // A node in the tree
+    .leaf {
+      border-left: 1px solid $panel-border-color;
+      border-right: 5px solid $ids-color-palette-slate-60;
+      padding-left: 5px;
+
+      &.azure08 {
+        border-left-color: $panel-border-color;
+        border-right-color: $ids-color-palette-azure-80;
+      }
+
+      &.turquoise02 {
+        border-left-color: $panel-border-color;
+        border-right-color: $ids-color-palette-turquoise-20;
+      }
+
+      &.amethyst06 {
+        border-left-color: $panel-border-color;
+        border-right-color: $ids-color-palette-amethyst-60;
+      }
+
+      &.slate06 {
+        border-left-color: $panel-border-color;
+        border-right-color: $ids-color-palette-slate-60;
+      }
+
+      &.amber06 {
+        border-left-color: $panel-border-color;
+        border-right-color: $ids-color-palette-amber-60;
+      }
+
+      &.emerald07 {
+        border-left-color: $panel-border-color;
+        border-right-color: $ids-color-palette-emerald-70;
+      }
+
+      &.ruby06 {
+        border-left-color: $panel-border-color;
+        border-right-color: $ids-color-palette-ruby-60;
+      }
+
+      //Styling for objects in the leafs
+      img,
+      .image-initials,
+      .image-placeholder {
+        float: right;
+        margin-left: 0;
+        margin-right: 14px;
+      }
+
+      &.root .btn-icon,
+      .btn-icon {
+        left: auto;
+        right: 0;
+        margin-right: 10px;
+      }
+    }
+
+    // Paging
+    &.layout-is-paging {
+      .leaf.root {
+        margin: 0;
+      }
+
+      .chart {
+        &::after {
+          left: 385px;
+        }
+
+        &.has-back {
+          ul {
+            margin-right: 35px;
+          }
+
+          &::after {
+            left: 410px;
+          }
+
+          .root::after {
+            left: 150px;
+          }
+
+          .child-nodes > li .leaf {
+            &::after {
+              left: 188px;
+            }
+          }
+        }
+
+        .back-container .back {
+          left: 10px;
+        }
+
+        .child-nodes {
+          padding-left: 0;
+          padding-right: 55px;
+
+          > li .leaf {
+            &::after {
+              left: 198px;
+            }
+          }
+        }
+      }
+    }
+
+    // Stacked
+    &.layout-is-stacked {
+      legend .key {
+        margin-left: 10px;
+      }
+    }
+
+    //Adjust size for buttons
+    ul > li > .leaf {
+      .btn-expand,
+      .btn-collapse {
+        left: 13px;
+        right: auto;
+      }
+    }
+
+    //The Top Level Node
+    .root {
+      //draw a line down
+      &::after {
+        margin-left: inherit;
+        margin-right: -65px;
+      }
+    }
+
+    //The Second to Top Level - Flows left to right
+    .top-level {
+      li {
+        //Draw Line Up and Left
+        &::before {
+          margin-left: inherit;
+          margin-right: 150px;
+        }
+      }
+    }
+
+    //The Bottom Levels - Flow Down and Up
+    .chart.has-single-child .root + .sub-level,
+    .sub-level {
+      padding-left: 0;
+      padding-right: 35px;
+
+      &::before {
+        content: none;
+      }
+
+      // Top Level Nodes still follow left to right
+      > li {
+        //Draw Line Up and Left
+        &::before {
+          border-bottom: 0;
+          border-left: 0 solid $hierarchy-line-color;
+          border-right: $hierarchy-line-width solid $hierarchy-line-color;
+          margin-left: inherit;
+          margin-right: 160px;
+          width: 110%;
+        }
+
+        &:last-child::before {
+          margin-left: 127px;
+          width: 0;
+        }
+
+        .leaf::before,
+        > ul .leaf::before {
+          border-left: 0;
+          border-right: $hierarchy-line-width solid $hierarchy-line-color;
+          left: auto;
+          right: -35px;
+        }
+      }
+
+      // Child Nodes - 4th level down
+      li ul:not(.popupmenu) {
+        margin-left: inherit;
+        margin-right: 45px;
+        padding-left: 5px;
+        padding-right: 30px;
+      }
+    }
+  }
+}

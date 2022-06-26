@@ -1,0 +1,276 @@
+/* stylelint-disable media-feature-name-no-unknown */
+//* Date Picker
+//================================================== *
+
+.datepicker {
+  width: $datepicker-default-width;
+
+  &.input-xs {
+    width: $field-xs;
+  }
+
+  &.input-sm {
+    width: $field-sm;
+  }
+
+  &.input-mm {
+    width: $field-mm;
+  }
+
+  &.input-md {
+    width: $field-md;
+  }
+
+  &.input-lg {
+    width: $field-lg;
+  }
+
+  &.input-full {
+    width: $field-full;
+  }
+
+  &.input-auto {
+    width: auto;
+  }
+
+  &.datetime {
+    padding-right: 30px;
+    width: auto;
+  }
+
+  + .trigger,
+  + .tooltip-description + .trigger {
+    color: $trigger-icon-fill-color;
+    cursor: pointer;
+    height: 24px;
+    margin-left: -30px;
+    margin-top: 5px;
+    min-height: 24px;
+    min-width: 24px;
+    position: absolute;
+    width: 24px;
+    z-index: 1;
+
+    .icon {
+      color: inherit;
+      height: 16px;
+      position: relative;
+      top: -1px;
+      width: 16px;
+    }
+
+    &:hover {
+      color: $trigger-hover-color;
+    }
+
+    &:active {
+      color: $trigger-active-color;
+    }
+  }
+
+  &.is-open {
+    border-color: $input-color-focus-border;
+
+    + .trigger {
+      color: $datepicker-icon-active-color;
+    }
+  }
+
+  + .trigger + .icon-error {
+    margin-left: -50px;
+  }
+
+  + .audible + .trigger + .icon-error {
+    margin-left: -50px;
+  }
+
+  &:disabled {
+    border-color: $datepicker-disabled-border-color;
+
+    + .trigger {
+      color: $datepicker-disabled-icon-color;
+      cursor: default;
+    }
+  }
+
+  &[readonly] {
+    + .trigger {
+      color: $datepicker-readonly-icon-color;
+      cursor: default;
+    }
+  }
+}
+
+// Popup Adjustments
+.monthview-popup.popover {
+  max-width: inherit;
+
+  @media screen and (max-height: ($breakpoint-big-phone + 50)) {
+    overflow-y: auto;
+  }
+
+  // Supports landscape orientation for small iPhone (5, 5S, 5C and 5SE)
+  @media only screen
+    and (minwidth: $breakpoint-phone)
+    and (max-device-width: ($breakpoint-big-phone + 88))
+    and (-webkit-min-device-pixel-ratio: 2)
+    and (orientation: landscape) {
+    height: 250px;
+    overflow-y: auto;
+  }
+
+  .monthview {
+    min-width: 330px;
+  }
+
+  .monthview .monthview-table {
+    max-width: 330px;
+  }
+
+  // Week picker adjustments
+  &.is-range-week {
+    .monthview td .day-text {
+      transition: none;
+    }
+
+    tr:focus {
+      border-radius: 50px;
+      box-shadow: 0 0 0 1px $input-color-focus-border;
+      outline: none;
+    }
+  }
+
+  .tooltip-content {
+    padding: 0;
+  }
+
+  .popup-footer {
+    button {
+      background-color: transparent;
+      width: 50%;
+
+      &.btn-primary:focus {
+        box-shadow: 0 0 0 0 $body-color-primary-background, 0 0 0 1px $button-color-primary-initial-background, $focus-box-shadow;
+      }
+
+      &.is-cancel-month-pane {
+        display: none;
+      }
+
+      &.is-select-month-pane {
+        transition: width 0.1s ease-in-out;
+        width: 100%;
+      }
+    }
+  }
+
+  .time-parts {
+    padding: 10px;
+  }
+}
+
+// Short fields
+.field-short,
+.form-layout-compact .field {
+  .datepicker {
+    padding-right: 24px;
+
+    + .trigger,
+    + .tooltip-description + .trigger {
+      height: 20px;
+      margin-left: -24px;
+      margin-top: 3px;
+      min-height: 20px;
+      min-width: 20px;
+      width: 20px;
+
+      .icon {
+        height: 14px;
+        width: 14px;
+      }
+    }
+  }
+}
+
+// RTL Styles
+html[dir='rtl'] {
+  .datepicker {
+    + .trigger {
+      margin-left: -23px;
+      margin-right: -26px;
+    }
+
+    + .trigger + .icon-error {
+      margin-left: inherit;
+      margin-right: -50px;
+    }
+
+    + .audible + .trigger + .icon-error {
+      margin-left: inherit;
+      margin-right: -50px;
+    }
+
+    &.datetime {
+      padding-left: 30px;
+      padding-right: 10px;
+    }
+  }
+
+  // Short fields
+  .field-short,
+  .form-layout-compact .field {
+    .datepicker {
+      padding-left: 24px;
+      padding-right: 2px;
+
+      + .trigger {
+        margin-left: inherit;
+        margin-right: -20px;
+      }
+    }
+  }
+
+  .monthview-popup .calendar-toolbar {
+    button.prev {
+      margin-left: -6px;
+    }
+
+    button.next {
+      margin-left: 5px;
+    }
+
+    &.is-alternate .today {
+      left: 0;
+    }
+  }
+}
+
+// TODO
+.ie-edge {
+  .monthview .btn-monthyear-pane {
+    margin-left: 8px;
+  }
+}
+
+html.is-safari {
+  .datepicker {
+    + .trigger {
+      position: relative;
+      margin-top: 2px;
+    }
+  }
+}
+
+@include respond-to(tabletdown) {
+  .monthview-popup.popover .monthview {
+    min-width: 310px;
+
+    @media only screen
+      and (minwidth: $breakpoint-phone)
+      and (max-device-width: ($breakpoint-big-phone + 88))
+      and (-webkit-min-device-pixel-ratio: 2)
+      and (orientation: portrait) {
+      min-width: 280px;
+    }
+  }
+}

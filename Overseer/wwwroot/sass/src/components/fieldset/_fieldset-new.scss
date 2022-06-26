@@ -1,0 +1,13 @@
+.fieldset-title,
+.section-title,
+fieldset > legend,
+.fieldset > legend {
+  font-size: 2rem;
+  width: 100%;
+}
+
+fieldset {
+  .field {
+    margin-bottom: 16px;
+  }
+}

@@ -1,0 +1,69 @@
+// Uplift Compact Form Styles
+//================================================== //
+
+.form-compact {
+  // Adjust column top/bottom padding for Uplift's Source Sans font
+  .column,
+  .columns {
+    &.form-section-header {
+      padding: 0 10px;
+    }
+
+    label {
+      &:not(.radio-label):not(.checkbox-label) {
+        padding: 4px 9px 0;
+      }
+    }
+
+    input {
+      padding: 5px 8px 4px;
+    }
+  }
+}
+
+html[dir='rtl'] {
+  .form-compact {
+    .column,
+    .columns {
+      label {
+        &:not(.radio-label) {
+          padding: 7px 9px 0;
+        }
+      }
+
+      input:not(.radio) {
+        padding: 0 8px 7px;
+      }
+    }
+
+    input.checkbox:checked + label::after,
+    input.checkbox:checked + input[type='hidden'] + label::after,
+    span.checkbox > input:checked + label::after {
+      top: 15px;
+    }
+  }
+
+  // Firefox has different padding on the RTL font
+  &.is-firefox {
+    .form-compact {
+      .column,
+      .columns {
+        label {
+          &:not(.radio-label) {
+            padding: 8px 9px 1px;
+          }
+        }
+
+        input:not(.radio) {
+          padding: 3px 8px 8px;
+        }
+      }
+
+      input.checkbox:checked + label::after,
+      input.checkbox:checked + input[type='hidden'] + label::after,
+      span.checkbox > input:checked + label::after {
+        top: 16px;
+      }
+    }
+  }
+}

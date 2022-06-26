@@ -1,0 +1,11 @@
+﻿{
+  "profiles": {
+    "Overseer": {
+      "commandName": "Project",
+      "applicationUrl": "http://localhost:1234",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

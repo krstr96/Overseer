@@ -1,0 +1,603 @@
+// Search Field
+//================================================== //
+
+@mixin searchfield-text-style() {
+  color: $font-color;
+  font-size: $ids-size-font-base;
+  font-weight: $ids-number-font-weight-bold;
+}
+
+@mixin searchfield-text-style-hover() {
+  color: $ids-color-brand-primary-base;
+  font-size: $ids-size-font-base;
+  font-weight: $ids-number-font-weight-bold;
+}
+
+@mixin context-searchfield-box-shadow() {
+  box-shadow: 0 3px 5px 0 rgba($searchfield-context-box-shadow-color, 0.7);
+}
+
+.searchfield-wrapper {
+  display: inline-block;
+  margin-bottom: 20px;
+  position: relative;
+
+  @include transition(width 300ms $cubic-ease,
+  left 300ms $cubic-ease,
+  right 300ms $cubic-ease,
+  box-shadow 300ms $cubic-ease);
+
+  &.non-collapsible.is-open {
+    > .icon:not(.close):not(.icon-error) {
+      height: 18px;
+      left: 8px;
+    }
+  }
+
+  &.non-collapsible > .icon:not(.close):not(.icon-error) {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  > .icon {
+    background-color: rgba($ids-color-palette-white, 0); // IE 10
+    color: $trigger-icon-fill-color;
+    height: 14px;
+    position: absolute;
+    top: 10px;
+
+    &:not(.close):not(.icon-error) {
+      left: 8px;
+      pointer-events: none;
+    }
+
+    &.close {
+      outline: none;
+      right: 8px;
+    }
+
+    &.icon-error {
+      color: $error-color;
+      left: auto;
+      right: auto;
+      top: auto;
+    }
+  }
+
+  .icon-dropdown {
+    margin-left: 5px;
+  }
+
+  .searchfield {
+    padding-left: 34px;
+    padding-right: 10px;
+
+    @include transition(background-color 300ms $cubic-ease,
+    border-color 300ms $cubic-ease);
+
+    &[disabled] {
+      ~ svg.icon {
+        color: $searchfield-disabled-icon-color;
+        pointer-events: none;
+      }
+    }
+
+    &.autocomplete {
+      &[readonly] {
+        ~ svg {
+          color: $searchfield-readonly-icon-color;
+        }
+      }
+    }
+  }
+
+  // This rule will only work when searchfield is clearable.
+  &.has-close-icon-button {
+    .searchfield {
+      overflow: hidden;
+      padding-right: 28px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  // This variation is used on white-backgrounds (usually in list-detail, listviews, or builder pattern)
+  &.context {
+    white-space: nowrap;
+    width: 100%;
+
+    > button.close {
+      top: 5px;
+    }
+
+    > .searchfield {
+      background-color: $searchfield-context-bg;
+      border-bottom: 1px solid $searchfield-context-border-color;
+      border-left: 0;
+      border-right: 0;
+      border-top: 0;
+      height: 38px;
+      padding-left: 32px;
+      width: 100%;
+
+      &.is-open {
+        @include context-searchfield-box-shadow();
+      }
+
+      &.input-xl {
+        height: 60px;
+      }
+    }
+
+    > .icon {
+      color: $searchfield-context-icon-color;
+      top: 9px;
+
+      &:not(.close) {
+        left: 6px;
+        right: auto;
+      }
+
+      &.close {
+        padding: 1px 3px;
+        right: 8px;
+      }
+    }
+
+    &.popup-is-open {
+      > .icon:not(.close) {
+        color: $searchfield-active-icon-color;
+      }
+    }
+
+    .btn {
+      background-color: $searchfield-context-bg;
+      border: 0;
+      border-bottom: 1px solid $searchfield-context-border-color;
+      height: 38px;
+
+      + .searchfield {
+        margin-left: 0;
+      }
+    }
+
+    &.alternate {
+      > .searchfield {
+        background-color: $searchfield-context-alt-bg;
+      }
+
+      .btn {
+        background-color: $searchfield-context-alt-bg;
+      }
+    }
+
+    &.has-categories {
+      &:not(.show-category) {
+        margin-left: -1px;
+
+        .searchfield {
+          width: calc(100% - 37px);
+        }
+
+        .searchfield-category-button + .searchfield {
+          margin-left: -1px;
+        }
+      }
+
+      &.show-categories {
+        .searchfield {
+          border-color: $searchfield-context-border-color;
+        }
+      }
+
+      > .searchfield {
+        width: calc(100% - 39px);
+      }
+    }
+
+    &.has-focus {
+      .btn {
+        border-color: $ids-color-brand-primary-base;
+      }
+
+      .searchfield {
+        border-color: $ids-color-brand-primary-base;
+      }
+    }
+  }
+
+  &.is-hovered {
+    .btn {
+      border-color: $input-color-hover-border;
+      color: $input-color-hover-border;
+
+      .icon {
+        color: $input-color-hover-border;
+      }
+    }
+  }
+
+  &.has-focus {
+    &:not(.toolbar-searchfield-wrapper) {
+      box-shadow: 0 0 4px 1px rgba(54, 138, 192, 0.3);
+    }
+
+    .btn {
+      border-color: $input-color-focus-border;
+
+      &:focus,
+      &:active {
+        color: $input-color-focus-border;
+
+        .icon {
+          color: $input-color-focus-border;
+        }
+      }
+    }
+
+    .searchfield {
+      border-color: $input-color-focus-border;
+    }
+
+    input:focus {
+      box-shadow: none;
+    }
+
+    &.has-categories {
+      .searchfield {
+        box-shadow: none;
+      }
+
+      &.show-category {
+        .searchfield {
+          border-left-color: $input-color-focus-border;
+
+          &:focus {
+            box-shadow: none;
+          }
+        }
+      }
+    }
+
+    &.has-go-button {
+      box-shadow: none;
+    }
+  }
+
+  // Buttons inside of searchfields
+  .btn {
+    @include transition(border 300ms $cubic-ease); // Matches the one on inputs
+
+    background-color: transparent;
+    border-bottom-right-radius: 0;
+    border-color: $input-color-initial-border;
+    border-right: 0;
+    border-top-right-radius: 0;
+    color: $font-color;
+    font-weight: $ids-number-font-weight-base;
+    margin: 0;
+    min-width: 0;
+    padding: 0 0 0 10px;
+    position: relative;
+    text-transform: none;
+
+    + .searchfield {
+      border-bottom-left-radius: 0;
+      border-left: 1px solid transparent;
+      border-top-left-radius: 0;
+      padding-left: 8px;
+    }
+
+    .icon {
+      color: $font-color;
+      width: 18px;
+
+      &.icon-dropdown {
+        height: 16px;
+        width: 16px;
+      }
+    }
+
+    // Disable default focus state
+    &:focus {
+      box-shadow: none;
+    }
+
+    &.is-open {
+      color: $input-color-focus-border;
+
+      .icon {
+        color: $input-color-focus-border;
+      }
+    }
+  }
+
+  &.has-categories {
+    > * {
+      vertical-align: top;
+    }
+
+    &.show-category {
+      .btn {
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+
+      .searchfield {
+        border-left: 1px solid $input-color-initial-border;
+
+        &:focus {
+          box-shadow: none;
+        }
+      }
+    }
+
+    button.close:not(.is-empty) {
+      align-items: center;
+      display: flex;
+      height: 100%;
+      justify-content: center;
+      position: absolute;
+      top: 0;
+
+      svg.close {
+        left: 0;
+        top: 0;
+      }
+    }
+  }
+
+  //Call to action button
+  .go-button {
+    height: 38px;
+    margin-left: 10px;
+    margin-top: 0;
+    min-width: 0;
+    padding: 0 5px;
+    position: absolute;
+    width: 40px;
+  }
+
+  + .error-message {
+    margin-top: -7px;
+  }
+}
+
+.searchfield-category-button {
+  .category {
+    margin-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 0;
+
+    + .icon {
+      margin-right: 0;
+    }
+  }
+}
+
+.inline.searchfield-wrapper:not(.toolbar-searchfield-wrapper) {
+  > .icon:not(.icon-error) {
+    top: 30px;
+  }
+}
+
+// Context Searchfield's Popupmenu has alternate styles
+.popupmenu.autocomplete.context {
+  @include context-searchfield-box-shadow();
+
+  background-color: $searchfield-context-bg;
+  border: 0;
+  border-top: 1px solid $ids-color-brand-primary-alt;
+
+  &.alternate {
+    background-color: $searchfield-context-alt-bg;
+  }
+}
+
+// Remove the bottom margin when inside of `.field` or `.field-short`
+.field,
+.field-short {
+  .searchfield-wrapper {
+    margin-bottom: 0;
+  }
+}
+
+// RTL Styles
+html[dir='rtl'] {
+  .searchfield-wrapper {
+    .searchfield {
+      padding-left: 10px;
+      padding-right: 34px;
+    }
+
+    &.has-close-icon-button {
+      .searchfield.autocomplete {
+        padding-left: 28px;
+      }
+
+      &.has-text {
+        .btn-icon.close {
+          right: calc(300px - 10%);
+          top: 5px;
+        }
+      }
+    }
+
+    .go-button {
+      margin-left: 0;
+      margin-right: 10px;
+    }
+
+    > .icon {
+      &:not(.close) {
+        left: auto;
+        right: 8px;
+      }
+
+      &.close {
+        left: 5px;
+        right: auto;
+      }
+    }
+
+    .icon-dropdown {
+      margin-left: 0;
+      margin-right: 5px;
+    }
+
+    .icon + .icon-dropdown {
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    &.has-categories {
+      .btn {
+        border-left: 0;
+        padding-left: 0;
+        padding-right: 10px;
+      }
+
+      .searchfield {
+        border-right: 0;
+      }
+
+      &:not(.context) {
+        .btn {
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 3px;
+          border-top-left-radius: 0;
+          border-top-right-radius: 3px;
+        }
+
+        .category:empty {
+          width: 0;
+        }
+
+        .searchfield {
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 0;
+          border-top-left-radius: 3px;
+          border-top-right-radius: 0;
+        }
+
+        &.show-category {
+          .searchfield {
+            border-right: 1px solid $input-color-initial-border;
+            padding-right: 10px;
+          }
+        }
+      }
+
+      &:not(.show-category) {
+        margin-left: 0;
+        margin-right: -1px;
+
+        .searchfield-category-button + .searchfield {
+          margin-left: 0;
+          margin-right: -1px;
+        }
+      }
+
+      &.show-category {
+        .btn {
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+      }
+    }
+
+    &:not(.toolbar-searchfield-wrapper):not(.context) {
+      &.has-categories {
+        .btn {
+          border-right: 1px solid $input-color-initial-border;
+        }
+
+        .searchfield {
+          border-left: 1px solid $input-color-initial-border;
+          padding-bottom: 7px;
+        }
+      }
+    }
+  }
+}
+
+@include respond-to(phablet) {
+  .toolbar .searchfield {
+    text-overflow: clip;
+
+    &::-webkit-input-placeholder {
+      color: transparent;
+    }
+
+    &::-moz-placeholder {
+      color: transparent;
+    }
+
+    &:-ms-input-placeholder {
+      color: transparent;
+    }
+  }
+}
+
+//for iOS & MAC fixes
+.ios,
+.is-mac {
+  .searchfield-wrapper {
+    &.context {
+      > #searchfield-context-white.searchfield {
+        background-color: $searchfield-context-bg;
+      }
+    }
+  }
+}
+
+.ios {
+  .searchfield-wrapper {
+    &.context {
+      .btn {
+        height: 35px;
+      }
+    }
+  }
+}
+
+/**
+ * targets toolbar searchfield close button inside of
+ * a tab container, with variant wrapped in button
+ */
+.tab-container > .toolbar > .buttonset {
+  > .searchfield-wrapper.toolbar-searchfield-wrapper > .btn-icon.close {
+    top: 0;
+  }
+}
+
+/**
+ * align large searchfield search icon
+ */
+.header > .full-searchfield-container .searchfield-wrapper {
+  & > svg.icon:nth-child(1) {
+    height: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+/**
+ * need explicit theme-classic on these base
+ * close button rules just because it's a bit hairy
+ * at this point to un-target other rules
+ */
+html[class*='theme-classic-'] {
+  .btn-icon.close {
+    & > svg.close.icon {
+      position: relative;
+      right: unset;
+    }
+  }
+
+  .application-menu.has-searchfield {
+    .searchfield-wrapper.has-close-icon-button > .btn-icon.close > svg.close.icon {
+      top: 0;
+    }
+  }
+}

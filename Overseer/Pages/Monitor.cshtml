@@ -1,0 +1,116 @@
+﻿@page "{folderId:guid}/{taskId:guid}"
+@model MonitorModel
+@{ Layout = "Shared/ContentLayout"; }
+
+<form id="start" method="post" asp-page="/Start" hidden>
+    <input name="folderId" value="@Model.FolderInfo.Id" hidden>
+    <input name="taskId" value="@Model.TaskInfo.Id" hidden>
+</form>
+<form id="reset" method="post" asp-page="/Reset" hidden>
+    <input name="folderId" value="@Model.FolderInfo.Id" hidden>
+    <input name="taskId" value="@Model.TaskInfo.Id" hidden>
+</form>
+<form id="stop" method="post" asp-page="/Stop" hidden>
+    <input name="folderId" value="@Model.FolderInfo.Id" hidden>
+    <input name="taskId" value="@Model.TaskInfo.Id" hidden>
+</form>
+<div class="flex-toolbar" style="height:40px; margin: 0">
+    <div class="toolbar-section title">
+        <h2 id="monitor-title">@Model.FolderInfo.Name • @Model.TaskInfo.Name • @Model.TaskState.ToString()</h2>
+    </div>
+    <div class="toolbar-section more" style="margin-right: 20px">
+        <div class="switch">
+            <input id="monitor-pause" class="switch" type="checkbox" style="width: 0"/>
+            <label for="monitor-pause" style="margin: 0">Pause</label>
+        </div>
+    </div>
+    <div class="toolbar-section more" style="margin-right: 20px">
+        <div class="switch">
+            <input id="monitor-follow" class="switch" type="checkbox" style="width: 0" checked/>
+            <label for="monitor-follow" style="margin: 0">Follow</label>
+        </div>
+    </div>
+    <div class="toolbar-section more">
+        <div class="buttonset">
+            <button id="monitor-start" class="btn-icon" title="Start" type="submit" form="start">
+                <svg class="icon">
+                    <use href="#icon-play"></use>
+                </svg>
+            </button>
+            <button id="monitor-reset" class="btn-icon" title="Reset" type="submit" form="reset" disabled>
+                <svg class="icon">
+                    <use href="#icon-load"></use>
+                </svg>
+            </button>
+            <button id="monitor-stop" class="btn-icon" title="Stop" type="submit" form="stop" disabled>
+                <svg class="icon">
+                    <use href="#icon-stop"></use>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+<div id="monitor-content" class="container scrollable full-height no-padding" style="background: black; font-family: Consolas, Menlo, Monaco"></div>
+<script>
+    const monitorTitle = () => $("#monitor-title");
+    const monitorContent = () => $("#monitor-content");
+    const monitorPause = () => $("#monitor-pause");
+    const monitorFollow = () => $("#monitor-follow");
+    const monitorStart = () => $("#monitor-start");
+    const monitorReset = () => $("#monitor-reset");
+    const monitorStop = () => $("#monitor-stop");
+
+    const protocol = document.location.protocol === "https:" ? "wss:" : "ws:";
+    const host = document.location.hostname;
+    const port = document.location.port;
+    const folderId = "@Model.FolderInfo.Id";
+    const taskId = "@Model.TaskInfo.Id";
+
+    const monitorStateUrl = `${protocol}//${host}:${port}/State?folderId=${folderId}&taskId=${taskId}`;
+    const monitorLogsUrl = `${protocol}//${host}:${port}/Logs?folderId=${folderId}&taskId=${taskId}`;
+
+    const monitorStateSocket = new WebSocket(monitorStateUrl);
+    const monitorLogsSocket = new WebSocket(monitorLogsUrl);
+
+    function generateItem(item) {
+        return `<span class="text-base" style="color: white">${item}</span><br/>`;
+    }
+
+    function updateButtonState(state) {
+        const started = state.toLowerCase() === "started";
+        monitorStart().prop("disabled", started);
+
+        const stopped = state.toLowerCase() === "stopped";
+        monitorReset().prop("disabled", stopped);
+        monitorStop().prop("disabled", stopped);
+    }
+
+    function handleState(event) {
+        if (event.data) {
+            updateButtonState(event.data);
+            monitorTitle().text(`@Model.FolderInfo.Name • @Model.TaskInfo.Name • ${event.data}`);
+        }
+    }
+
+    function handleLogs(event) {
+        if (event.data && !monitorPause().is(":checked")) {
+            const html = monitorContent().html();
+            if (html) {
+                monitorContent().html(html + generateItem(event.data));
+            } else {
+                monitorContent().html(generateItem(event.data));
+            }
+            if (monitorContent().children().length > 256) {
+                monitorContent().children().eq(0).remove();
+            }
+            if (monitorFollow().is(":checked")) {
+                monitorContent().scrollTop(monitorContent().prop("scrollHeight"));
+            }
+        }
+    }
+
+    monitorStateSocket.onmessage = handleState;
+    monitorLogsSocket.onmessage = handleLogs;
+
+    updateButtonState('@Model.TaskState.ToString()');
+</script>

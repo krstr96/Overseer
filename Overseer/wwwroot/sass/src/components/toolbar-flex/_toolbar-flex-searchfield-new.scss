@@ -1,0 +1,94 @@
+// ==================================================
+// Uplift Flexible Toolbar - Searchfield Component
+// ==================================================
+
+.flex-toolbar {
+  .toolbar-section {
+    .searchfield-wrapper {
+      bottom: 0;
+
+      &.toolbar-searchfield-wrapper.has-close-icon-button:not(.has-categories) {
+        > svg.icon.close {
+          top: 50%;
+        }
+
+        .btn-icon.close {
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+    }
+  }
+}
+
+@include respond-to(phone) {
+  .flex-toolbar {
+    .searchfield-wrapper:not(.non-collapsible) {
+      > .icon.close {
+        right: 48px;
+      }
+    }
+  }
+
+  .toolbar-section {
+    .searchfield-wrapper.non-collapsible {
+      &.is-open {
+        .collapse-button {
+          height: 38px;
+        }
+      }
+    }
+  }
+
+  html.is-firefox {
+    .toolbar-section {
+      .searchfield-wrapper {
+        &.is-open {
+          .collapse-button {
+            height: 36px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.toolbar-section {
+  &.title {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      @include font-size(18);
+    }
+  }
+}
+
+html[dir='rtl'] {
+  .toolbar-section.search {
+    .toolbar-searchfield-wrapper {
+      .btn-icon.close {
+        right: calc(100% - 110px);
+        top: 50%;
+
+        @media (min-width: $breakpoint-phone-to-tablet) {
+          right: calc(100% - 30px);
+        }
+      }
+    }
+  }
+}
+
+html[dir='rtl'] {
+  &.is-firefox {
+    .toolbar-section.search {
+      .toolbar-searchfield-wrapper {
+        .icon:not(.close) {
+          top: 10px;
+        }
+      }
+    }
+  }
+}

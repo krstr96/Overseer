@@ -1,0 +1,12 @@
+// Uplift Monthview
+//================================================== //
+
+.monthview-popup.popover .hyperlink.today {
+  top: -1px;
+}
+
+.monthview.is-fullsize {
+  .toolbar-section {
+    margin-top: -6px;
+  }
+}

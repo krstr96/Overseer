@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    @{ await Html.RenderPartialAsync("Components/PageHeader"); }
+    <body class="no-scroll">
+        @{ await Html.RenderPartialAsync("Components/PageIcons"); }
+        @{ await Html.RenderPartialAsync("Components/MenuSidebar"); }
+        <div class="page-container scrollable">
+            <div class="full-height no-padding">
+                @{ await Html.RenderPartialAsync("Components/MenuHeader"); }
+                <div class="page-container">
+                    <iframe id="metrics" src="/Metrics" style="height: 100%; width: 100%"></iframe>
+                    @{ var infoService = Context.RequestServices.GetRequiredService<IInfoService>(); }
+                    @{ var rootInfoModel = infoService.GetRootInfo(); }
+                    @foreach (var folderInfoModel in rootInfoModel.FolderInfoModels)
+                    {
+                        @foreach (var taskInfoModel in folderInfoModel.TaskInfoModels)
+                        {
+                            var url = $"/Monitor/{folderInfoModel.Id}/{taskInfoModel.Id}";
+                            <iframe id="@folderInfoModel.Id-@taskInfoModel.Id" src="@url" style="height: 100%; width: 100%" hidden></iframe>
+                        }
+                    }
+                </div>
+                @{ IgnoreBody(); }
+            </div>
+        </div>
+        @{ await Html.RenderPartialAsync("Components/PageSetup"); }
+    </body>
+</html>

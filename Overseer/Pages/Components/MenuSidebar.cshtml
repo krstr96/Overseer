@@ -1,0 +1,93 @@
+﻿<form id="start-all" method="post" asp-page="/StartAll" hidden></form>
+<form id="reset-all" method="post" asp-page="/ResetAll" hidden></form>
+<form id="stop-all" method="post" asp-page="/StopAll" hidden></form>
+@{ var infoService = Context.RequestServices.GetRequiredService<IInfoService>(); }
+@{ var rootInfoModel = infoService.GetRootInfo(); }
+<nav id="application-menu" class="application-menu is-open has-menu-footer" style="height: 100%;">
+    <div class="application-menu-header" style="height: 60px; padding: 0">
+        <div class="application-menu-toolbar" style="height: 60px; margin: 0">
+            <div class="flex-toolbar" role="toolbar" style="height: 60px; padding: 0">
+                <div class="toolbar-section buttonset center-text">
+                    <button class="btn-icon" title="Start All" type="submit" form="start-all">
+                        <svg class="icon">
+                            <use href="#icon-play"></use>
+                        </svg>
+                    </button>
+                    <button class="btn-icon" title="Reset All" type="submit" form="reset-all">
+                        <svg class="icon">
+                            <use href="#icon-load"></use>
+                        </svg>
+                    </button>
+                    <button class="btn-icon" title="Stop All" type="submit" form="stop-all">
+                        <svg class="icon">
+                            <use href="#icon-stop"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="application-menu-content">
+        <div class="accordion panel inverse has-icons">
+            <div class="accordion-header">
+                <svg class="icon" style="height: 20px; width: 20px">
+                    <use href="#icon-dashboard"></use>
+                </svg>
+                <a href="#" onclick="onClick('metrics')">
+                    <span>Metrics</span>
+                </a>
+            </div>
+            @foreach (var folderInfoModel in rootInfoModel.FolderInfoModels)
+            {
+                <div class="accordion-header has-chevron">
+                    <svg class="icon">
+                        <use href="#icon-folder"></use>
+                    </svg>
+                    <a href="#" role="button">
+                        <span>@folderInfoModel.Name</span>
+                    </a>
+                    <button class="btn" type="button">
+                        <svg class="chevron icon">
+                            <use href="#icon-caret-down"></use>
+                        </svg>
+                    </button>
+                </div>
+                <div class="accordion-pane">
+                    @foreach (var taskInfoModel in folderInfoModel.TaskInfoModels)
+                    {
+                        <div class="accordion-header">
+                            <svg class="chevron icon" style="height: 22px; width: 22px">
+                                <use href="#icon-run-job"></use>
+                            </svg>
+                            <a href="#" onclick="onClick('@folderInfoModel.Id-@taskInfoModel.Id')">
+                                <span>@taskInfoModel.Name</span>
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+    <script>
+        function onClick(chosenElementId) {
+            const elementIds = [
+                "metrics",
+                @foreach (var folderInfoModel in rootInfoModel.FolderInfoModels)
+                {
+                    @foreach (var taskInfoModel in folderInfoModel.TaskInfoModels)
+                    {
+                        @:"@folderInfoModel.Id-@taskInfoModel.Id",
+                    }
+                }
+            ];
+
+            for (const elementId of elementIds) {
+                $(`#${elementId}`).prop("hidden", elementId !== chosenElementId);
+            }
+
+            if (chosenElementId === "metrics") {
+                $("#metrics").attr("src", $("#metrics").attr("src"));
+            }
+        }
+    </script>
+</nav>

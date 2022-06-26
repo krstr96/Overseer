@@ -1,0 +1,805 @@
+// Popup Menu
+// ==================================================
+
+@mixin multiselectable-list-item {
+  position: relative;
+
+  a {
+    padding-left: 35px;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  &::before,
+  &.is-focused::before {
+    @include checkbox-unchecked-before-style;
+
+    margin-left: 7px;
+    margin-top: 0;
+    top: 8px;
+  }
+
+  &.is-checked::before {
+    @include checkbox-checked-before-style;
+
+    margin-left: 7px;
+    margin-top: 0;
+    top: 8px;
+  }
+
+  &.is-checked::after {
+    @include checkbox-checked-after-style;
+
+    left: 12px;
+    margin-top: 4px;
+    top: 5px;
+  }
+
+  &.is-disabled {
+    &::before {
+      @include checkbox-unchecked-disabled-before-style;
+
+      margin-left: 7px;
+      margin-top: 0;
+      top: 9px;
+    }
+
+    &.is-checked {
+      &::before {
+        @include checkbox-checked-disabled-before-style;
+      }
+
+      &::after {
+        @include checkbox-checked-disabled-after-style;
+
+        left: 12px;
+        margin-top: 5px;
+      }
+    }
+  }
+}
+
+// Contains the main popupmenu UL for positioning.
+.popupmenu-wrapper {
+  @include css3(user-select, none);
+
+  display: inline-block;
+  left: -9999px;
+  position: fixed;
+  -webkit-touch-callout: none;
+  z-index: 4000;
+
+  .arrow,
+  .arrow::after {
+    border-width: 8px;
+  }
+
+  &.top {
+    .arrow {
+      border-top-color: $popupmenu-border-color;
+    }
+
+    .arrow::after {
+      border-top-color: $popupmenu-bg-color;
+    }
+  }
+
+  &.bottom {
+    .popupmenu {
+      .icon {
+        &.close {
+          padding-left: 6px;
+          padding-right: 6px;
+        }
+      }
+
+      &.has-submenu {
+        .dismissible {
+          .wrapper {
+            li {
+              a {
+                .icon {
+                  &.close {
+                    right: 6px;
+                  }
+                }
+              }
+            }
+          }
+
+          .icon {
+            &.close {
+              height: 15px;
+              padding-left: 6px;
+              padding-right: 6px;
+              position: absolute;
+              right: 1px;
+              top: 1px;
+              transform: translateY(50%);
+            }
+          }
+        }
+      }
+    }
+
+    .arrow {
+      border-bottom-color: $popupmenu-border-color;
+      top: -7px;
+    }
+
+    .arrow::after {
+      border-bottom-color: $popupmenu-bg-color;
+      left: -8px;
+      top: 1px;
+    }
+
+    &.left-align-arrow {
+      .arrow {
+        left: 10px;
+        right: auto;
+      }
+    }
+
+    &.right-align-arrow {
+      .arrow {
+        left: auto;
+        right: 10px;
+      }
+    }
+  }
+
+  &.right {
+    .arrow {
+      border-right-color: $popupmenu-border-color;
+    }
+
+    .arrow::after {
+      border-right-color: $popupmenu-bg-color;
+    }
+  }
+
+  &.left {
+    .arrow {
+      border-left-color: $popupmenu-border-color;
+    }
+
+    .arrow::after {
+      border-left-color: $popupmenu-bg-color;
+    }
+  }
+
+  // Alternate Popup-menu Colors (used for UI toolbars, etc)
+  &.inverse {
+    .popupmenu {
+      background-color: $popupmenu-dark-bg-color;
+      border: thin solid $popupmenu-dark-border-color;
+      border-radius: 3px;
+      box-shadow: $popupmenu-dark-box-shadow;
+      color: $popupmenu-dark-color;
+
+      a {
+        color: $popupmenu-dark-color;
+      }
+
+      li {
+        &.is-submenu-open,
+        &.is-focused {
+          background-color: $popupmenu-dark-hover-color;
+        }
+      }
+
+      .icon {
+        color: $popupmenu-dark-icon-color;
+      }
+
+      .heading {
+        color: $popupmenu-dark-heading-color;
+      }
+    }
+
+    &.top {
+      .arrow {
+        border-top-color: $popupmenu-dark-border-color;
+      }
+
+      .arrow::after {
+        border-top-color: $popupmenu-dark-bg-color;
+      }
+    }
+
+    &.bottom {
+      .arrow {
+        border-bottom-color: $popupmenu-dark-border-color;
+      }
+
+      .arrow::after {
+        border-bottom-color: $popupmenu-dark-bg-color;
+      }
+    }
+
+    &.right {
+      .arrow {
+        border-right-color: $popupmenu-dark-border-color;
+      }
+
+      .arrow::after {
+        border-right-color: $popupmenu-dark-bg-color;
+      }
+    }
+
+    &.left {
+      .arrow {
+        border-left-color: $popupmenu-dark-border-color;
+      }
+
+      .arrow::after {
+        border-left-color: $popupmenu-dark-bg-color;
+      }
+    }
+  }
+}
+
+.popupmenu {
+  background-color: $popupmenu-bg-color;
+  border: thin solid $popupmenu-border-color;
+  border-radius: 3px;
+  box-shadow: $popupmenu-box-shadow;
+  color: $popupmenu-color;
+  display: none;
+  list-style: none;
+  margin: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: auto;
+  padding: 5px 0;
+  text-align: left;
+
+  &.tab-list-spillover {
+    &.is-open {
+      li a {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  //Icon Positioning
+  .icon,
+  b {
+    color: $popupmenu-icon-color;
+    height: 18px;
+  }
+
+  &.is-selectable,
+  &.is-multiselectable {
+    a {
+      padding-left: 32px;
+    }
+  }
+
+  &.has-icons {
+    a {
+      padding-left: 35px;
+    }
+
+    &.is-selectable {
+      a {
+        overflow: auto;
+        padding-left: 57px;
+      }
+
+      .icon {
+        left: 58px;
+      }
+    }
+
+    .icon {
+      &:not(.arrow) {
+        height: 14px;
+        margin-left: -28px;
+        margin-top: 10px;
+        pointer-events: none;
+        position: absolute;
+      }
+    }
+  }
+
+  // Support image classes see images/example-photos
+  .image-user-status {
+    height: 32px;
+    vertical-align: middle;
+
+    .icon {
+      height: 10px;
+      margin-left: -11px;
+      margin-top: 21px;
+      width: 10px;
+    }
+
+    + span {
+      padding: 0 4px;
+    }
+  }
+
+  .image-initials,
+  .image-round {
+    font-size: 1.2rem;
+    height: 29px;
+    line-height: 29px;
+    position: relative;
+    top: 1px;
+    width: 29px;
+
+    + span {
+      padding-left: 4px;
+    }
+  }
+
+  &.is-open {
+    display: block;
+  }
+
+  .heading {
+    color: $popupmenu-heading-color;
+    cursor: default;
+    font-size: $ids-size-font-sm;
+    font-weight: $ids-number-font-weight-bold;
+    line-height: 25px;
+    padding: 0 10px;
+  }
+
+  li {
+    cursor: pointer;
+    line-height: normal;
+    padding: 0;
+    position: static;
+    white-space: nowrap;
+
+    &.is-submenu-open,
+    &.is-focused {
+      background-color: $popupmenu-hover-color;
+    }
+
+    &.disabled > a:focus {
+      box-shadow: none;
+    }
+
+    // Selected
+    &.is-checked > a::before,
+    &.is-checked.is-selected > a::before {
+      @include css3(transform, rotate(45deg));
+
+      border-color: $popupmenu-checked-color $popupmenu-checked-color $popupmenu-checked-color transparent;
+      border-style: solid;
+      border-width: 0 2px 2px 0;
+      content: '';
+      height: 11px;
+      left: 13px;
+      margin-top: 7px;
+      position: absolute;
+      width: 5px;
+    }
+
+    &.is-selectable,
+    &.is-indented,
+    &.is-toggleable,
+    &.has-selectable-submenu {
+      > a {
+        padding-left: 35px;
+      }
+    }
+
+    &.is-multiselectable {
+      @include multiselectable-list-item();
+    }
+
+    &.is-placeholder {
+      cursor: default;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+
+  a {
+    @include no-select();
+    @include antialiased();
+
+    border: thin solid transparent;
+    color: $popupmenu-color;
+    display: block;
+    font-size: $ids-size-font-base;
+    line-height: 32px;
+    min-height: 34px;
+    padding: 0 30px 0 10px;
+    position: relative;
+    text-decoration: none;
+    white-space: nowrap;
+
+    span {
+      color: inherit;
+      font-weight: inherit;
+      line-height: 33px;
+    }
+
+    small {
+      @include font-size(11);
+
+      display: block;
+      line-height: normal;
+      margin-bottom: 8px;
+      margin-top: -3px;
+    }
+
+    &[disabled] {
+      color: $disabled-color;
+      pointer-events: none;
+    }
+  }
+
+  a.no-results {
+    color: inherit !important;
+  }
+
+  span {
+    color: $font-color-highcontrast;
+    font-size: $ids-size-font-base;
+  }
+
+  .shortcut-text {
+    float: right;
+    margin-left: $ids-number-spacing-base * 2;
+    margin-right: -20px;
+  }
+
+  //Text Underline on Terms
+  i {
+    color: $font-color-extrahighcontrast;
+    font-style: normal;
+    font-weight: $ids-number-font-weight-bold;
+    letter-spacing: -0.1;
+  }
+
+  b {
+    text-overflow: ellipsis;
+  }
+
+  // Disabled
+  li.is-disabled,
+  li.disabled {
+    cursor: default;
+
+    a {
+      background-color: transparent;
+      color: $disabled-color !important;
+      cursor: default;
+    }
+
+    .icon {
+      color: $disabled-color !important;
+    }
+
+    &:hover {
+      background-color: transparent;
+    }
+
+    &.is-focused {
+      background-color: transparent;
+    }
+  }
+
+  .submenu {
+    .wrapper {
+      display: block;
+      height: auto;
+      position: absolute;
+      z-index: 4000;
+    }
+
+    .popupmenu.is-open {
+      display: block;
+      visibility: visible;
+    }
+
+    > a {
+      padding-right: 48px;
+
+      > .icon.icon-dropdown {
+        @include css3(transform, rotate(-90deg));
+
+        border-width: 0;
+        height: 24px;
+        left: auto;
+        pointer-events: none;
+        position: absolute;
+        right: 4px;
+        top: 3px;
+        width: 16px;
+      }
+    }
+  }
+
+  .icon-close {
+    height: 22px;
+  }
+
+  // separator
+  .separator {
+    border-bottom: thin solid $popupmenu-border-color;
+    margin: 5px 0;
+
+    &:first-child {
+      border: medium none;
+      margin: 0;
+    }
+  }
+
+  // Short fields
+  // Some javascript in "popupmenu.js" that facilitates this.
+  &.popupmenu-short {
+    a {
+      font-size: $input-size-compact-font-size;
+      line-height: $input-size-compact-font-size * 2;
+      min-height: $input-size-compact-font-size;
+      padding: $input-size-compact-padding;
+    }
+
+    span {
+      font-size: $input-size-compact-font-size;
+    }
+
+    &.has-icons {
+      > li a {
+        padding-left: 26px;
+      }
+    }
+
+    li {
+      &.is-checked,
+      &.is-checked.is-selected {
+        > a::before {
+          height: 11px;
+          left: 10px;
+          margin-top: 3px;
+          width: 5px;
+        }
+      }
+    }
+
+    &.is-multiselectable {
+      li {
+        &::before,
+        &.is-focused::before,
+        &.is-checked::before {
+          top: 5px;
+        }
+
+        &.is-checked::after {
+          top: 2px;
+        }
+      }
+    }
+  }
+
+  // Entirely Multi-selectable Popupmenus
+  &.is-multiselectable {
+    li {
+      @include multiselectable-list-item();
+
+      &.heading,
+      &.separator {
+        &::before {
+          content: none;
+        }
+      }
+    }
+  }
+}
+
+//Footer Buttons
+.popup-footer {
+  border-top: thin solid $popover-separator-color;
+  height: 45px;
+  margin-top: 10px;
+
+  button {
+    @include css3(transition, color 0.3s ease 0s);
+
+    border: thin solid transparent;
+    border-left: thin solid $popover-separator-color;
+    border-radius: 0;
+    color: $modal-btn-color;
+    float: left;
+    font-size: $ids-size-font-base;
+    font-weight: $ids-number-font-weight-bold;
+    height: 45px;
+    line-height: 45px;
+    margin: 0;
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    user-select: none;
+    width: 50%;
+
+    &:hover {
+      color: $modal-btn-hover-color;
+    }
+
+    &:nth-child(1) {
+      border-left: thin solid transparent;
+    }
+
+    &.btn-primary {
+      background-color: $popover-bg-color;
+      color: $modal-btn-primary-color;
+
+      &:hover {
+        border: thin solid transparent;
+        border-left: thin solid $popover-separator-color;
+      }
+    }
+  }
+}
+
+@mixin rtl-multiselectable-list-item {
+  &::before {
+    right: 8px;
+    top: 9px;
+  }
+
+  &::after {
+    right: 13px;
+  }
+}
+
+// RTL Styles
+html[dir='rtl'] {
+  .popupmenu {
+    text-align: right;
+
+    a {
+      padding: 0 10px 0 30px;
+    }
+
+    .shortcut-text {
+      float: left;
+      margin-left: -25px;
+      margin-right: $ids-number-spacing-base * 2;
+    }
+
+    &:not(.has-icons) {
+      .shortcut-text {
+        margin-left: -20px;
+      }
+    }
+
+    &.has-icons,
+    &.is-selectable {
+      > li a {
+        padding-left: 35px;
+        padding-right: 35px;
+      }
+
+      .icon {
+        left: auto;
+        right: 1px;
+
+        &:not(.arrow) {
+          margin-right: 8px;
+        }
+      }
+    }
+
+    &.has-icons.is-selectable {
+      > li a {
+        padding-left: 35px;
+        padding-right: 57px;
+      }
+
+      .icon {
+        right: 18px;
+      }
+    }
+
+    .submenu > a {
+      > .icon.icon-dropdown {
+        left: 5px;
+        right: auto;
+        top: 5px;
+        transform: rotate(90deg);
+      }
+    }
+
+    li {
+      // Selected
+      &.is-checked > a::before,
+      &.is-checked.is-selected > a::before {
+        left: auto;
+        right: 13px;
+      }
+
+      // Selectable
+      &.is-selectable,
+      &.is-multiselectable {
+        > a {
+          padding-left: 10px;
+          padding-right: 35px;
+        }
+      }
+
+      // Individual multiselectable item
+      &.is-multiselectable {
+        @include rtl-multiselectable-list-item();
+      }
+    }
+
+    // Full menu is multiselectable
+    &.is-multiselectable {
+      li {
+        @include rtl-multiselectable-list-item();
+      }
+    }
+
+    // Inline status images
+    .image-user-status .icon {
+      margin-left: 0;
+      margin-right: -7px;
+      margin-top: 19px;
+    }
+
+    .image-initials + span,
+    .popupmenu .image-round + span {
+      padding-left: 0;
+      padding-right: 4px;
+    }
+
+    .popupmenu .image-initials,
+    .popupmenu .image-round {
+      top: -2px;
+    }
+  }
+
+  .popupmenu-wrapper {
+    &.bottom {
+      .popupmenu {
+        &.has-submenu {
+          .dismissible {
+            .icon {
+              &.close {
+                left: 1px;
+                right: auto;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .popup-footer {
+    button {
+      margin-left: inherit;
+    }
+  }
+
+  &.ie {
+    .submenu > a > .icon.icon-dropdown {
+      transform: rotate(270deg);
+    }
+  }
+}
+
+// Fixing minor issue with shortcut text on small phones
+@media (max-width: $breakpoint-slim) {
+  .popupmenu {
+    .shortcut-text {
+      font-size: 12px;
+      margin-left: $ids-number-spacing-base - 1;
+      margin-top: 1px;
+    }
+  }
+}

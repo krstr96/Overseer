@@ -1,0 +1,144 @@
+// Uplift Modal
+//================================================== //
+
+.modal {
+  .modal-content {
+    h1 {
+      line-height: 3.5rem;
+    }
+  }
+}
+
+.modal-buttonset {
+  button {
+    line-height: normal;
+  }
+}
+
+.modal:not(.about):not(.message):not(.contextual-action-panel) .modal-header {
+  svg.icon {
+    top: 6px;
+  }
+}
+
+.modal-content {
+  > .btn-close {
+    right: 11px;
+    top: 15px;
+  }
+}
+
+.modal .field.editor-container {
+  max-width: 810px;
+}
+
+.modal {
+  .tab-container {
+    &.horizontal,
+    &.header-tabs {
+      > .tab-list-container {
+        .tab {
+          &:not(.last-child) {
+            &.is-error,
+            &.is-info,
+            &.is-success,
+            &.is-alert {
+              .icon-error,
+              .icon-info,
+              .icon-success,
+              .icon-alert {
+                height: 15px;
+                margin-left: 0;
+                margin-right: 11px;
+                margin-top: 0;
+                right: -8px;
+                width: 15px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.modal-content h1.has-status .icon {
+  height: 20px;
+  left: -7px;
+  margin-left: 9px;
+  width: 20px;
+}
+
+.modal .modal-content h1 {
+  @include font-size(24);
+
+  line-height: 3rem;
+
+  @media screen and (min-width: ($breakpoint-big-phone + 1)) {
+    @include font-size(26);
+  }
+}
+
+.theme-new-dark {
+  .modal {
+    .slider-wrapper {
+      background-color: $ids-color-palette-slate-50;
+    }
+  }
+}
+
+html[dir='rtl'] {
+  .modal {
+    .tab-container {
+      &.horizontal,
+      &.header-tabs {
+        > .tab-list-container {
+          .tab {
+            &:not(.last-child) {
+              &.is-error {
+                .icon-error,
+                .icon-info,
+                .icon-alert {
+                  margin-top: -2px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .modal-content {
+    > .btn-close {
+      left: 11px;
+      right: auto;
+    }
+  }
+}
+
+//combine firefox and rtl rules
+html[dir='rtl'] {
+  &.is-firefox {
+    .modal {
+      .tab-container {
+        &.horizontal,
+        &.header-tabs {
+          > .tab-list-container {
+            .tab {
+              &:not(.last-child) {
+                &.is-error {
+                  .icon-error,
+                  .icon-info,
+                  .icon-alert {
+                    margin-top: 0;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

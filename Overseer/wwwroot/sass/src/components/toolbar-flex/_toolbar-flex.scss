@@ -1,0 +1,275 @@
+// =======================================
+// Flexible Toolbar Component
+// ==================================== //
+
+@import '../button/button';
+@import '../colorpicker/colorpicker';
+@import '../fontpicker/fontpicker';
+@import '../popupmenu/popupmenu';
+
+.toolbar-container {
+  &.in-page {
+    height: 40px;
+  }
+}
+
+.flex-toolbar {
+  align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+
+  &.contextual-toolbar {
+    font-size: 0;
+    position: relative;
+    text-align: left;
+    -webkit-touch-callout: none;
+    padding: 0 15px;
+
+    .toolbar-section {
+      @include enable-select();
+
+      height: 40px;
+      overflow: hidden;
+      position: relative;
+      text-align: left;
+      text-overflow: ellipsis;
+      top: 0;
+      white-space: nowrap;
+      width: 45%; // Overridden by sizing calculation.
+
+      &.title {
+        -webkit-font-smoothing: antialiased;
+        color: $contextual-toolbar-color;
+        font-size: $ids-size-font-base;
+        height: 42px;
+
+        &::before {
+          @include vertical-alignment-spacer;
+        }
+      }
+
+      &.buttonset {
+        width: calc(55% - 1px);
+        height: 42px;
+        user-select: none;
+        overflow: hidden;
+        padding-left: 1px;
+
+        > * {
+          margin: -1px 0 0 2px;
+          vertical-align: top;
+        }
+      }
+
+      [class^='btn'] {
+        color: $contextual-toolbar-button-color;
+      }
+    }
+
+    > * {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  .toolbar-section {
+    &.title {
+      padding: 1px 0;
+    }
+
+    .searchfield-wrapper {
+      bottom: 1px;
+      display: flex;
+      position: relative;
+
+      &.toolbar-searchfield-wrapper.has-close-icon-button {
+        .btn-icon.close {
+          right: 45px;
+
+          @media (min-width: $breakpoint-phone-to-tablet) {
+            right: 7px;
+          }
+        }
+
+        &:not(.has-categories) {
+          .btn-icon.close {
+            top: 50%;
+            transform: translateY(-50%);
+          }
+        }
+      }
+    }
+  }
+}
+
+.toolbar-section {
+  @include transition(width 100ms $cubic-ease, padding 100ms $cubic-ease);
+
+  white-space: nowrap;
+  width: auto;
+
+  // Allows certain sections to collapse.
+  // NOTE: Not all sections are collapsible.
+  &.title,
+  &.buttonset {
+    flex-grow: 1;
+
+    &:not(.favor) {
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    &.static {
+      flex-grow: 0;
+    }
+  }
+
+  // Allows non-defined toolbar sections to grow and fill space
+  &.fluid {
+    flex-grow: 1;
+  }
+
+  &.title {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      display: inline;
+    }
+
+    .page-title,
+    .section-title {
+      display: block;
+      overflow: hidden;
+      padding: 0;
+      text-overflow: ellipsis;
+    }
+
+    .section-title {
+      font-size: $ids-size-font-sm;
+    }
+
+    + .toolbar-section.buttonset {
+      text-align: right;
+    }
+
+    &:not(.favor) {
+      padding-left: 6px;
+      text-overflow: ellipsis;
+    }
+  }
+
+  + .toolbar-section.title {
+    padding-left: 10px;
+  }
+
+  &.buttonset {
+    padding: 4px;
+
+    &.flex-end {
+      justify-content: flex-end;
+    }
+
+    [class^='btn'] {
+      margin-right: 0;
+
+      @media (max-width: $breakpoint-slim) {
+        width: auto;
+      }
+
+      &:not(.btn) {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &.search {
+    padding: 0 10px;
+
+    &.flex-grow-2 {
+      flex-grow: 2;
+
+      .toolbar-searchfield-wrapper {
+        width: 100%;
+      }
+    }
+
+    + .buttonset {
+      display: flex;
+      flex-grow: 0;
+
+      &.flex-grow-1 {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  > .separator {
+    background-color: $formatter-toolbar-separator-color;
+    display: inline-block;
+    height: 20px;
+    margin: 3px 3px 0;
+    position: relative;
+    top: 6px;
+    width: 1px;
+  }
+
+  // Hide separators that come after "overflowed" elements
+  .is-overflowed,
+  .hidden {
+    + .separator,
+    + .popupmenu,
+    + .popupmenu-wrapper + .separator {
+      display: none;
+    }
+  }
+
+  &.more {
+    button {
+      margin-right: 0;
+
+      &.no-overflowed-items {
+        display: none;
+      }
+    }
+  }
+}
+
+// RTL Styles
+html[dir='rtl'] {
+  .toolbar-section {
+    &.title + .toolbar-section.buttonset {
+      text-align: left;
+    }
+
+    + .toolbar-section.title {
+      padding-left: 0;
+      padding-right: 10px;
+    }
+
+    &.buttonset {
+      margin-left: 0;
+    }
+
+    &.more {
+      button {
+        margin-left: 0;
+      }
+    }
+  }
+
+  .toolbar-section.search {
+    .toolbar-searchfield-wrapper {
+      .btn-icon.close {
+        right: calc(100% - 65px);
+
+        @media (min-width: $breakpoint-phone-to-tablet) {
+          right: calc(100% - 30px);
+        }
+      }
+    }
+  }
+}

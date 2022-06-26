@@ -1,0 +1,1090 @@
+//* Monthview
+//================================================== *
+
+.monthview {
+  background-color: $popover-bg-color;
+  display: inline-block;
+  min-height: 235px;
+  min-width: 297px;
+  text-align: center;
+  transform: scaleY(1);
+  transition: all 0.01s ease-out; // force a repaint
+  vertical-align: middle;
+  width: 100%;
+
+  // Hide Days Option
+  &.is-monthyear {
+    height: 370px;
+
+    .calendar-toolbar {
+      display: none;
+    }
+
+    &.is-monthonly {
+      min-width: 225px;
+
+      .picklist-section {
+        float: none !important;
+
+        &.is-month::after,
+        &.is-year {
+          display: none;
+        }
+      }
+    }
+
+    &.is-yearonly {
+      min-width: 225px;
+
+      .picklist-section.is-month {
+        display: none;
+      }
+    }
+
+    .monthview-monthyear-pane {
+      padding: 10px 0;
+      position: static;
+
+      .content {
+        height: 302px;
+      }
+
+      .picklist-section.is-month::after {
+        height: calc(100% - 80px);
+        left: 50%;
+      }
+    }
+
+    .popup-footer {
+      margin-top: 5px;
+
+      button {
+        margin-right: 0;
+        width: 50%;
+
+        &:nth-child(1) {
+          margin-right: 0;
+          position: relative;
+        }
+
+        &:nth-child(2) {
+          margin-right: 0;
+          position: static;
+        }
+      }
+    }
+  }
+
+  // Trigger Button for Month/Year Pane
+  .btn-monthyear-pane {
+    border-radius: 2px;
+    color: $datepicker-month-year-color;
+    font-size: $ids-size-font-lg;
+    font-weight: $ids-number-font-weight-base;
+    margin-left: -5px;
+    padding: 4px 0 5px;
+
+    .year,
+    .month {
+      top: 0;
+    }
+
+    &.active {
+      span,
+      .icon {
+        color: $ids-color-brand-primary-base;
+      }
+
+      .icon {
+        transform: rotateX(180deg);
+      }
+    }
+
+    .icon-opened,
+    .icon-closed {
+      margin-left: 0 !important;
+    }
+  }
+
+  // Collapsible Month/Year Pane
+  .monthview-monthyear-pane {
+    background-color: $popover-bg-color;
+    margin: 0 -1px;
+    max-height: calc(100% - 50px);
+    overflow: hidden;
+    position: absolute;
+    top: 47px;
+    width: 100%;
+    z-index: 3011;
+
+    .content {
+      height: 312px;
+      padding: 0 !important;
+    }
+
+    &.is-yearfirst {
+      .picklist-section {
+        float: right;
+      }
+    }
+
+    .picklist-section {
+      display: inline-block;
+      height: 100%;
+      vertical-align: top;
+      width: 50%;
+
+      &.is-month::after {
+        border-left: 1px solid $popover-separator-color;
+        content: ' ';
+        height: calc(100% - 20px);
+        left: 166px;
+        position: absolute;
+        top: 15px;
+      }
+    }
+
+    .picklist {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      height: inherit;
+      justify-content: space-around;
+      padding: 5px 0;
+
+      &.is-year {
+        padding-left: 3px;
+      }
+
+      .picklist-item {
+        width: 100%;
+
+        a {
+          box-shadow: none;
+          color: $datepicker-day-color;
+          font-size: $ids-size-font-base;
+          text-decoration: none;
+          user-select: none;
+          border: 1px solid transparent;
+          border-radius: 0;
+          display: block;
+          padding: 5px;
+
+          &:focus {
+            border-color: $datepicker-focus-border-color;
+            box-shadow: $focus-box-shadow;
+            outline: none;
+            -moz-outline-style: none;
+          }
+        }
+
+        &.is-selected a {
+          color: $ids-color-palette-white;
+          font-weight: $ids-number-font-weight-bold;
+          background-color: $datepicker-selected-bg-color;
+          width: 100%;
+
+          .icon {
+            color: $ids-color-palette-white;
+          }
+        }
+
+        .icon {
+          color: $trigger-icon-fill-color;
+          position: relative;
+          top: 3px;
+
+          &:hover {
+            color: $trigger-hover-color;
+          }
+
+          &:active {
+            color: $trigger-active-color;
+          }
+        }
+
+        &.up .icon {
+          top: 3px;
+        }
+      }
+    }
+  }
+
+  tr {
+    text-align: center;
+  }
+
+  // Header
+  thead {
+    th {
+      @include rem(font-size, 1.4rem);
+
+      color: $datepicker-day-color;
+      margin: 20px;
+      text-transform: uppercase;
+      width: 35px;
+    }
+  }
+
+  // Cells / Days
+  td {
+    border: 1px solid transparent;
+    border-radius: 50%;
+    height: 42px;
+    width: 42px;
+
+    // Adjust cell size for IOS
+    @media only screen
+      and (max-width: ($breakpoint-phone-to-tablet - 1))
+      and (-webkit-min-device-pixel-ratio: 2)
+      and (orientation: landscape) {
+      height: 36px;
+      width: 36px;
+    }
+
+    @media only screen
+      and (max-width: ($breakpoint-phone-to-tablet - 1))
+      and (-webkit-min-device-pixel-ratio: 2)
+      and (orientation: portrait) {
+      height: 36px;
+      width: 36px;
+    }
+
+    .day-text {
+      @include rem(font-size, 1.4rem);
+      @include no-select();
+
+      border-radius: 50%;
+      color: $datepicker-day-color;
+      cursor: pointer;
+      display: block;
+      height: 36px;
+      line-height: 36px;
+      margin: 2px;
+      transition: 0.2s background-color ease;
+      width: 36px;
+
+      @media only screen
+        and (min-device-width: $breakpoint-phone)
+        and (max-device-width: ($breakpoint-big-phone + 88))
+        and (-webkit-min-device-pixel-ratio: 2)
+        and (orientation: portrait) {
+        height: 36px;
+        line-height: 36px;
+        width: 36px;
+      }
+    }
+
+    &.is-selected.range {
+      position: relative;
+      z-index: 5;
+    }
+
+    &.range-prev.include-disabled,
+    &.range-next.include-disabled,
+    &.range-prev,
+    &.range-next {
+      .day-text {
+        background-color: $datepicker-hover-bg-color;
+        position: relative;
+        transition: none;
+        z-index: 1;
+
+        &::before {
+          content: '';
+          display: inline-block;
+          height: 36px;
+          position: absolute;
+          width: 43px;
+          z-index: -1;
+        }
+      }
+
+      &.is-disabled {
+        position: relative;
+        z-index: 2;
+      }
+
+      &:not(.is-disabled):focus,
+      &:focus {
+        border-color: transparent;
+        box-shadow: none;
+      }
+    }
+
+    &.range-prev.include-disabled,
+    &.range-prev {
+      .day-text {
+        border-radius: 50% 0 0 50%;
+
+        &::before {
+          background: radial-gradient(circle at 35px 50%, transparent 50%, $datepicker-hover-bg-color 50%);
+          left: 100%;
+        }
+      }
+
+      &:active,
+      &.is-selected {
+        z-index: 0;
+
+        .day-text {
+          border-radius: 50%;
+
+          &::before {
+            background: radial-gradient(circle at 5px 50%, transparent 50%, $datepicker-hover-bg-color 50%);
+            left: 35%;
+          }
+        }
+      }
+
+      &:last-of-type {
+        .day-text {
+          border-radius: 50%;
+
+          &::before {
+            background: none;
+          }
+        }
+      }
+    }
+
+    &.range-next.include-disabled,
+    &.range-next {
+      .day-text {
+        border-radius: 0 50% 50% 0;
+
+        &::before {
+          background: radial-gradient(circle at -10px 50%, transparent 50%, $datepicker-hover-bg-color 50%);
+          left: -100%;
+        }
+      }
+
+      &:active,
+      &.is-selected {
+        z-index: 0;
+
+        .day-text {
+          border-radius: 50%;
+
+          &::before {
+            background: radial-gradient(circle at 45px 50%, transparent 45%, $datepicker-hover-bg-color 50%);
+            left: -65%;
+          }
+        }
+      }
+
+      &:first-of-type {
+        .day-text {
+          border-radius: 50%;
+
+          &::before {
+            background: none;
+          }
+        }
+      }
+    }
+
+    &.range-selection.include-disabled,
+    &.range-selection {
+      .day-text {
+        background-color: $datepicker-selected-bg-color;
+        border-radius: 50% 0 0 50%;
+        color: $datepicker-selected-color;
+        position: relative;
+        transition: none;
+        z-index: 1;
+
+        &::before {
+          background: radial-gradient(circle at 35px 50%, transparent 50%, $datepicker-selected-bg-color 50%);
+          content: '';
+          display: inline-block;
+          height: 36px;
+          left: 100%;
+          position: absolute;
+          width: 25px;
+          z-index: -1;
+          margin-left: -1px;
+        }
+      }
+
+      &.end-date .day-text::before {
+        width: 0;
+      }
+
+      &:hover {
+        .day-text {
+          background-color: $datepicker-selected-bg-color;
+          color: $datepicker-selected-color;
+        }
+      }
+
+      &.is-today {
+        .day-text {
+          background-color: $datepicker-selected-bg-color;
+          color: $datepicker-selected-color;
+        }
+      }
+
+      &:focus,
+      &.is-selected:focus {
+        border-color: transparent;
+        box-shadow: none;
+
+        .day-text::after {
+          border: 1px solid $ids-color-palette-white;
+          border-radius: 50%;
+          box-shadow: 0 0 3px 3px $focus-box-shadow-color;
+          content: '';
+          height: 35px;
+          left: 0;
+          position: absolute;
+          width: 35px;
+
+          @media only screen
+            and (max-width: ($breakpoint-phone-to-tablet - 1))
+            and (-webkit-min-device-pixel-ratio: 2)
+            and (orientation: landscape) {
+            height: 34px;
+            width: 34px;
+          }
+
+          @media only screen
+            and (max-width: ($breakpoint-phone-to-tablet - 1))
+            and (-webkit-min-device-pixel-ratio: 2)
+            and (orientation: portrait) {
+            height: 34px;
+            width: 34px;
+          }
+        }
+      }
+
+      + .range-selection.is-selected,
+      &.end-date,
+      &:last-of-type {
+        .day-text {
+          border-radius: 50%;
+
+          &::before {
+            background: none;
+          }
+        }
+      }
+    }
+
+    //Other month color
+    &.alternate {
+      .day-text {
+        color: $datepicker-alternate-month-color !important;
+      }
+    }
+
+    //Today
+    &.is-today,
+    &.is-today:focus {
+      .day-text {
+        color: $datepicker-today-color;
+        font-weight: $ids-number-font-weight-bold;
+      }
+
+      &.is-selected,
+      &.is-selected .day-text {
+        color: $datepicker-selected-color;
+      }
+    }
+
+    //Selected
+    &:hover .day-text {
+      background-color: $datepicker-hover-bg-color;
+      color: $datepicker-hover-text-color;
+    }
+
+    //Color Coded
+    &.is-colored.is-selected .day-text {
+      height: 34px;
+      line-height: 34px;
+      margin: 3px;
+      width: 34px;
+    }
+
+    &.is-disabled,
+    &.is-disabled:active {
+      @include unselectable;
+
+      .day-text {
+        background-color: $datepicker-disabled-bg-color;
+        border-radius: 50%;
+        color: $datepicker-disabled-color;
+        cursor: default;
+        position: relative;
+        z-index: 1;
+
+        &::before {
+          background: none;
+        }
+      }
+    }
+
+    &.is-selected,
+    &.is-selected:hover {
+      .day-text {
+        background-color: $datepicker-selected-bg-color;
+        color: $datepicker-selected-color;
+        font-weight: $ids-number-font-weight-bold;
+      }
+    }
+
+    &:not(.is-disabled):focus {
+      border-color: $datepicker-focus-border-color;
+      box-shadow: $focus-box-shadow;
+      outline: none;
+      -moz-outline-style: none;
+    }
+
+    &:active .day-text {
+      background-color: $datepicker-selected-bg-color;
+      color: $datepicker-selected-color;
+    }
+  }
+
+  &.is-timepicker {
+    td {
+      &:focus {
+        border-color: $datepicker-focus-border-color;
+      }
+    }
+  }
+
+  .datepicker-timepicker {
+    border: 0;
+    box-shadow: none;
+    left: 0;
+    margin-bottom: -40px;
+    position: relative;
+    top: -108px;
+    width: 300px;
+  }
+
+  .monthview-table {
+    margin: 20px auto 0;
+    padding: 0 10px;
+    width: 100%;
+
+    @media only screen
+      and (min-device-width: $breakpoint-phone)
+      and (max-device-width: ($breakpoint-big-phone + 88))
+      and (-webkit-min-device-pixel-ratio: 2)
+      and (orientation: portrait) {
+      padding: 0;
+    }
+
+    thead {
+      height: 20px;
+      vertical-align: top;
+    }
+  }
+
+  // Full size calendar
+  &.is-fullsize {
+    &.monthview {
+      border: 1px solid  $calendar-line-color;
+      overflow-x: hidden;
+      overflow-y: auto;
+      margin-bottom: 20px;
+
+      tr {
+        td {
+          border-bottom: 0;
+        }
+      }
+
+      td {
+        border: 1px solid  $calendar-line-color;
+        border-radius: 0;
+        height: 100px;
+        width: 14.3%;
+        overflow: hidden;
+
+        &:first-child {
+          border-left: 0;
+        }
+
+        &:last-child {
+          border-right: 0;
+        }
+
+        .day-container {
+          display: block;
+          height: 100%;
+          width: 100%;
+        }
+
+        .day-text {
+          border-radius: inherit;
+          left: calc(100% - 25px);
+          margin-bottom: -5px;
+          position: relative;
+          top: 0;
+          width: 10px;
+
+          &.month-label {
+            font-weight: 600;
+            left: auto;
+            width: 100%;
+            text-align: right;
+            padding-right: 10px;
+          }
+        }
+
+        &.is-disabled {
+          background-color: $calendar-disabled-bg-color;
+          opacity: 0.5;
+
+          .day-text {
+            background-color: transparent;
+            color: $calendar-disabled-color;
+          }
+        }
+
+        &:hover {
+          background-color: $calendar-hover-bg-color;
+          color: $datepicker-day-color;
+
+          .day-text {
+            background-color: transparent;
+            color: $datepicker-day-color;
+          }
+        }
+
+        &:active {
+          background-color: $calendar-hover-bg-color;
+          color: $datepicker-day-color;
+
+          .day-text {
+            background-color: transparent;
+            color: $datepicker-day-color;
+          }
+        }
+
+        &.is-selected {
+          background-color: $calendar-selected-bg-color;
+          box-shadow: inset 0 5px 0 0 $calendar-selected-border-color;
+
+          .day-text {
+            background-color: inherit;
+            color: $datepicker-day-color;
+          }
+
+          &:focus {
+            box-shadow: 0 0 2px 2px $focus-box-shadow-color, inset 0 5px 0 0 $calendar-selected-border-color;
+          }
+        }
+      }
+
+      thead th {
+        padding-bottom: 5px;
+        text-transform: none;
+      }
+    }
+
+    .monthview-table {
+      border-collapse: collapse;
+      margin: 7px auto 0;
+    }
+  }
+
+  // Hide the buttons on the top
+  &.hide-buttons {
+    .prev,
+    .next {
+      display: none;
+    }
+  }
+
+  &.is-inpage {
+    margin-bottom: 20px;
+    min-height: 0;
+
+    &.not-toggleable {
+      min-height: 380px;
+    }
+
+    .monthview-monthyear-pane {
+      .content {
+        height: auto;
+      }
+
+      .picklist-section.is-month {
+        position: relative;
+
+        &::after {
+          left: unset;
+          right: 0;
+        }
+      }
+
+      .picklist {
+        &.is-month,
+        &.is-year {
+          padding: 5px 0 0;
+        }
+
+        .picklist-item {
+          width: 100%;
+
+          &.up,
+          &.down {
+            a {
+              border-radius: 50%;
+              display: inline-block;
+              padding: 8px 10px;
+            }
+
+            &:not(.is-selected) a {
+              --ripple-background: #{$calendar-selected-border-color};
+            }
+          }
+        }
+      }
+    }
+
+    .monthview-monthyear-pane.is-expanded {
+      min-height: calc(100% - 50px);
+
+      .content {
+        position: relative;
+      }
+    }
+
+    .monthview-inpage-calendar.is-expanded {
+      min-height: 340px;
+    }
+
+    .monthview-table {
+      border-spacing: 0;
+      margin-top: 10px;
+      padding: 0;
+
+      th {
+        height: 30px;
+      }
+
+      td {
+        border: none;
+        height: auto;
+        width: auto;
+
+        &:not(.is-selected):hover {
+          .day-text {
+            background-color: inherit;
+            color: $datepicker-day-color;
+
+            &:hover {
+              background-color: $datepicker-hover-bg-color;
+              color: $datepicker-hover-text-color;
+            }
+          }
+        }
+
+        .day-container {
+          border: 1px solid transparent;
+          border-radius: 50%;
+          display: inline-block;
+          margin: 3px 0;
+
+          .day-text {
+            align-items: center;
+            display: flex;
+            height: 38px;
+            justify-content: center;
+            line-height: normal;
+            width: 38px;
+          }
+        }
+
+        &.is-colored {
+          .day-text::before {
+            background-color: var(--legendcolor);
+            border-radius: 50%;
+            content: '';
+            display: inline-block;
+            height: 38px;
+            left: 2px;
+            overflow: hidden;
+            position: absolute;
+            top: 2px;
+            width: 38px;
+            z-index: -1;
+          }
+
+          &.is-selected {
+            .day-text {
+              margin: 2px;
+
+              &::before {
+                height: 44px;
+                left: 0;
+                top: 0;
+                width: 44px;
+              }
+            }
+          }
+        }
+
+        &:not(.is-disabled):focus {
+          border: none;
+          box-shadow: none;
+
+          .day-container {
+            border-color: $datepicker-focus-border-color;
+            box-shadow: $focus-box-shadow;
+            outline: none;
+            -moz-outline-style: none;
+            outline-style: none;
+          }
+        }
+      }
+    }
+
+    .monthview-legend {
+      max-width: 100%;
+      text-align: start;
+
+      &.is-wrapped {
+        line-height: 30px;
+        text-align: center;
+      }
+
+      .monthview-legend-swatch {
+        height: 16px;
+        width: 16px;
+      }
+
+      .monthview-legend-text {
+        color: $datepicker-day-color;
+        font-size: inherit;
+      }
+    }
+
+    .is-ripple {
+      overflow: hidden;
+      position: relative;
+
+      &::before {
+        background: var(--ripple-background, #{$ids-color-palette-white});
+        border-radius: 50%;
+        content: '';
+        display: block;
+        pointer-events: none;
+        position: absolute;
+
+        //  position and size
+        height: calc(var(--d) * 1px); // stylelint-disable-line
+        left: calc(var(--x) * 1px);
+        top: calc(var(--y) * 1px);
+        width: calc(var(--d) * 1px);
+
+        //  animated properties
+        opacity: calc(var(--o, 1) * 0.3); // stylelint-disable-line
+        transform: translate(-50%, -50%) scale(var(--s, 1));
+        transform-origin: center;
+        transition: calc(var(--t, 0) * 600ms) linear;
+      }
+    }
+  }
+}
+
+//monthview legend
+.monthview-legend {
+  margin: 0 auto;
+  max-width: 300px;
+  padding: 10px 5px 0;
+
+  .monthview-legend-item {
+    display: inline-block;
+  }
+
+  .monthview-legend-text {
+    @include font-size(11);
+
+    color: $chart-font-color;
+    padding: 0 17px 0 8px;
+    position: relative;
+    top: -2px;
+  }
+
+  .monthview-legend-swatch {
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+  }
+}
+
+.ios,
+.android {
+  .monthview-monthyear-pane {
+    .picklist-section.is-year {
+      width: calc(100% - 175px);
+      margin-left: 8px;
+    }
+  }
+}
+
+// RTL Styles
+html[dir='rtl'] {
+  .monthview {
+    td {
+      &.range-prev.include-disabled,
+      &.range-prev {
+        .day-text {
+          border-radius: 0 50% 50% 0;
+
+          &::before {
+            background: radial-gradient(circle at -10px 50%, transparent 50%, $datepicker-hover-bg-color 50%);
+            left: -100%;
+          }
+        }
+
+        &:active {
+          .day-text {
+            border-radius: 50%;
+
+            &::before {
+              background: radial-gradient(circle at 43px 50%, transparent 50%, #d8d8d8 50%);
+              left: -60%;
+            }
+          }
+        }
+
+        &.is-selected {
+          .day-text {
+            border-radius: 50%;
+
+            &::before {
+              background: radial-gradient(circle at 35px 50%, transparent 50%, $datepicker-hover-bg-color 50%);
+              left: 35%;
+            }
+          }
+        }
+
+        &:last-of-type {
+          .day-text {
+            border-radius: 50%;
+
+            &::before {
+              background: none;
+            }
+          }
+        }
+      }
+
+      &.range-next.include-disabled,
+      &.range-next {
+        .day-text {
+          border-radius: 50% 0 0 50%;
+
+          &::before {
+            background: radial-gradient(circle at 35px 50%, transparent 50%, $datepicker-hover-bg-color 50%);
+            left: 100%;
+          }
+        }
+
+        &.is-selected {
+          .day-text {
+            border-radius: 50%;
+
+            &::before {
+              background: radial-gradient(circle at 5px 50%, transparent 50%, $datepicker-hover-bg-color 50%);
+              left: -50%;
+            }
+          }
+        }
+
+        &:first-of-type {
+          .day-text {
+            border-radius: 50%;
+
+            &::before {
+              background: none;
+            }
+          }
+        }
+      }
+
+      &.range-selection.include-disabled,
+      &.range-selection {
+        .day-text {
+          border-radius: 0 50% 50% 0;
+
+          &::before {
+            background: radial-gradient(circle at -10px 50%, transparent 50%, $datepicker-selected-bg-color 50%);
+            left: -100%;
+          }
+        }
+
+        + .range-selection.is-selected,
+        &.end-date,
+        &:last-of-type {
+          .day-text {
+            border-radius: 50%;
+
+            &::before {
+              background: none;
+            }
+          }
+        }
+      }
+
+      &.is-disabled:not(.include-disabled),
+      &.is-disabled:not(.include-disabled):active {
+        .day-text {
+          border-radius: 50%;
+
+          &::before {
+            background: none !important;
+          }
+        }
+      }
+    }
+
+    &.is-fullsize {
+      td .day-text {
+        left: unset;
+        right: calc(100% - 25px);
+      }
+    }
+
+    .expandable-area-trigger .icon {
+      margin-right: 0 !important;
+    }
+
+    .monthview-monthyear-pane.is-yearfirst .picklist-section {
+      float: left;
+    }
+  }
+
+  //Footer Buttons
+  .monthview-footer {
+    button {
+      border-left: 1px solid transparent;
+      border-right: 1px solid $popover-separator-color;
+      float: right;
+      margin: 0;
+
+      &:nth-child(1) {
+        border-left: 1px solid $popover-separator-color;
+        border-right: 1px solid transparent;
+      }
+    }
+  }
+}
+
+.ie11,
+.ie {
+  .monthview {
+    &.is-fullsize {
+      &.monthview {
+        overflow-y: hidden;
+      }
+    }
+  }
+}

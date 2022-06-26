@@ -1,0 +1,184 @@
+// Uplift Site/App Header
+//================================================== //
+
+.header {
+  h1 {
+    font-size: $ids-size-font-md;
+  }
+
+  .page-title {
+    font-size: $ids-size-font-md;
+    margin-top: 0;
+  }
+
+  .flex-toolbar {
+    .toolbar-section.search {
+      &.search-categories {
+        .toolbar-searchfield-wrapper {
+          .searchfield-category-button {
+            &:focus {
+              border: 1px solid $header-button-focus-color;
+              box-shadow: none !important;
+
+              &::after {
+                content: none;
+              }
+            }
+          }
+        }
+
+        .btn.searchfield-category-button {
+          height: 38px;
+          padding-right: 20px;
+
+          @media (min-width: $breakpoint-phone-to-tablet) {
+            padding-right: 10px;
+          }
+        }
+      }
+
+      .toolbar-searchfield-wrapper {
+        .collapse-button {
+          border-color: inherit;
+        }
+      }
+    }
+
+    // new design for M3 scenario
+    .toolbar-section.search-categories {
+      .searchfield-wrapper.non-collapsible {
+        &.has-categories {
+          .searchfield {
+            @include placeholderTextColor() {
+              @include placeholder();
+            }
+
+            background-color: $subheader-searchfield-context-bg;
+            border-left-color: $subheader-input-color-focus-border;
+            border-right-color: transparent;
+            border-top-color: transparent;
+            color: $header-flex-toolbar-input-searchfield-color;
+
+            + .btn-icon.close {
+              svg {
+                color: $header-flex-toolbar-close-icon-color;
+              }
+
+              &:hover svg {
+                color: $header-flex-toolbar-close-icon-color-hover;
+              }
+            }
+          }
+
+          .btn.searchfield-category-button {
+            background-color: $subheader-searchfield-context-bg;
+            color: $subheader-searchfield-category-button-font-color;
+
+            svg.icon {
+              color: $subheader-searchfield-category-button-font-color;
+            }
+          }
+        }
+
+        &.context.has-focus {
+          .searchfield {
+            border-color: $subheader-input-color-focus-border;
+          }
+        }
+      }
+    }
+  }
+}
+
+.subheader {
+  .full-searchfield-container {
+    .searchfield-wrapper.context .searchfield-category-button {
+      background-color: $subheader-searchfield-context-bg;
+      color: $subheader-searchfield-category-button-font-color;
+    }
+
+    .searchfield-wrapper.context.non-collapsible {
+      &.has-go-button {
+        .btn-icon.close {
+          right: 50px;
+          width: 34px;
+
+          &:hover svg {
+            color: $header-flex-toolbar-close-icon-color-hover;
+          }
+        }
+      }
+    }
+
+    .searchfield-wrapper.has-categories.show-category .searchfield {
+      border-left-color: $subheader-input-color-focus-border;
+    }
+
+    .searchfield-wrapper.context.has-focus {
+      .searchfield,
+      .btn {
+        border-color: $subheader-input-color-focus-border;
+      }
+    }
+
+    .searchfield-wrapper.context > .searchfield {
+      background-color: $subheader-searchfield-context-bg;
+    }
+
+    .searchfield-wrapper .btn {
+      &.is-open,
+      &.is-open .icon {
+        color: $subheader-input-text-color-focus;
+      }
+    }
+
+    .searchfield-wrapper.has-focus .btn {
+      &:focus,
+      &:active {
+        color: $subheader-input-text-color-focus;
+
+        .icon {
+          color: $subheader-input-text-color-focus;
+        }
+      }
+    }
+  }
+}
+
+html[dir='rtl'] {
+  .header {
+    .flex-toolbar .toolbar-section {
+      &.search-categories.search {
+        .toolbar-searchfield-wrapper {
+          &.has-categories {
+            &.is-open .collapse-button {
+              border-color: inherit;
+            }
+
+            .searchfield {
+              &:focus {
+                border-right: 1px solid $header-button-focus-color;
+              }
+            }
+          }
+        }
+
+        .has-close-icon-button .btn-icon {
+          right: calc(100% - 100px);
+
+          @media (min-width: $breakpoint-phone-to-tablet) {
+            right: calc(100% - 30px);
+          }
+        }
+      }
+
+      &.search {
+        .toolbar-searchfield-wrapper {
+          .collapse-button {
+            border-color: inherit;
+          }
+        }
+      }
+    }
+  }
+}

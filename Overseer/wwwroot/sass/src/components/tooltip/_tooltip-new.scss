@@ -1,0 +1,17 @@
+.tooltip-content {
+  padding: 5px 10px 6px;
+}
+
+// Reduce the font size from being too large (calendar/example-index)
+.tooltip-title.filled {
+  font-size: $ids-size-font-md;
+}
+
+.popover.alternate .tooltip-title {
+  font-size: $ids-size-font-md;
+  padding: 12px 5px 6px 15px;
+
+  .btn-close {
+    margin-top: -8px;
+  }
+}

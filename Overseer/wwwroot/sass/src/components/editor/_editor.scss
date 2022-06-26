@@ -1,0 +1,845 @@
+// Editor (Rich Text)
+//================================================== //
+
+@import '../button/button';
+@import '../colorpicker/colorpicker';
+@import '../fontpicker/fontpicker';
+@import '../popupmenu/popupmenu';
+
+.editor-container {
+  .label {
+    cursor: default;
+  }
+
+  &.is-hover:not(.is-readonly):not(.is-disabled) {
+    .editor,
+    .editor-source,
+    .toolbar,
+    .flex-toolbar {
+      border-color: $editor-hover-border-color;
+    }
+  }
+
+  &.is-readonly {
+    .editor {
+      > * {
+        color: $input-readonly-color !important;
+      }
+    }
+  }
+
+  &.is-readonly,
+  &.is-disabled {
+    .editor {
+      background-color: transparent;
+      border-top: 1px solid $editor-border-color;
+
+      &[disabled] {
+        border-color: $input-color-disabled-border;
+      }
+
+      > * {
+        color: $input-disabled-color;
+      }
+    }
+
+    .editor-toolbar {
+      display: none;
+    }
+
+    .hyperlink {
+      cursor: pointer;
+    }
+  }
+
+  &.is-disabled .editor {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  &.is-readonly .editor {
+    background-color: $input-color-readonly-background;
+    border-color: $input-color-readonly-border;
+    color: $input-readonly-color;
+    cursor: text;
+
+    .hyperlink {
+      color: $hyperlink-color !important;
+    }
+  }
+
+  // Error message - validation adjustments
+  .error-message {
+    margin-top: 0;
+  }
+
+  .editor-source.hidden + .editor + .error-message {
+    margin-top: -20px;
+  }
+
+  // Customize the formatter toolbar if it's inside an editor
+  .formatter-toolbar {
+    margin-bottom: 0;
+    z-index: 20;
+
+    [class^='btn'] {
+      border-radius: 2px;
+    }
+  }
+
+  &.is-active,
+  &.is-active:hover:not(.error) {
+    .toolbar,
+    .flex-toolbar {
+      &.formatter-toolbar {
+        border-color: $editor-focus-border-color;
+        box-shadow: $editor-top-focus-box-shadow; //-2px -2px 3px 0px rgba(54, 138, 192, 0.3);
+
+        &.error {
+          border-color: $error-color;
+        }
+      }
+    }
+
+    .editor,
+    .editor-source {
+      border-color: $editor-focus-border-color $editor-focus-border-color;
+      box-shadow: $focus-box-shadow;
+
+      &.error {
+        border-color: transparent $error-color $error-color;
+      }
+    }
+  }
+
+  .editor[data-error-type='tooltip'] + .audible + .icon-error {
+    left: 100%;
+    margin-left: -33px;
+    position: absolute;
+    top: 54px;
+  }
+
+  &.is-preview {
+    .editor-toolbar {
+      display: none;
+    }
+
+    .hyperlink {
+      cursor: pointer;
+    }
+
+    .editor {
+      background-color: transparent;
+      border: none;
+      box-shadow: none;
+      height: auto;
+      min-height: auto;
+      padding: 0;
+    }
+
+    &.is-active,
+    &.is-active:hover {
+      .editor {
+        box-shadow: none;
+      }
+    }
+  }
+
+  .icon-dirty {
+    top: 55px;
+  }
+}
+
+.editor {
+  @include rem(line-height, 2.2rem);
+
+  background-color: $editor-bg-color;
+  border: 1px solid;
+  border-color: $editor-border-color;
+  border-radius: 0 0 2px 2px;
+  color: $editor-color;
+  display: block;
+  font-size: $input-size-regular-font-size;
+  -webkit-font-smoothing: antialiased;
+  font-weight: $ids-number-font-weight-base;
+  height: 320px;
+  margin-bottom: 20px;
+  min-height: 128px;
+  outline: none;
+  overflow: auto;
+  padding: 12px;
+  width: 100%;
+
+  &:empty::before {
+    color: $input-placeholder-color;
+    content: attr(placeholder);
+    font-size: $input-size-regular-font-size;
+    margin-top: 0;
+    position: absolute;
+    white-space: pre;
+  }
+
+  &.is-disabled {
+    background-color: $input-color-disabled-background;
+    border: 1px solid $input-color-disabled-border;
+    padding: 10px;
+
+    > * {
+      color: $disabled-color;
+    }
+  }
+
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-bottom: 15px;
+  }
+
+  ul,
+  ol {
+    margin-bottom: 10px;
+  }
+
+  &.type-l-alpha {
+    ol {
+      &[type='a'] {
+        list-style: lower-alpha;
+      }
+    }
+  }
+
+  &.type-u-alpha {
+    ol {
+      &[type='A'] {
+        list-style: upper-alpha;
+      }
+    }
+  }
+
+  &.type-l-roman {
+    ol {
+      &[type='i'] {
+        list-style: lower-roman;
+      }
+    }
+  }
+
+  &.type-u-roman {
+    ol {
+      &[type='I'] {
+        list-style: upper-roman;
+      }
+    }
+  }
+
+  blockquote {
+    margin-bottom: 15px;
+  }
+}
+
+// Element Styles in both the editor, and the corresponding
+// FontPicker component, if applicable.
+.editor,
+.fontpicker-menu {
+  p {
+    @include rem(line-height, 2.2rem);
+
+    color: $editor-color;
+    font-size: $input-size-regular-font-size;
+
+    .hyperlink {
+      color: $hyperlink-color;
+      font-size: $input-size-regular-font-size !important;
+      margin-left: -1px;
+      margin-right: -1px;
+      padding: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: $editor-color;
+    line-height: normal;
+
+    .hyperlink {
+      font-size: inherit;
+    }
+  }
+
+  h1 {
+    font-size: $ids-size-font-px-40;
+  }
+
+  h2 {
+    font-size: $ids-size-font-px-32;
+  }
+
+  h3 {
+    font-size: $ids-size-font-px-28;
+  }
+
+  h4 {
+    font-size: $ids-size-font-px-24;
+  }
+
+  h5 {
+    font-size: $ids-size-font-px-20;
+  }
+
+  h6 {
+    font-size: $ids-size-font-px-16;
+  }
+
+  ul,
+  ol {
+    color: $input-color;
+    font-size: $input-size-regular-font-size;
+    line-height: 2.2rem;
+    list-style: disc;
+    margin-left: 2rem;
+
+    li {
+      line-height: inherit;
+
+      p {
+        line-height: inherit;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  b,
+  strong {
+    font-weight: 800;
+  }
+
+  blockquote {
+    @include antialiased();
+
+    border-left: 3px solid $editor-blockquote-color;
+    line-height: 22px;
+    margin-left: 7px;
+    padding-left: 15px;
+  }
+
+  img {
+    margin: 0 auto;
+    max-width: 80%;
+  }
+
+  span {
+    font-weight: inherit;
+  }
+
+  .hyperlink {
+    cursor: auto;
+    font-size: $input-size-regular-font-size;
+    position: static;
+    text-decoration: none;
+
+    &[contenteditable='false'] {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    &::after {
+      content: none;
+    }
+  }
+}
+
+.toolbar.formatter-toolbar,
+.flex-toolbar.formatter-toolbar {
+  overflow-x: visible;
+
+  .buttonset {
+    height: 32px;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  [class^='btn'] {
+    margin-top: 5px;
+  }
+
+  &.has-more-button {
+    .buttonset {
+      width: calc(100% - 44px);
+    }
+  }
+}
+
+.flex-toolbar.formatter-toolbar {
+  height: 34px;
+
+  .buttonset {
+    height: auto;
+    width: auto;
+  }
+}
+
+// Both Toolbars
+.toolbar.formatter-toolbar,
+.flex-toolbar.formatter-toolbar {
+  background-color: $editor-toolbar-bg-color;
+  border: 1px solid $editor-border-color;
+  border-bottom-color: $editor-toolbar-bottom-border-color !important;
+  border-radius: 2px 2px 0 0;
+  margin-bottom: -1px;
+  padding: 0;
+  text-align: left;
+
+  .buttonset {
+    [class^='btn'] {
+      &:first-child {
+        margin-left: 16px;
+
+        &.fontpicker {
+          margin-left: 5px;
+          width: 130px;
+        }
+      }
+    }
+  }
+
+  // Flex Toolbar
+  .toolbar-section.buttonset {
+    padding: 0;
+  }
+
+  &.has-more-button {
+    .buttonset {
+      width: calc(100% - 44px);
+    }
+
+    .more {
+      margin-top: 0;
+
+      .btn-actions {
+        height: 22px;
+        margin-top: -1px;
+        min-height: 22px;
+        width: 25px;
+      }
+    }
+  }
+
+  [class^='btn'] {
+    background-color: $editor-toolbar-bg-color;
+    border: 1px solid transparent;
+    color: $editor-btn-color;
+    height: 20px;
+    line-height: normal;
+    min-width: 18px;
+    padding: 0;
+    text-align: left;
+
+    span:not(.audible) {
+      color: $editor-btn-color;
+      display: inline-block;
+
+      &:not(:last-child) {
+        padding: 0;
+      }
+
+      + .icon {
+        padding-left: 0;
+      }
+    }
+
+    .icon {
+      color: $editor-btn-color;
+      height: 18px;
+      margin: -1px 0 0;
+      padding: 0;
+      pointer-events: none;
+      width: 18px;
+    }
+
+    &:disabled {
+      .icon {
+        color: $editor-btn-disabled-color;
+      }
+
+      span:not(.audible) {
+        color: $editor-btn-disabled-color;
+      }
+    }
+
+    &:focus:not(.hide-focus),
+    &.is-active:not(.error),
+    &.is-open,
+    &.is-open:hover:not(:disabled) {
+      color: $editor-btn-active-color;
+
+      span {
+        color: $editor-btn-active-color;
+      }
+
+      .icon {
+        color: $editor-btn-active-color;
+      }
+
+      &:not(.hide-focus) {
+        box-shadow: $editor-btn-active-box-shadow;
+      }
+    }
+
+    &.is-active {
+      box-shadow: none;
+    }
+
+    &:hover:not(:disabled) {
+      background-color: transparent;
+      border: 1px solid transparent;
+      color: $editor-btn-hover-color;
+
+      .icon {
+        color: $editor-btn-hover-color;
+      }
+
+      span {
+        color: $editor-btn-hover-color;
+      }
+    }
+
+    &.btn-actions > .icon {
+      left: 2px;
+      position: relative;
+      top: 1px;
+    }
+
+    .html-icon {
+      margin-left: 1px;
+      width: 55px;
+    }
+
+    .visual-icon {
+      margin-left: -12px;
+      margin-right: -11px;
+      width: 85px;
+    }
+
+    &[data-action='visual'] {
+      margin-right: 24px;
+
+      span {
+        @include font-size(16);
+
+        margin-left: -1px;
+        margin-top: 2px;
+      }
+    }
+
+    &[data-element='h3'],
+    &[data-element='h4'] {
+      margin-right: 15px;
+
+      .icon {
+        margin-left: -5px;
+        margin-right: -5px;
+        width: 32px;
+      }
+    }
+
+    &[data-element='b'],
+    &[data-element='i'] {
+      margin-right: 8px;
+    }
+
+    &[data-element='strike'] {
+      margin-right: 8px;
+    }
+
+    &[data-element='foreColor'] {
+      .icon {
+        margin-top: -1px;
+      }
+
+      .trigger {
+        padding-left: 2px;
+        padding-right: 8px;
+
+        .icon {
+          height: 16px;
+          margin-left: -5px;
+          width: 12px;
+        }
+      }
+
+      + .separator {
+        margin-left: -3px;
+      }
+    }
+
+    &[data-element='backColor'] {
+      .icon {
+        height: 17px;
+        margin-top: 1px;
+        width: 16px;
+      }
+
+      .trigger {
+        padding-left: 0;
+        padding-right: 0;
+
+        .icon {
+          height: 16px;
+          width: 12px;
+        }
+      }
+    }
+
+    &[data-element='u'] {
+      margin-right: 10px;
+
+      .icon {
+        height: 17px;
+        margin-top: 2px;
+      }
+    }
+
+    &[data-action='justifyLeft'] {
+      margin-left: 4px;
+      margin-right: 18px;
+    }
+
+    &[data-action='justifyCenter'] {
+      margin-right: 18px;
+    }
+
+    &[data-action='justifyRight'] {
+      margin-right: 16px;
+    }
+
+    &[data-element='blockquote'] {
+      margin-left: 1px;
+      margin-right: 15px;
+    }
+
+    &[data-element='ol'] {
+      margin-right: 18px;
+    }
+
+    &[data-element='ul'] {
+      margin-right: 16px;
+    }
+
+    &[data-element='a'],
+    &[data-element='img'] {
+      margin-left: 4px;
+      margin-right: 16px;
+    }
+
+    &.fontpicker {
+      padding: 0 10px;
+
+      span {
+        display: inline-block;
+        max-width: 90px;
+        width: 90px;
+      }
+    }
+  }
+}
+
+// Standard Toolbar-specific styles
+.toolbar.formatter-toolbar,
+.flex-toolbar.formatter-toolbar {
+  .separator {
+    height: 18px;
+    margin: 0 10px 0 6px;
+  }
+}
+
+// Flex Toolbar-specific styles
+.flex-toolbar.formatter-toolbar {
+  .toolbar-section.more {
+    .btn-actions {
+      height: 23px;
+      margin-right: 12px;
+      min-height: 20px;
+      top: -3px;
+      width: 23px;
+
+      > .icon {
+        left: 2px;
+      }
+    }
+  }
+}
+
+.is-disabled .editor-toolbar {
+  display: none;
+}
+
+// Dialog Styling
+.editor-modal-image {
+  .modal-body.no-scroll {
+    padding: 10px;
+  }
+}
+
+.editor-source {
+  background-color: $editor-bg-color;
+  border: 1px solid;
+  border-color: transparent $editor-border-color $editor-border-color;
+  border-radius: 0 0 2px 2px;
+  font-size: $input-size-regular-font-size;
+  height: 320px;
+  margin: 0 0 20px;
+  min-height: 88px;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  width: 100%;
+
+  textarea {
+    background-color: $editor-bg-color;
+    border: 0;
+    color: $editor-color;
+    font-size: $input-size-regular-font-size;
+    font-weight: $ids-number-font-weight-base;
+    height: 100%;
+    line-height: 2.4rem;
+    outline: none;
+    overflow: hidden;
+    padding: 14px 10px 10px;
+    width: 100%;
+
+    &:focus,
+    &.is-focused {
+      box-shadow: none;
+    }
+  }
+
+  > * {
+    vertical-align: top;
+  }
+
+  > .text-container {
+    display: inline-block;
+    min-height: 100%;
+    overflow: visible;
+    width: 100%;
+  }
+
+  > .line-numbers {
+    background-color: $editor-bg-color;
+    display: inline-block;
+    min-height: 100%;
+    padding: 15px 10px 10px;
+
+    > li {
+      font-size: $ids-size-font-sm;
+      line-height: 2.41rem;
+      text-align: center;
+    }
+
+    span {
+      color: $editor-line-number-color;
+    }
+  }
+}
+
+.editor-toolbar {
+  &.error {
+    border-color: $error-color $error-color $editor-border-color;
+
+    + .editor-source {
+      border-color: transparent $error-color $error-color;
+    }
+  }
+}
+
+// Compact Mode
+.field-short,
+.form-layout-compact .field {
+  .editor {
+    height: 220px;
+  }
+}
+
+// Adjust fontpicker element aligment only on Firefox
+html.is-firefox {
+  .formatter-toolbar {
+    .fontpicker {
+      span {
+        display: inline-block;
+        padding-top: 2px;
+        vertical-align: baseline;
+      }
+    }
+  }
+
+  .toolbar.formatter-toolbar .fontpicker,
+  .flex-toolbar.formatter-toolbar .fontpicker {
+    span {
+      padding-top: 3px !important;
+    }
+  }
+}
+
+// Push up the dirty indicator
+.modal-body .editor-container .icon-dirty {
+  top: 33px;
+}
+
+// RTL Styles
+html[dir='rtl'] {
+  .editor-container {
+    .editor[data-error-type='tooltip'] {
+      ~ .icon-error {
+        left: 40px;
+      }
+    }
+  }
+
+  .editor ul,
+  .editor ol {
+    margin-left: 0;
+    margin-right: 2rem;
+  }
+
+  .toolbar,
+  .flex-toolbar {
+    &.formatter-toolbar {
+      .buttonset {
+        [class^='btn'] {
+          &:first-child {
+            margin-left: auto;
+            margin-right: 16px;
+
+            &.fontpicker {
+              margin-right: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Flex Toolbar-specific styles
+  .flex-toolbar.formatter-toolbar {
+    .toolbar-section.more {
+      .btn-actions {
+        margin-left: 8px;
+        margin-right: auto;
+      }
+    }
+  }
+}

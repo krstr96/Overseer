@@ -1,0 +1,83 @@
+// Uplift Spinbox
+//================================================== //
+
+.spinbox-wrapper {
+  height: 38px;
+}
+
+input.spinbox,
+.spinbox-control {
+  height: inherit;
+}
+
+// `+` and `-` in Source Sans Pro are not lined up by default.
+// This fixes the alignment.
+.spinbox-control {
+  padding: 7px 10px;
+
+  &.down {
+    padding: 6px 10px;
+  }
+}
+
+.field-short,
+.form-layout-compact .field {
+  .spinbox {
+    padding: 4px;
+  }
+
+  .spinbox-wrapper {
+    height: 28px;
+  }
+
+  .spinbox-control {
+    padding: 2px 8px;
+
+    &.down {
+      padding: 1px 10px 0;
+    }
+  }
+}
+
+html[dir='rtl'] {
+  .spinbox-control {
+    padding: 7px;
+
+    &.down {
+      padding: 6px 7px 8px;
+    }
+  }
+
+  .field-short,
+  .form-layout-compact .field {
+    .spinbox {
+      padding: 4px 5px;
+    }
+
+    .spinbox-control {
+      padding: 4px 7px;
+
+      &.down {
+        padding: 3px 7px 5px;
+      }
+    }
+  }
+
+  &.is-firefox {
+    .field-short,
+    .form-layout-compact .field {
+      .spinbox {
+        padding: 4px;
+      }
+    }
+  }
+
+  &:not(.ie11) {
+    .field-short,
+    .form-layout-compact .field {
+      .spinbox-control {
+        padding: 4px 7px;
+      }
+    }
+  }
+}

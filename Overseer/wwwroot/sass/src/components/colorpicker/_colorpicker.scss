@@ -1,0 +1,436 @@
+// Color Picker
+//================================================== //
+
+$trigger-size: 30px;
+
+@import '../icons/icons';
+@import '../input/input';
+@import '../popupmenu/popupmenu';
+
+@mixin swatch-is-empty($offset: -5px, $border-color: $input-color-initial-border) {
+  background-color: $colorpicker-is-empty-bg-color;
+  border: 1px solid $border-color;
+
+  &::before {
+    @include css3(transform, rotate(-45deg));
+
+    border-top: 2px solid $ids-color-status-danger;
+    content: '';
+    left: $offset;
+    position: absolute;
+    right: $offset;
+    top: calc(50% - 1px);
+  }
+}
+
+.colorpicker-min-width {
+  .colorpicker-container {
+    width: auto;
+  }
+}
+
+.colorpicker-input-xs,
+.colorpicker-input-sm,
+.colorpicker-input-md,
+.colorpicker-input-mm,
+.colorpicker-input-lg {
+  flex-shrink: 0;
+}
+
+.colorpicker-input-xs {
+  width: 18px !important;
+}
+
+.colorpicker-input-sm {
+  width: 93px !important;
+}
+
+.colorpicker-input-mm {
+  width: 168px !important;
+}
+
+.colorpicker-input-md {
+  width: 243px !important;
+}
+
+.colorpicker-input-lg {
+  width: 343px !important;
+}
+
+.colorpicker-container {
+  background-color: $input-color-initial-background;
+  border: 1px solid $input-color-initial-border;
+  border-radius: 2px;
+  display: inline-flex;
+  height: $input-size-regular-height;
+  max-width: 100%;
+  overflow: hidden;
+  padding-right: $trigger-size;
+  position: relative;
+  width: 150px;
+
+  .trigger {
+    position: absolute;
+    right: 0;
+  }
+
+  &.is-focused {
+    border-color: $input-color-focus-border;
+    box-shadow: $focus-box-shadow;
+  }
+
+  &:hover:not(.is-focused):not(.is-open):not(.is-disabled) {
+    border-color: $input-color-hover-border;
+  }
+
+  &.error {
+    border-color: $error-color;
+  }
+
+  &:not(.is-disabled) {
+    > .swatch {
+      cursor: pointer;
+    }
+  }
+
+  &.is-disabled {
+    background-color: $input-color-disabled-background;
+    border-color: $input-color-disabled-border;
+
+    &:hover {
+      border-color: $input-color-disabled-border;
+    }
+
+    .icon:not(.icon-error),
+    .icon:hover {
+      color: $input-color-disabled-border !important;
+      cursor: default;
+    }
+
+    .trigger {
+      cursor: default;
+    }
+  }
+
+  &.color-only {
+    width: 75px;
+
+    input {
+      width: 0;
+    }
+
+    .trigger {
+      margin-left: 0;
+    }
+  }
+
+  &.is-readonly {
+    background-color: $input-color-readonly-background;
+    border-color: $input-color-readonly-border !important;
+
+    &.is-not-editable {
+      background-color: $input-color-initial-background;
+      border-color: $input-color-initial-border;
+
+      input[readonly] {
+        background-color: $input-color-initial-background;
+        border-color: $input-color-initial-border;
+        color: $input-color;
+      }
+
+      .icon:not(.icon-error),
+      .icon:hover {
+        color: $trigger-icon-fill-color;
+        cursor: pointer;
+      }
+    }
+
+    &.is-focused {
+      border-color: $input-color-focus-border !important;
+    }
+
+    .icon:not(.icon-error) {
+      color: $colorpicker-readonly-icon-color;
+      cursor: default;
+    }
+  }
+
+  &.is-open {
+    border-color: $input-color-focus-border;
+  }
+
+  .trigger {
+    cursor: pointer;
+    display: inline-block;
+    height: 34px;
+    margin-left: -5px;
+    vertical-align: top;
+    width: 30px;
+  }
+
+  .icon:not(.icon-error) {
+    color: $trigger-icon-fill-color;
+    height: 16px;
+    left: 10px;
+    position: relative;
+    top: 9px;
+    width: 16px;
+  }
+
+  .icon-error {
+    margin-left: -43px;
+  }
+
+  // Color Piece
+  .swatch {
+    background-color: $colorpicker-initial-bg-color;
+    border-radius: 2px;
+    display: inline-block;
+    height: $input-size-regular-height - 0.4;
+    left: 1px;
+    min-width: $input-size-regular-height - 0.4;
+    position: relative;
+    top: 1px;
+    vertical-align: top;
+    width: $input-size-regular-height - 0.4;
+
+    // Trigger Button
+    .icon:not(.icon-error) {
+      background-color: transparent;
+      height: 16px;
+      left: 46px;
+      top: 9px;
+      width: 16px;
+    }
+
+    &:hover:not(:disabled) .icon {
+      color: $ids-color-brand-primary-base;
+    }
+
+    &:active .icon {
+      color: $ids-color-brand-primary-base;
+    }
+
+    &.is-empty,
+    &.is-invalid {
+      @include swatch-is-empty();
+    }
+  }
+
+  .colorpicker {
+    border: 0;
+    max-height: 34px;
+    padding: 7px 0 10px 10px;
+    text-overflow: ellipsis;
+    width: 93px; //Small Size
+
+    &::-ms-clear {
+      display: none;
+    }
+
+    &:disabled + .swatch {
+      cursor: default;
+      opacity: 0.6;
+    }
+  }
+
+  input.colorpicker {
+    box-shadow: none !important;
+  }
+
+  .icon-dirty {
+    margin: 2px 0 0 3px;
+  }
+}
+
+.popupmenu.colorpicker {
+  margin-left: 0;
+  padding: 10px 0 10px 10px;
+  width: 322px;
+
+  &.has-scrollbar {
+    width: calc(322px + 17px);
+  }
+
+  li {
+    display: inline-block;
+    height: 20px;
+    margin: 4px;
+    width: 22px;
+
+    a {
+      border: 1px solid $popupmenu-bg-color;
+      min-height: auto;
+      padding: 0;
+
+      &:focus {
+        box-shadow: $focus-box-shadow;
+        outline: 1px solid $ids-color-brand-primary-base;
+      }
+
+      &.is-selected {
+        &::after {
+          @include css3(transform, scaleX(-1) rotate(135deg));
+
+          // border-color: $ids-color-palette-white $ids-color-palette-white $ids-color-palette-white transparent;
+          border-style: solid;
+          border-width: 2px 2px 0 0;
+          content: '';
+          height: 10px;
+          left: 7px;
+          margin-top: -17px;
+          position: absolute;
+          width: 4px;
+          z-index: 1;
+        }
+
+        &.checkmark-one::after {
+          border-color: $colorpicker-checkmark-one-color $colorpicker-checkmark-one-color $colorpicker-checkmark-one-color transparent;
+        }
+
+        &.checkmark-two::after {
+          border-color: $colorpicker-checkmark-two-color $colorpicker-checkmark-two-color $colorpicker-checkmark-two-color transparent;
+        }
+      }
+    }
+  }
+
+  &.popupmenu-short.has-icons {
+    li a {
+      padding: 0;
+    }
+  }
+
+  .swatch {
+    background-color: $ids-color-brand-secondary-alt;
+    display: block;
+    height: 20px;
+    width: 20px;
+
+    &.is-border {
+      border: 1px solid $colorpicker-swatch-border-color;
+    }
+
+    &.is-empty,
+    &.is-invalid {
+      @include swatch-is-empty(-1px, $colorpicker-swatch-border-color);
+    }
+  }
+
+  + .arrow {
+    left: 44px;
+  }
+}
+
+.inline.colorpicker-container {
+  .colorpicker {
+    width: 80px;
+  }
+
+  .label-text {
+    position: absolute;
+    top: -18px;
+  }
+}
+
+// Short Fields
+.field-short,
+.form-layout-compact .field {
+  .colorpicker-container {
+    height: $input-size-compact-height;
+    width: inherit;
+
+    .colorpicker {
+      width: 128px;
+    }
+
+    .trigger {
+      height: $input-size-compact-height - 0.4;
+      margin-left: -($input-size-compact-height - 0.4);
+      right: 0;
+      width: $input-size-compact-height - 0.4;
+
+      .icon:not(.icon-error) {
+        left: 4px;
+        top: 5px;
+      }
+    }
+
+    .swatch {
+      height: $input-size-compact-height - 0.4;
+      min-width: $input-size-compact-height - 0.4;
+      width: $input-size-compact-height - 0.4;
+
+      &.is-empty,
+      &.is-invalid {
+        @include swatch-is-empty(-2px);
+      }
+    }
+
+    .colorpicker {
+      height: $input-size-compact-height - 0.2;
+      line-height: $input-size-compact-height - 0.4;
+      padding: $input-size-compact-padding;
+      padding-right: $input-size-compact-height - 1;
+    }
+  }
+}
+
+.ie11 {
+  .colorpicker-container {
+    &.is-readonly {
+      &.is-not-editable {
+        input[readonly]:focus {
+          color: $input-color;
+        }
+      }
+    }
+  }
+}
+
+// RTL Styles
+html[dir='rtl'] {
+  .colorpicker-container {
+    .colorpicker {
+      padding: 7px 10px 8px 0;
+    }
+
+    .swatch {
+      left: 0;
+      right: 1px;
+    }
+
+    .trigger .icon {
+      left: -6px;
+      top: 8px;
+    }
+
+    .icon-dirty {
+      margin: 2px 3px 0 0;
+    }
+  }
+
+  .field-short,
+  .form-layout-compact .field {
+    .colorpicker-container {
+      .trigger {
+        left: $input-size-compact-height - 0.2;
+        position: relative;
+
+        .icon:not(.icon-error) {
+          left: -3px;
+        }
+      }
+
+      .colorpicker {
+        padding: 5px 5px 5px 21px;
+        padding: $input-size-compact-padding;
+        padding-left: $input-size-compact-height - 1;
+      }
+    }
+  }
+
+  .popupmenu.colorpicker li a {
+    padding: 0;
+  }
+}

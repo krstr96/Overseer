@@ -1,0 +1,153 @@
+// Tabs (Vertical and Horizontal)
+//==================================================/
+
+.animated-bar {
+  height: 7px;
+}
+
+.tab-container.header-tabs {
+  &:not(.alternate) {
+    > .tab-list-container {
+      .tab {
+        top: unset !important;
+      }
+    }
+  }
+}
+
+.tab-container.has-counts {
+  > .tab-list-container {
+    .tab-list {
+      padding: unset;
+    }
+  }
+}
+
+.tab-container.horizontal,
+.tab-container.header-tabs {
+  &.has-counts {
+    .tab-list {
+      margin-bottom: -1px;
+
+      .separator {
+        margin-bottom: -6px;
+      }
+
+      .tab a {
+        padding: 5px 11px 4px !important;
+      }
+    }
+  }
+
+  > .tab-list-container {
+    margin-bottom: -1px;
+
+    .tab {
+      &.has-popupmenu {
+        .icon {
+          height: 16px;
+          margin: 7px 0 0 -5px;
+          position: static;
+          width: 32px;
+        }
+      }
+
+      &.dismissible {
+        .icon {
+          &.close {
+            margin-top: 6px;
+          }
+        }
+      }
+
+      top: 0;
+
+      a {
+        padding: 12px 11px 5px;
+      }
+
+      &.is-disabled {
+        color: $ids-color-brand-secondary-lighter !important;
+      }
+
+      // Adds "semi-bold" style to selected/active tabs
+      &.is-selected {
+        a {
+          font-weight: 700;
+          letter-spacing: -0.2px;
+        }
+      }
+    }
+  }
+
+  .add-tab-button {
+    span[aria-hidden] {
+      @include font-size(24);
+    }
+  }
+
+  .more-actions-button {
+    margin-top: 3px;
+
+    .btn-actions {
+      height: auto;
+      min-height: 32px;
+      min-width: 32px;
+      width: auto;
+    }
+  }
+}
+
+.tab-container.has-placeholder {
+  .tab.draggable.arrange-placeholder {
+    height: 34px !important;
+    top: 0;
+  }
+}
+
+.popupmenu.tab-list-spillover,
+.popupmenu.dropdown-tab {
+  .icon {
+    &.icon-error,
+    &.icon-info,
+    &.icon-alert {
+      top: 10px;
+    }
+  }
+}
+
+.tab-container.horizontal > .tab-list-container .tab {
+  .icon-error,
+  .icon-info,
+  .icon-success,
+  .icon-alert {
+    right: 3px;
+    top: 16px;
+    width: 15px;
+  }
+}
+
+.tab-container.horizontal .add-tab-button {
+  margin-top: 7px;
+  padding: 0;
+  width: 35px;
+
+  span[aria-hidden] {
+    font-size: 25px;
+    top: -1px;
+  }
+}
+
+// RTL Styles
+html[dir='rtl'] {
+  .tab-container.horizontal,
+  .tab-container.header-tabs {
+    .tab {
+      .icon-error {
+        right: auto !important;
+      }
+    }
+  }
+}
+
+@import '../tabs-module/tabs-module-new';
