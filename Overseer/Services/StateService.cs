@@ -41,7 +41,7 @@ public class StateService : IStateService
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                await Task.Delay(TimeSpan.FromSeconds(1));
+                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
             }
         }
         finally
@@ -52,6 +52,6 @@ public class StateService : IStateService
 
     private static (Func<Guid, Guid, bool>, Func<byte[], Task>) WrapHandler(Guid folderId, Guid taskId, Func<byte[], Task> handler)
     {
-        return ((statefolderId, statetaskId) => folderId == statefolderId && taskId == statetaskId, handler);
+        return ((stateFolderId, stateTaskId) => folderId == stateFolderId && taskId == stateTaskId, handler);
     }
 }

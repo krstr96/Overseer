@@ -23,7 +23,7 @@ public class LogsService : ILogsService
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                await Task.Delay(TimeSpan.FromSeconds(1));
+                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
             }
         }
         finally
@@ -34,6 +34,6 @@ public class LogsService : ILogsService
 
     private static (Func<Guid, Guid, bool>, Func<byte[], Task>) WrapHandler(Guid folderId, Guid taskId, Func<byte[], Task> handler)
     {
-        return ((logfolderId, logtaskId) => folderId == logfolderId && taskId == logtaskId, handler);
+        return ((logFolderId, logTaskId) => folderId == logFolderId && taskId == logTaskId, handler);
     }
 }

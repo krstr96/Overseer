@@ -36,7 +36,7 @@ public class LogsMiddleware : IMiddleware
 
             using var websocket = await context.WebSockets.AcceptWebSocketAsync();
 
-            await _logsService.TemporarilyListenAsync(folderId, taskId, context.RequestAborted, data => HandlerAsync(data, websocket));
+            await _logsService.TemporarilyListenAsync(folderId, taskId, context.RequestAborted, data => HandleAsync(data, websocket));
         }
         else
         {
@@ -44,7 +44,7 @@ public class LogsMiddleware : IMiddleware
         }
     }
 
-    private static async Task HandlerAsync(byte[] data, WebSocket websocket)
+    private static async Task HandleAsync(byte[] data, WebSocket websocket)
     {
         await websocket.SendAsync(data, WebSocketMessageType.Text, true, CancellationToken.None);
     }
